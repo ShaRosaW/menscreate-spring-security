@@ -41,14 +41,14 @@ public class DatabaseFiller implements CommandLineRunner {
         admin.setRole(rollen);
         authorizationService.registerUser(admin);
 
-        SignupRequest mod = new SignupRequest();
-        mod.setUsername("mod");
-        mod.setEmail("mod@mod.nl");
-        mod.setPassword("123456");
-        rollen.remove("admin");
-        rollen.add("mod");
-        mod.setRole(rollen);
-        authorizationService.registerUser(mod);
+//        SignupRequest mod = new SignupRequest();
+//        mod.setUsername("mod");
+//        mod.setEmail("mod@mod.nl");
+//        mod.setPassword("123456");
+//        rollen.remove("admin");
+//        rollen.add("mod");
+//        mod.setRole(rollen);
+//        authorizationService.registerUser(mod);
 
 
         SignupRequest user = new SignupRequest();
@@ -60,14 +60,14 @@ public class DatabaseFiller implements CommandLineRunner {
         user.setRole(rollen);
         authorizationService.registerUser(user);
 
-        SignupRequest superuser = new SignupRequest();
-        superuser.setUsername("superuser");
-        superuser.setEmail("super@user.nl");
-        superuser.setPassword("123456");
-        rollen.add("mod");
-        rollen.add("admin");
-        superuser.setRole(rollen);
-        authorizationService.registerUser(superuser);
+//        SignupRequest superuser = new SignupRequest();
+//        superuser.setUsername("superuser");
+//        superuser.setEmail("super@user.nl");
+//        superuser.setPassword("123456");
+//        rollen.add("mod");
+//        rollen.add("admin");
+//        superuser.setRole(rollen);
+//        authorizationService.registerUser(superuser);
 
     }
 }

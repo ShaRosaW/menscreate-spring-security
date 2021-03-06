@@ -21,6 +21,13 @@ public class UserController {
         this.userService = userService;
     }
 
+
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> findUserByToken(@RequestHeader Map<String, String> headers) {
+        return userService.findUserByToken(headers.get("authorization"));
+    }
+
     @PostMapping("/update")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateUser(@RequestHeader Map<String, String> headers,
@@ -28,10 +35,6 @@ public class UserController {
         return userService.updateUserById(headers.get("authorization"), updateRequest);
     }
 
-    @GetMapping("/user")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> findUserByToken(@RequestHeader Map<String, String> headers) {
-        return userService.findUserByToken(headers.get("authorization"));
-    }
+
 
 }
