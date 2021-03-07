@@ -1,6 +1,7 @@
 package nl.wijnberg.menscreate.service;
 
 import nl.wijnberg.menscreate.domain.Booking;
+import nl.wijnberg.menscreate.exceptions.DatabaseErrorException;
 import nl.wijnberg.menscreate.exceptions.RecordNotFoundException;
 import nl.wijnberg.menscreate.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking getBookingById(long id) {
-        if (bookingRepository.existsById(id)) {
-            return bookingRepository.findById(id).orElse(null);
+    public Booking getBookingById(long bookingId) {
+        if (bookingRepository.existsById(bookingId)) {
+            return bookingRepository.findById(bookingId).orElse(null);
         } else {
             throw new RecordNotFoundException();
         }
@@ -31,24 +32,38 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public long createBooking(Booking booking) {
         Booking newBooking = bookingRepository.save(booking);
-        return newBooking.getId();
+        return newBooking.getBookingId();
     }
 
     @Override
-    public void updateBooking(long id, Booking booking) {
-
+    public void updateBooking(long bookingId, Booking booking) {
+        if (bookingRepository.existsById(bookingId)) {
+            try {
+                Booking existBooking = bookingRepository.findAllByBookingId(bookingId).orElse(null);
+//                        .get();
+                existBooking.setBookingType(booking.getBookingType());
+                existBooking.setBookingInfo(booking.getBookingInfo());
+                existBooking.setBookingDate(booking.getBookingDate());
+                existBooking.setBookingMoment(booking.getBookingMoment());
+                bookingRepository.save(existBooking);
+            } catch (Exception exception) {
+                throw new DatabaseErrorException();
+            }
+        } else {
+            throw new RecordNotFoundException();
+        }
     }
+
+//    @Override
+//    public long saveBooking(Booking booking) {
+//        Booking newBooking = bookingRepository.save(booking);
+//        return newBooking.getBookingId();
+//    }
 
     @Override
-    public void deleteBooking(long id) {
-        if (!bookingRepository.existsById(id)) throw new RecordNotFoundException();
-        bookingRepository.deleteById(id);
+    public void deleteBooking(long bookingId) {
+        if (!bookingRepository.existsById(bookingId)) throw new RecordNotFoundException();
+        bookingRepository.deleteByBookingId(bookingId);
     }
-    @Override
-    public long saveBooking(Booking booking) {
-        Booking newBooking = bookingRepository.save(booking);
-        return newBooking.getId();
-    }
-
 
 }

@@ -9,8 +9,8 @@ import java.util.Set;
 public class Booking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long bookingId;
 
     @Column
     private String bookingType;
@@ -30,23 +30,23 @@ public class Booking {
             inverseJoinColumns = @JoinColumn(name = "booking_id"))
     private Set<User> user;
 
-    public Booking(String bookingType, String bookingInfo, Date bookingDate, String bookingMoment, Set<User> user) {
+    public Booking() {
+
+    }
+
+    public Booking(String bookingType, String bookingInfo, Date bookingDate, String bookingMoment) {
         this.bookingType = bookingType;
         this.bookingInfo = bookingInfo;
         this.bookingDate = bookingDate;
         this.bookingMoment = bookingMoment;
     }
 
-    public Booking() {
-
+    public Long getBookingId() {
+        return bookingId;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setBookingId(Long bookingId) {
+        this.bookingId = bookingId;
     }
 
     public String getBookingType() {

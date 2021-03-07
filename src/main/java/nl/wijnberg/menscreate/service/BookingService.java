@@ -9,11 +9,10 @@ import java.util.List;
 public interface BookingService {
 
     List<Booking> getAllBookings();
-    Booking getBookingById(long id);
-//    Optional<Booking> getBooking(long id);
+    Booking getBookingById(long bookingId);
     long createBooking(Booking booking);
-    void updateBooking(long id, Booking booking);
-    void deleteBooking(long id);
-    long saveBooking(Booking booking);
-
+    void updateBooking(long bookingId, Booking booking);
+//    long saveBooking(Booking booking);
+    void deleteBooking(long bookingId);
 }
+//    Optional<Booking> getBooking(long id);

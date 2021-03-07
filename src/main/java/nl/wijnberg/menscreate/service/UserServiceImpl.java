@@ -3,6 +3,8 @@ package nl.wijnberg.menscreate.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import nl.wijnberg.menscreate.domain.User;
+import nl.wijnberg.menscreate.exceptions.DatabaseErrorException;
+import nl.wijnberg.menscreate.exceptions.RecordNotFoundException;
 import nl.wijnberg.menscreate.payload.request.UpdateUserRequest;
 import nl.wijnberg.menscreate.payload.response.MessageResponse;
 import nl.wijnberg.menscreate.repository.UserRepository;
@@ -11,8 +13,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.xml.bind.DatatypeConverter;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -24,38 +29,68 @@ public class UserServiceImpl implements UserService {
     private static final String PREFIX = "Bearer ";
 
     private UserRepository userRepository;
-    private PasswordEncoder encoder;
+    public static String uploadDirectory = System.getProperty("user.dir") + "/fileUploads/";
+//    private PasswordEncoder encoder;
 
     @Override
-    public ResponseEntity<?> getAllUsers() {
+    public List<User> getAllUsers() {
 
-        List<User> users = userRepository.findAll();
+         return userRepository.findAll();
 
-        if(users.isEmpty()) {
-            return ResponseEntity.badRequest().body(new MessageResponse("No Users found!"));
-        }
-        return ResponseEntity.ok(users);
+//        if(users.isEmpty()) {
+//            return ResponseEntity.badRequest().body(new MessageResponse("No Users found!"));
+//        }
+//        return ResponseEntity.ok(users);
     }
 
     @Override
-    public ResponseEntity<?> updateUserById(String token, UpdateUserRequest userRequest) {
-        if(token == null || token.isEmpty()) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Invalid token"));
+    public User getUserById(long id) {
+        if (userRepository.existsById(id)) {
+            return userRepository.findById(id).orElse(null);
         }
-        String username =  getUsernameFromToken(token);
-
-        if(userExists(username) && updateRequestIsValid(userRequest)) {
-            User updatedUser = findUserByUsername(username);
-            if(!userRequest.getPassword().isEmpty() && !userRequest.getRepeatedPassword().isEmpty()) {
-                updatedUser.setPassword(encoder.encode(userRequest.getPassword()));
-            }
-            if(userRequest.getEmail() != null && !userRequest.getEmail().isEmpty()) {
-                updatedUser.setEmail(userRequest.getEmail());
-            }
-            return ResponseEntity.ok().body(userRepository.save(updatedUser));
+        else {
+            throw new RecordNotFoundException();
         }
+    }
 
-        return ResponseEntity.badRequest().body(new MessageResponse("User cannot be updated with provided data."));
+    @Override
+    public void uploadFile(MultipartFile file) throws IOException {
+        file.transferTo(new File(uploadDirectory + file.getOriginalFilename() ));
+    }
+
+    @Override
+    public void updateUser(long id, User user) {
+        if (userRepository.existsById(id)) {
+            try {
+                User existingUser = userRepository.findById(id).orElse(null);
+                existingUser.setUsername(user.getUsername());
+                existingUser.setEmail(user.getEmail());
+                existingUser.setPassword(user.getPassword());
+                userRepository.save(existingUser);
+            }
+            catch (Exception ex) {
+                throw new DatabaseErrorException();
+            }
+        }
+        else {
+            throw new RecordNotFoundException();
+        }
+    }
+
+    @Override
+    public long saveUser(User user) {
+        User newUser = userRepository.save(user);
+        return newUser.getId();
+    }
+
+    @Override
+    public void deleteUser(long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+        }
+        else {
+            throw new RecordNotFoundException();
+        }
     }
 
     @Override
@@ -86,13 +121,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsByUsername(username);
     }
 
-    private boolean updateRequestIsValid(UpdateUserRequest updateUserRequest) {
-        if(updateUserRequest.getPassword().equals(updateUserRequest.getRepeatedPassword())) {
-            return true;
-        }
-        return false;
-    }
-
     private User findUserByUsername(String username) {
         return userRepository.findByUsername(username).get();
     }
@@ -103,9 +131,38 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    @Autowired
-    public void setEncoder(PasswordEncoder encoder) {
-        this.encoder = encoder;
-    }
 
 }
+
+//    @Override
+//    public ResponseEntity<?> updateUserById(String token, UpdateUserRequest userRequest) {
+//        if(token == null || token.isEmpty()) {
+//            return ResponseEntity.badRequest().body(new MessageResponse("Invalid token"));
+//        }
+//        String username =  getUsernameFromToken(token);
+//
+//        if(userExists(username) && updateRequestIsValid(userRequest)) {
+//            User updatedUser = findUserByUsername(username);
+//            if(!userRequest.getPassword().isEmpty() && !userRequest.getRepeatedPassword().isEmpty()) {
+//                updatedUser.setPassword(encoder.encode(userRequest.getPassword()));
+//            }
+//            if(userRequest.getEmail() != null && !userRequest.getEmail().isEmpty()) {
+//                updatedUser.setEmail(userRequest.getEmail());
+//            }
+//            return ResponseEntity.ok().body(userRepository.save(updatedUser));
+//        }
+//
+//        return ResponseEntity.badRequest().body(new MessageResponse("User cannot be updated with provided data."));
+//    }
+
+//    private boolean updateRequestIsValid(UpdateUserRequest updateUserRequest) {
+//        if(updateUserRequest.getPassword().equals(updateUserRequest.getRepeatedPassword())) {
+//            return true;
+//        }
+//        return false;
+//    }
+
+//    @Autowired
+//    public void setEncoder(PasswordEncoder encoder) {
+//        this.encoder = encoder;
+//    }
