@@ -19,6 +19,10 @@ import java.util.Map;
 @RequestMapping("/api/users")
 public class UserController {
 
+    //todo: For all controllers! to test all endpoints made it easier to have both roles
+    // don't forget to check with front end and this apps requirements
+    // to change if needed.
+
     private UserService userService;
 
     @Autowired
@@ -26,21 +30,23 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @GetMapping(value = "/users")
+    @GetMapping(value = "")
 //    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<Object> getAllUsers() {
-//        List<User> users = userService.getAllUsers();
-//        return new ResponseEntity<>(users, HttpStatus.OK);
-//    }
+        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<Object> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
+        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> findUserByToken(@RequestHeader Map<String, String> headers) {
         return userService.findUserByToken(headers.get("authorization"));
     }
 
-    @GetMapping(value = "/user/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> getUserById(@PathVariable("id") long id) {
         User user = userService.getUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -56,28 +62,32 @@ public class UserController {
     // todo: test if value /update/pathvariable works or with user/update/pv or w/o /
     //  update, same goes for delete, etc. and same goes for bookingcontroller.
 
-    @PostMapping(value = "/user/{id}/uploads")
-    @PreAuthorize("hasRole('USER')")
+    @PostMapping(value = "/{id}/uploads")
+//    @PreAuthorize("hasRole('USER')")
+        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public void uploadFile(@PathVariable("id") int id, @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
         userService.uploadFile(file);
     }
 
-    @PutMapping(value = "/user/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PutMapping(value = "/{id}")
+//    @PreAuthorize("hasRole('USER')")
+        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> updateUser(@PathVariable("id") int id, @RequestBody User user) {
         userService.updateUser(id, user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = "/user")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Object> saveUser(@RequestBody User user) {
-        long newId = userService.saveUser(user);
-        return new ResponseEntity<>(newId, HttpStatus.CREATED);
-    }
+//    @PostMapping(value = "/user")
+////    @PreAuthorize("hasRole('USER')")
+//        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<Object> saveUser(@RequestBody User user) {
+//        long newId = userService.saveUser(user);
+//        return new ResponseEntity<>(newId, HttpStatus.CREATED);
+//    }
 
-    @DeleteMapping(value = "/user/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @DeleteMapping(value = "/{id}")
+//    @PreAuthorize("hasRole('USER')")
+        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> deleteUser(@PathVariable("id") long id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

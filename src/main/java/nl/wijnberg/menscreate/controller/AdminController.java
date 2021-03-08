@@ -12,27 +12,27 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
-@RestController
-@RequestMapping("/api/admin/all")
+//@CrossOrigin(origins = "*", maxAge = 3600)
+//@RestController
+//@RequestMapping("/api/admin/all")
 public class AdminController {
 
-    private UserService userService;
-    private BookingService bookingService;
-
-    @GetMapping("/users")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Object> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-
-    @GetMapping("/bookings")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Object> getAllBookings() {
-        List<Booking> bookings = bookingService.getAllBookings();
-        return new ResponseEntity<>(bookings, HttpStatus.OK);
-    }
+//    private UserService userService;
+//    private BookingService bookingService;
+//
+//    @GetMapping("/users")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<Object> getAllUsers() {
+//        List<User> users = userService.getAllUsers();
+//        return new ResponseEntity<>(users, HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/bookings")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<Object> getAllBookings() {
+//        List<Booking> bookings = bookingService.getAllBookings();
+//        return new ResponseEntity<>(bookings, HttpStatus.OK);
+//    }
 
 //    @DeleteMapping(value = "/users/{id}")
 //    @PreAuthorize("hasRole('ADMIN')")
@@ -41,12 +41,12 @@ public class AdminController {
 //        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 //    }
 
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public void setBookingService(BookingService bookingService) {
-        this.bookingService = bookingService;
-    }
+//    @Autowired
+//    public void setUserService(UserService userService) {
+//        this.userService = userService;
+//    }
+//
+//    public void setBookingService(BookingService bookingService) {
+//        this.bookingService = bookingService;
+//    }
 }

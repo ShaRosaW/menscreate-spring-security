@@ -28,9 +28,10 @@ public class UserServiceImpl implements UserService {
 
     private static final String PREFIX = "Bearer ";
 
+    //    private PasswordEncoder encoder;
     private UserRepository userRepository;
     public static String uploadDirectory = System.getProperty("user.dir") + "/fileUploads/";
-//    private PasswordEncoder encoder;
+
 
     @Override
     public List<User> getAllUsers() {
@@ -77,11 +78,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public long saveUser(User user) {
-        User newUser = userRepository.save(user);
-        return newUser.getId();
-    }
+//    @Override
+//    public long saveUser(User user) {
+//        User newUser = userRepository.save(user);
+//        return newUser.getId();
+//    }
 
     @Override
     public void deleteUser(long id) {

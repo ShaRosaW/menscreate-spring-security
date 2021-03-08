@@ -11,12 +11,12 @@ import java.io.IOException;
 @Service
 public class FileUploadService {
 
-    @Autowired
-    private FileUploadRepository fileUploadRepository;
-
-    public static String uploadDirectory = System.getProperty("user.dir") + "/file-uploads/";
-
-    public void uploadFile(MultipartFile file) throws IOException {
-        file.transferTo(new File(uploadDirectory + file.getOriginalFilename()));
-    }
+//    @Autowired
+//    private FileUploadRepository fileUploadRepository;
+//
+//    public static String uploadDirectory = System.getProperty("user.dir") + "/file-uploads/";
+//
+//    public void uploadFile(MultipartFile file) throws IOException {
+//        file.transferTo(new File(uploadDirectory + file.getOriginalFilename()));
+//    }
 }

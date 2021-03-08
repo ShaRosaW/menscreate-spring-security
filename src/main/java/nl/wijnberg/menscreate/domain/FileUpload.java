@@ -9,7 +9,7 @@ public class FileUpload {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long fileId;
 
 //    @Column
 //    private String info;
@@ -17,8 +17,8 @@ public class FileUpload {
     @Column
     File file;
 
-    public FileUpload(Long id, File file) {
-        this.id = id;
+    public FileUpload(Long fileId, File file) {
+        this.fileId = fileId;
         this.file = file;
     }
 
@@ -26,12 +26,12 @@ public class FileUpload {
 
     }
 
-    public Long getId() {
-        return id;
+    public Long getFileId() {
+        return fileId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setFileId(Long fileId) {
+        this.fileId = fileId;
     }
 
     public File getFile() {

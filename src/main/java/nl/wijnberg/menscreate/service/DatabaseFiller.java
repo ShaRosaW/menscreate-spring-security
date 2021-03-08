@@ -55,7 +55,7 @@ public class DatabaseFiller implements CommandLineRunner {
         user.setUsername("user");
         user.setEmail("user@user.nl");
         user.setPassword("123456");
-        rollen.remove("mod");
+//        rollen.remove("mod");
         rollen.add("user");
         user.setRole(rollen);
         authorizationService.registerUser(user);

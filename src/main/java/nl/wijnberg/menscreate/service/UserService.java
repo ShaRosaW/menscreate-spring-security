@@ -19,7 +19,7 @@ public interface UserService {
     User getUserById(long id);
     void uploadFile(MultipartFile file) throws IOException;
     void updateUser(long id, User user);
-    long saveUser(User user);
+//    long saveUser(User user);
     void deleteUser(long id);
 
 //    ResponseEntity<?> updateUserById(String token,  @Valid UpdateUserRequest userRequest);
