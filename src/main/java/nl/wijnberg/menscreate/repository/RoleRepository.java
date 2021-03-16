@@ -1,6 +1,6 @@
 package nl.wijnberg.menscreate.repository;
 
-import nl.wijnberg.menscreate.domain.ERole;
+import nl.wijnberg.menscreate.domain.enums.ERole;
 import nl.wijnberg.menscreate.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 

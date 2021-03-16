@@ -1,6 +1,6 @@
 package nl.wijnberg.menscreate.service;
 
-import nl.wijnberg.menscreate.domain.ERole;
+import nl.wijnberg.menscreate.domain.enums.ERole;
 import nl.wijnberg.menscreate.domain.Role;
 import nl.wijnberg.menscreate.domain.User;
 import nl.wijnberg.menscreate.payload.request.LoginRequest;

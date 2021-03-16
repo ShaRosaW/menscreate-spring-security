@@ -1,5 +1,6 @@
 package nl.wijnberg.menscreate.domain;
 
+import nl.wijnberg.menscreate.domain.enums.ERole;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

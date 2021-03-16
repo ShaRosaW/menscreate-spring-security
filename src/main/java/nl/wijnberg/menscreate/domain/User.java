@@ -30,6 +30,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    @OneToMany(mappedBy = "user_bookings")
+    private Set<Booking> bookings;
+
     public User() {
 
     }
