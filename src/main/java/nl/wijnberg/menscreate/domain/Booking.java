@@ -1,6 +1,11 @@
 package nl.wijnberg.menscreate.domain;
 
+import nl.wijnberg.menscreate.domain.enums.EDayPart;
+import nl.wijnberg.menscreate.domain.enums.ETimeTable;
+
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table
@@ -8,42 +13,117 @@ public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY,
-            generator="native"
+            generator = "native"
     )
     @Column(columnDefinition = "serial")
     private Long bookingId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "bookingspace_id")
-    private BookingSpace bookingSpace;
+    @Column
+    private LocalDate bookingDate;
+
+    @Column
+    private EDayPart dayPart;
+
+    @Column
+    private ETimeTable timeTable;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "box_id")
-    private Box box;
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bookingtype_id")
+    private BookingType bookingType;
+
+    public Booking() {
+    }
+
+    public Booking(LocalDate bookingDate, EDayPart dayPart, ETimeTable timeTable, User user, BookingType bookingType) {
+        this.bookingDate = bookingDate;
+        this.dayPart = dayPart;
+        this.timeTable = timeTable;
+        this.user = user;
+        this.bookingType = bookingType;
+    }
+
+    public Long getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(Long bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public LocalDate getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(LocalDate bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+
+    public EDayPart getDayPart() {
+        return dayPart;
+    }
+
+    public void setDayPart(EDayPart dayPart) {
+        this.dayPart = dayPart;
+    }
+
+    public ETimeTable getTimeTable() {
+        return timeTable;
+    }
+
+    public void setTimeTable(ETimeTable timeTable) {
+        this.timeTable = timeTable;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public BookingType getBookingType() {
+        return bookingType;
+    }
+
+    public void setBookingType(BookingType bookingType) {
+        this.bookingType = bookingType;
+    }
+}
+
+
+
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "space_id")
+//    private Space space;
+
+//    @OneToMany(mappedBy = "booking")
+//    private List<BookingSerie> bookingSeries;
+
+
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "workspot_id")
+//    private WorkSpot workSpot;
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "workarea_id")
+//    private WorkArea workArea;
+
+
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "box_id")
+//    private Box box;
 
 //    @Enumerated(EnumType.STRING)
 //    private EBookingSpace bookingSpace;
 
-//    @Column
-//    private LocalDate bookingDate;
 //
-//    @Column
-//    private EDayPart dayPart;
-//
-//    @Column
-//    private ETimeTable timeTable;
-//
-//    @ManyToOne (fetch = FetchType.EAGER)
-//    @JoinColumn (name = "user_id")
-//    private User user;
-//
-//    @ManyToOne (fetch = FetchType.EAGER)
-//    @JoinColumn (name = "workspot_id")
-//    private WorkSpot workSpot;
-//
-//    @ManyToOne (fetch = FetchType.EAGER)
-//    @JoinColumn (name = "workarea_id")
-//    private WorkArea workArea;
+
 //
 //    @ManyToOne (fetch = FetchType.EAGER)
 //    @JoinColumn (name = "kitchenspot_id")
@@ -53,9 +133,7 @@ public class Booking {
 //    @JoinColumn (name = "kitchenarea_id")
 //    private KitchenArea kitchenArea;
 
-    public Booking() {
 
-    }
 
 //    @Column
 //    private String bookingInfo;
@@ -131,4 +209,4 @@ public class Booking {
 //    public void setUser(Set<User> user) {
 //        this.user = user;
 //    }
-}
+

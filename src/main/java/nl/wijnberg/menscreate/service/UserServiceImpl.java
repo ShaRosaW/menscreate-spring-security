@@ -44,6 +44,12 @@ public class UserServiceImpl implements UserService {
 //        return ResponseEntity.ok(users);
     }
 
+//    @Override
+//    public Optional<User> getUserByUsername(String username) {
+//       return userRepository.findByUsername(username);
+//
+//    }
+
     @Override
     public User getUserById(long id) {
         if (userRepository.existsById(id)) {
@@ -154,6 +160,10 @@ public class UserServiceImpl implements UserService {
 //        }
 //
 //        return ResponseEntity.badRequest().body(new MessageResponse("User cannot be updated with provided data."));
+//    }
+
+//private User findUserByUsername(String username) {
+//        return userRepository.findByUsername(username).get();
 //    }
 
 //    private boolean updateRequestIsValid(UpdateUserRequest updateUserRequest) {

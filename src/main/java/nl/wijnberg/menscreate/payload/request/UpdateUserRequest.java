@@ -9,6 +9,12 @@ public class UpdateUserRequest {
     @Email
     private String email;
 
+//    private long phoneNumber;
+//    // or String?
+//    private int age;
+//    private String gender;
+//    // enum gender?
+
     @Size(min = 6, max = 40)
     private String password;
 
@@ -39,3 +45,6 @@ public class UpdateUserRequest {
         this.repeatedPassword = repeatedPassword;
     }
 }
+
+// todo: in user profile make it possible to add more info
+//      such as phonenumber, age, gender, profile image

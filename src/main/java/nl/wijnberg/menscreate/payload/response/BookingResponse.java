@@ -1,4 +1,4 @@
-package nl.wijnberg.menscreate.payload.request;
+package nl.wijnberg.menscreate.payload.response;
 
 import nl.wijnberg.menscreate.domain.BookingType;
 import nl.wijnberg.menscreate.domain.enums.EDayPart;
@@ -6,25 +6,17 @@ import nl.wijnberg.menscreate.domain.enums.ETimeTable;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
 
-public class BookingRequest {
+public class BookingResponse {
+
     private long userId;
     private long bookingId;
-
-    @NotNull
     private LocalDate bookingDate;
-    @NotNull
     private EDayPart dayPart;
-    @NotNull
     private ETimeTable timeTable;
-    @NotNull
     private BookingType bookingType;
 
-    public BookingRequest() {
-    }
-
-    public BookingRequest(long userId, long bookingId, @NotNull LocalDate bookingDate, @NotNull EDayPart dayPart, @NotNull ETimeTable timeTable, @NotNull BookingType bookingType) {
+    public BookingResponse(long userId, long bookingId, LocalDate bookingDate, EDayPart dayPart, ETimeTable timeTable, BookingType bookingType) {
         this.userId = userId;
         this.bookingId = bookingId;
         this.bookingDate = bookingDate;

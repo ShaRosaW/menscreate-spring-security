@@ -1,8 +1,9 @@
 package nl.wijnberg.menscreate.domain.enums;
 
-public enum EBookingSpace {
-    KITCHEN_AREA,
-    KITCHEN_SPOT,
+public enum ESpaceType {
     WORK_AREA,
     WORK_SPOT
 }
+
+//KITCHEN_AREA,
+//    KITCHEN_SPOT,

@@ -23,6 +23,9 @@ public interface UserService {
     void deleteUser(long id);
 
 //    ResponseEntity<?> updateUserById(String token,  @Valid UpdateUserRequest userRequest);
+    // public abstract Optional<User> getUserByUsername(String username)
+    //public abstract ResponseEntity<?> deleteUser(String token, String username);
+    //public Optional<User> getUserByUsername(String username)
 }
 
 //ResponseEntity<?> getAllUsers();

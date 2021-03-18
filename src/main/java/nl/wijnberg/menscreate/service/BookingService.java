@@ -16,3 +16,8 @@ public interface BookingService {
     void deleteBooking(long bookingId);
 }
 //    Optional<Booking> getBooking(long id);
+//ResponseEntity<MessageResponse> createBooking(String token, BookingRequest bookingRequest);
+//ResponseEntity<?> getUserBookings(String token);
+//ResponseEntity<?> updateBookingById(String token, BookingRequest bookingRequest);
+//ResponseEntity<?> deleteBooking(String token, long bookingId);
+//ResponseEntity<?> availabilityCheck(String token, long bookingId);

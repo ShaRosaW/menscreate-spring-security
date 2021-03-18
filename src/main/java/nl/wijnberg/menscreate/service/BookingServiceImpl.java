@@ -42,9 +42,10 @@ public class BookingServiceImpl implements BookingService {
                 Booking existBooking = bookingRepository.findAllByBookingId(bookingId).orElse(null);
 //                        .get();
                 existBooking.setBookingType(booking.getBookingType());
-                existBooking.setBookingInfo(booking.getBookingInfo());
                 existBooking.setBookingDate(booking.getBookingDate());
-                existBooking.setBookingMoment(booking.getBookingMoment());
+                existBooking.setDayPart(booking.getDayPart());
+                existBooking.setTimeTable(booking.getTimeTable());
+                existBooking.setUser(booking.getUser());
                 bookingRepository.save(existBooking);
             } catch (Exception exception) {
                 throw new DatabaseErrorException();
