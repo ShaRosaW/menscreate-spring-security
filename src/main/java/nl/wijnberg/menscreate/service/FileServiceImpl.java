@@ -1,4 +1,4 @@
 package nl.wijnberg.menscreate.service;
 
-public class FileUploadServiceImpl {
+public class FileServiceImpl {
 }

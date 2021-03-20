@@ -1,5 +1,6 @@
 package nl.wijnberg.menscreate.domain;
 
+import nl.wijnberg.menscreate.payload.request.UpdateUserRequest;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -24,14 +25,35 @@ public class User {
     private String email;
     private String password;
 
+    //for bookings in profile with image file as well
+    @Column
+    private String firstName;
+    @Column
+    private String lastName;
+    @Column
+    private String phoneNumber;
+
+    // relevant for coaching, which is not implemented for now.
+//    @Column
+//    private int age;
+//    @Column
+//    private String gender;
+    // turn into enum ?
+
+
     @ManyToMany
     @JoinTable (name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user_bookings")
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "user_bookings",
+            cascade = CascadeType.ALL)
     private Set<Booking> bookings;
+
+    @OneToOne(mappedBy = "user_file")
+    private File file;
 
     public User() {
 
@@ -41,6 +63,18 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+
+    public User(String username, String email, String password, String firstName, String lastName, String phoneNumber, Set<Booking> bookings, File file) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.bookings = bookings;
+        this.file = file;
     }
 
     public long getId() {
@@ -75,11 +109,51 @@ public class User {
         this.password = password;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(Set<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 }

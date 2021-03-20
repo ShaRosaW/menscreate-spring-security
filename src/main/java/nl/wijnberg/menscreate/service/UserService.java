@@ -18,11 +18,13 @@ public interface UserService {
     ResponseEntity<?> findUserByToken(String token);
     User getUserById(long id);
     void uploadFile(MultipartFile file) throws IOException;
-    void updateUser(long id, User user);
+    void updateUser(long id, UpdateUserRequest userUpdate);
 //    long saveUser(User user);
     void deleteUser(long id);
 
-//    ResponseEntity<?> updateUserById(String token,  @Valid UpdateUserRequest userRequest);
+    long saveUser(UpdateUserRequest updateUserRequest);
+
+//    ResponseEntity<?> updateUserById(String token, @Valid UpdateUserRequest userUpdate);
     // public abstract Optional<User> getUserByUsername(String username)
     //public abstract ResponseEntity<?> deleteUser(String token, String username);
     //public Optional<User> getUserByUsername(String username)

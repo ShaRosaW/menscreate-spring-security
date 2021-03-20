@@ -1,25 +1,57 @@
 package nl.wijnberg.menscreate.payload.request;
 
+import nl.wijnberg.menscreate.domain.File;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
 public class UpdateUserRequest {
 
+    // User Profile Update and option to add user information, from client side.
+
+//    @Size(min = 6, max = 40)
+//    private String username;
+
     @Size(max = 50)
     @Email
     private String email;
-
-//    private long phoneNumber;
-//    // or String?
-//    private int age;
-//    private String gender;
-//    // enum gender?
 
     @Size(min = 6, max = 40)
     private String password;
 
     @Size(min = 6, max = 40)
     private String repeatedPassword;
+
+    // additional info, for bookings
+
+    @Size(max = 40)
+    private String firstName;
+
+    @Size(max = 40)
+    private String lastName;
+
+    private String phoneNumber;
+
+    // image file to be uploaded in user profile client side.
+    private Long fileId;
+    private String name;
+    private byte[] image;
+
+
+    public UpdateUserRequest(
+//            @Size(min = 6, max = 40) String username,
+                             @Size(max = 50) @Email String email, @Size(min = 6, max = 40) String password, @Size(min = 6, max = 40) String repeatedPassword, @Size(max = 40) String firstName, @Size(max = 40) String lastName, String phoneNumber, Long fileId, String name, byte[] image) {
+//        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.repeatedPassword = repeatedPassword;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.fileId = fileId;
+        this.name = name;
+        this.image = image;
+    }
 
     public String getEmail() {
         return email;
@@ -43,6 +75,62 @@ public class UpdateUserRequest {
 
     public void setRepeatedPassword(String repeatedPassword) {
         this.repeatedPassword = repeatedPassword;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+
+    public File getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(Long fileId) {
+        this.fileId = fileId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }
 

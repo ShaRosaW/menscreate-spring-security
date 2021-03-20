@@ -1,18 +1,12 @@
 package nl.wijnberg.menscreate.service;
 
-import nl.wijnberg.menscreate.repository.FileUploadRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
 
 @Service
-public class FileUploadService {
+public class FileService {
 
 //    @Autowired
-//    private FileUploadRepository fileUploadRepository;
+//    private FileRepository fileRepository;
 //
 //    public static String uploadDirectory = System.getProperty("user.dir") + "/file-uploads/";
 //

@@ -11,7 +11,6 @@ import nl.wijnberg.menscreate.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,19 +29,20 @@ public class UserServiceImpl implements UserService {
 
     //    private PasswordEncoder encoder;
     private UserRepository userRepository;
+//    private UpdateUserRequest updateUserRequest;
     public static String uploadDirectory = System.getProperty("user.dir") + "/fileUploads/";
+
 
 
     @Override
     public List<User> getAllUsers() {
-
-         return userRepository.findAll();
-
+        List<User> users = userRepository.findAll();
+        return users;
+    }
 //        if(users.isEmpty()) {
 //            return ResponseEntity.badRequest().body(new MessageResponse("No Users found!"));
 //        }
 //        return ResponseEntity.ok(users);
-    }
 
 //    @Override
 //    public Optional<User> getUserByUsername(String username) {
@@ -53,7 +53,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(long id) {
         if (userRepository.existsById(id)) {
-            return userRepository.findById(id).orElse(null);
+            User user = userRepository.findById(id).orElse(null);
+            return user;
         }
         else {
             throw new RecordNotFoundException();
@@ -66,13 +67,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(long id, User user) {
+    public void updateUser(long id, UpdateUserRequest userUpdate) {
         if (userRepository.existsById(id)) {
             try {
                 User existingUser = userRepository.findById(id).orElse(null);
-                existingUser.setUsername(user.getUsername());
-                existingUser.setEmail(user.getEmail());
-                existingUser.setPassword(user.getPassword());
+//                existingUser.setUsername(userUpdate.getUsername());
+                existingUser.setEmail(userUpdate.getEmail());
+                existingUser.setPassword(userUpdate.getPassword());
+                existingUser.setFirstName(userUpdate.getFirstName());
+                existingUser.setLastName(userUpdate.getLastName());
+                existingUser.setPhoneNumber(userUpdate.getPhoneNumber());
+                existingUser.setFile(userUpdate.getFileId());
                 userRepository.save(existingUser);
             }
             catch (Exception ex) {
@@ -84,11 +89,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-//    @Override
-//    public long saveUser(User user) {
-//        User newUser = userRepository.save(user);
-//        return newUser.getId();
-//    }
+    @Override
+    public long saveUser(UpdateUserRequest updateUserRequest) {
+        User newUser = userRepository.save();
+        return newUser.getId();
+    }
 
     @Override
     public void deleteUser(long id) {
