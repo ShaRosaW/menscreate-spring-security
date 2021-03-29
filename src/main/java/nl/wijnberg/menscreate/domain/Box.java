@@ -13,7 +13,7 @@ public class Box {
     @GeneratedValue(strategy = GenerationType.IDENTITY,
                     generator = "native"
     )
-    @Column(columnDefinition = "serial")
+    @Column(columnDefinition = "serial", name = "box_id")
     private Long boxId;
 
     @Column

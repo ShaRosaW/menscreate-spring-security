@@ -2,11 +2,10 @@ package nl.wijnberg.menscreate.payload.request;
 
 import nl.wijnberg.menscreate.domain.BookingType;
 import nl.wijnberg.menscreate.domain.enums.EDayPart;
-import nl.wijnberg.menscreate.domain.enums.ETimeTable;
+//import nl.wijnberg.menscreate.domain.enums.ETimeTable;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class BookingRequest {
     private long userId;
@@ -16,20 +15,22 @@ public class BookingRequest {
     private LocalDate bookingDate;
     @NotNull
     private EDayPart dayPart;
-    @NotNull
-    private ETimeTable timeTable;
+//    @NotNull
+//    private ETimeTable timeTable;
     @NotNull
     private BookingType bookingType;
 
     public BookingRequest() {
     }
 
-    public BookingRequest(long userId, long bookingId, @NotNull LocalDate bookingDate, @NotNull EDayPart dayPart, @NotNull ETimeTable timeTable, @NotNull BookingType bookingType) {
+    public BookingRequest(long userId, long bookingId, @NotNull LocalDate bookingDate, @NotNull EDayPart dayPart,
+//                          @NotNull ETimeTable timeTable,
+                          @NotNull BookingType bookingType) {
         this.userId = userId;
         this.bookingId = bookingId;
         this.bookingDate = bookingDate;
         this.dayPart = dayPart;
-        this.timeTable = timeTable;
+//        this.timeTable = timeTable;
         this.bookingType = bookingType;
     }
 
@@ -64,14 +65,14 @@ public class BookingRequest {
     public void setDayPart(EDayPart dayPart) {
         this.dayPart = dayPart;
     }
-
-    public ETimeTable getTimeTable() {
-        return timeTable;
-    }
-
-    public void setTimeTable(ETimeTable timeTable) {
-        this.timeTable = timeTable;
-    }
+//
+//    public ETimeTable getTimeTable() {
+//        return timeTable;
+//    }
+//
+//    public void setTimeTable(ETimeTable timeTable) {
+//        this.timeTable = timeTable;
+//    }
 
     public BookingType getBookingType() {
         return bookingType;
@@ -80,4 +81,5 @@ public class BookingRequest {
     public void setBookingType(BookingType bookingType) {
         this.bookingType = bookingType;
     }
+
 }

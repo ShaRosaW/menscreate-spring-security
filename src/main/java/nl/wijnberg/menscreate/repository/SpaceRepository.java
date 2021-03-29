@@ -1,12 +1,10 @@
 package nl.wijnberg.menscreate.repository;
 
 import nl.wijnberg.menscreate.domain.Space;
-import nl.wijnberg.menscreate.domain.SpaceType;
-import nl.wijnberg.menscreate.domain.enums.ESpaceType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
+@Repository
 public interface SpaceRepository extends JpaRepository<Space, Long> {
-    Optional<Space> findBySpaceId(long id);
+    Space findBySpaceId(Long id);
 }

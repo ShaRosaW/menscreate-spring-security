@@ -1,7 +1,7 @@
-package nl.wijnberg.menscreate.service.sequrity;
+package nl.wijnberg.menscreate.service.security;
 
-import nl.wijnberg.menscreate.service.sequrity.jwt.AuthEntryPointJwt;
-import nl.wijnberg.menscreate.service.sequrity.jwt.AuthTokenFilter;
+import nl.wijnberg.menscreate.service.security.jwt.AuthEntryPointJwt;
+import nl.wijnberg.menscreate.service.security.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

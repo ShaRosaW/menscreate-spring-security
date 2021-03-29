@@ -8,41 +8,53 @@ import javax.validation.constraints.NotNull;
 
 public class SpaceRequest {
 
+//    @NotNull
+//    private EBookingType bookingType;
+//
+//    private String bookingimage;
     @NotNull
-    private EBookingType bookingType;
-
-    private String bookingimage;
+    private ESpaceType spaceType;
 
     @NotNull
     private int amountPeople;
 
     private String extraInfo;
 
-    @NotNull
-    private ESpaceType spaceType;
 
-    public SpaceRequest(@NotNull EBookingType bookingType, String bookingimage, @NotNull int amountPeople, String extraInfo, @NotNull ESpaceType spaceType) {
-        this.bookingType = bookingType;
-        this.bookingimage = bookingimage;
+
+    public SpaceRequest(
+//            @NotNull EBookingType bookingType, String bookingimage,
+            @NotNull ESpaceType spaceType,
+            @NotNull int amountPeople, String extraInfo) {
+//        this.bookingType = bookingType;
+//        this.bookingimage = bookingimage;
+        this.spaceType = spaceType;
         this.amountPeople = amountPeople;
         this.extraInfo = extraInfo;
+
+    }
+
+//    public EBookingType getBookingType() {
+//        return bookingType;
+//    }
+//
+//    public void setBookingType(EBookingType bookingType) {
+//        this.bookingType = bookingType;
+//    }
+//
+//    public String getBookingimage() {
+//        return bookingimage;
+//    }
+//
+//    public void setBookingimage(String bookingimage) {
+//        this.bookingimage = bookingimage;
+//    }
+public ESpaceType getSpaceType() {
+    return spaceType;
+}
+
+    public void setSpaceType(ESpaceType spaceType) {
         this.spaceType = spaceType;
-    }
-
-    public EBookingType getBookingType() {
-        return bookingType;
-    }
-
-    public void setBookingType(EBookingType bookingType) {
-        this.bookingType = bookingType;
-    }
-
-    public String getBookingimage() {
-        return bookingimage;
-    }
-
-    public void setBookingimage(String bookingimage) {
-        this.bookingimage = bookingimage;
     }
 
     public int getAmountPeople() {
@@ -61,11 +73,4 @@ public class SpaceRequest {
         this.extraInfo = extraInfo;
     }
 
-    public ESpaceType getSpaceType() {
-        return spaceType;
     }
-
-    public void setSpaceType(ESpaceType spaceType) {
-        this.spaceType = spaceType;
-    }
-}

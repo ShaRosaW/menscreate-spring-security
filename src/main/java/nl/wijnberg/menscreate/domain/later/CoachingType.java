@@ -1,7 +1,7 @@
 package nl.wijnberg.menscreate.domain.later;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import nl.wijnberg.menscreate.domain.enums.ECoachingType;
+
 
 import javax.persistence.*;
 import java.util.Set;

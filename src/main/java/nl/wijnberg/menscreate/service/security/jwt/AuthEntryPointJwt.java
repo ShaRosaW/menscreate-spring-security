@@ -1,4 +1,4 @@
-package nl.wijnberg.menscreate.service.sequrity.jwt;
+package nl.wijnberg.menscreate.service.security.jwt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

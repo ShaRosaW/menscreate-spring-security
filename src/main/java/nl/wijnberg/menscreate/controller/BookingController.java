@@ -1,6 +1,8 @@
 package nl.wijnberg.menscreate.controller;
 
 import nl.wijnberg.menscreate.domain.Booking;
+import nl.wijnberg.menscreate.payload.request.BookingRequest;
+import nl.wijnberg.menscreate.payload.response.BookingResponse;
 import nl.wijnberg.menscreate.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,17 +22,17 @@ public class BookingController {
     @GetMapping("")
 //    @PreAuthorize("hasRole('ADMIN')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Object> getAllBookings() {
-        List<Booking> bookings = bookingService.getAllBookings();
+    public ResponseEntity<?> getAllBookings() {
+        List<Booking> bookings = (List<Booking>) bookingService.getAllBookings();
         return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{bookingId}")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Object> getBookingById(@PathVariable("bookingId") long bookingId) {
-        Booking booking = bookingService.getBookingById(bookingId);
-        return new ResponseEntity<>(booking, HttpStatus.OK);
+    public ResponseEntity<BookingResponse> getBookingById(@PathVariable("bookingId") long bookingId) {
+        bookingService.getBookingById(bookingId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "")
@@ -46,8 +48,8 @@ public class BookingController {
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> updateBooking(
             @PathVariable("bookingId") long bookingId,
-            @RequestBody Booking booking) {
-        bookingService.updateBooking(bookingId, booking);
+            @RequestBody BookingRequest bookingRequest) {
+        bookingService.updateBooking(bookingId, bookingRequest);
         return new ResponseEntity<>(HttpStatus.OK);
 //        return ResponseEntity.noContent().build();
     }
@@ -63,9 +65,9 @@ public class BookingController {
     @DeleteMapping(value = "/{bookingId}")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Object> deleteBooking(
+    public ResponseEntity<?> deleteBooking(String token,
             @PathVariable("bookingId") long bookingId) {
-        bookingService.deleteBooking(bookingId);
+        bookingService.deleteBooking(token, bookingId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 //        return ResponseEntity.noContent().build();
     }

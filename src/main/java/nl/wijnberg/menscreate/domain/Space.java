@@ -13,7 +13,7 @@ public class Space {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY,
             generator = "native")
-    @Column(columnDefinition = "serial")
+    @Column(columnDefinition = "serial", name = "space_id")
     private Long spaceId;
 
 //    @Enumerated(EnumType.STRING)
@@ -40,6 +40,9 @@ public class Space {
         this.amountPeople = amountPeople;
         this.extraInfo = extraInfo;
         this.spaceType = spaceType;
+    }
+
+    public Space(String name, int amountPeople, String extraInfo) {
     }
 
     public Long getSpaceId() {

@@ -9,7 +9,7 @@ import nl.wijnberg.menscreate.payload.response.JwtResponse;
 import nl.wijnberg.menscreate.payload.response.MessageResponse;
 import nl.wijnberg.menscreate.repository.RoleRepository;
 import nl.wijnberg.menscreate.repository.UserRepository;
-import nl.wijnberg.menscreate.service.sequrity.jwt.JwtUtils;
+import nl.wijnberg.menscreate.service.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

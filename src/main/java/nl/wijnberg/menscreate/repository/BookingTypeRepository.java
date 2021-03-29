@@ -1,13 +1,12 @@
 package nl.wijnberg.menscreate.repository;
 
 import nl.wijnberg.menscreate.domain.BookingType;
-import nl.wijnberg.menscreate.domain.Role;
 import nl.wijnberg.menscreate.domain.enums.EBookingType;
-import nl.wijnberg.menscreate.domain.enums.ERole;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
+@Repository
 public interface BookingTypeRepository extends JpaRepository<BookingType, Long> {
-    Optional<BookingType> findByName(EBookingType name);
+    BookingType findByName(EBookingType name);
+    Boolean existsByName(String name);
 }

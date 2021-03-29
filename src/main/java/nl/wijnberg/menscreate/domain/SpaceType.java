@@ -20,17 +20,17 @@ public class SpaceType {
     @Enumerated(EnumType.STRING)
     private ESpaceType name;
 
-    @JsonIgnore
-    @OneToMany (mappedBy = "space_type")
-    private Set<Space> spaces;
+//    @JsonIgnore
+//    @OneToMany (mappedBy = "space_type")
+//    private Set<Space> spaces;
 
     public long getSpacetypeId() {
         return spacetypeId;
     }
 
-    public Set<Space> getSpaces() {
-        return spaces;
-    }
+//    public Set<Space> getSpaces() {
+//        return spaces;
+//    }
 
     public ESpaceType getName() {
         return name;

@@ -9,8 +9,8 @@ public class UpdateUserRequest {
 
     // User Profile Update and option to add user information, from client side.
 
-//    @Size(min = 6, max = 40)
-//    private String username;
+    @Size(min = 6, max = 40)
+    private String username;
 
     @Size(max = 50)
     @Email
@@ -39,9 +39,9 @@ public class UpdateUserRequest {
 
 
     public UpdateUserRequest(
-//            @Size(min = 6, max = 40) String username,
+            @Size(min = 6, max = 40) String username,
                              @Size(max = 50) @Email String email, @Size(min = 6, max = 40) String password, @Size(min = 6, max = 40) String repeatedPassword, @Size(max = 40) String firstName, @Size(max = 40) String lastName, String phoneNumber, Long fileId, String name, byte[] image) {
-//        this.username = username;
+        this.username = username;
         this.email = email;
         this.password = password;
         this.repeatedPassword = repeatedPassword;
@@ -101,15 +101,15 @@ public class UpdateUserRequest {
         this.phoneNumber = phoneNumber;
     }
 
-//    public String getUsername() {
-//        return username;
-//    }
-//
-//    public void setUsername(String username) {
-//        this.username = username;
-//    }
+    public String getUsername() {
+        return username;
+    }
 
-    public File getFileId() {
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Long getFileId() {
         return fileId;
     }
 

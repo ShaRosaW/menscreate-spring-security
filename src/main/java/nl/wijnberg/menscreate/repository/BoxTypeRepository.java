@@ -1,13 +1,11 @@
 package nl.wijnberg.menscreate.repository;
 
 import nl.wijnberg.menscreate.domain.BoxType;
-import nl.wijnberg.menscreate.domain.SpaceType;
 import nl.wijnberg.menscreate.domain.enums.EBoxType;
-import nl.wijnberg.menscreate.domain.enums.ESpaceType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
+@Repository
 public interface BoxTypeRepository extends JpaRepository<BoxType, Long> {
-    Optional<BoxType> findByName(EBoxType name);
+    BoxType findByName(EBoxType name);
 }

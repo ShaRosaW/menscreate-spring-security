@@ -1,6 +1,5 @@
 package nl.wijnberg.menscreate.domain;
 
-import nl.wijnberg.menscreate.payload.request.UpdateUserRequest;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -20,10 +19,13 @@ public class User {
             strategy = "native"
     )
     @Column(columnDefinition = "serial")
-    private long id;
+    private Long id;
     private String username;
     private String email;
     private String password;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+    private UserProfileInfo userProfileInfo;
 
     //for bookings in profile with image file as well
     @Column
@@ -48,11 +50,12 @@ public class User {
     private Set<Role> roles;
 
     @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "user_bookings",
-            cascade = CascadeType.ALL)
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private Set<Booking> bookings;
 
-    @OneToOne(mappedBy = "user_file")
+    @OneToOne(mappedBy = "user")
     private File file;
 
     public User() {
@@ -77,11 +80,11 @@ public class User {
         this.file = file;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -155,5 +158,16 @@ public class User {
 
     public void setFile(File file) {
         this.file = file;
+    }
+
+    public void setFile(Long fileId) {
+    }
+
+    public UserProfileInfo getUserProfileInfo() {
+        return userProfileInfo;
+    }
+
+    public void setUserProfileInfo(UserProfileInfo userProfileInfo) {
+        this.userProfileInfo = userProfileInfo;
     }
 }

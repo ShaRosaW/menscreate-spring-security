@@ -1,6 +1,6 @@
 package nl.wijnberg.menscreate.domain.later;
 
-import nl.wijnberg.menscreate.domain.enums.ETimeTable;
+//import nl.wijnberg.menscreate.domain.enums.ETimeTable;
 
 import javax.persistence.*;
 

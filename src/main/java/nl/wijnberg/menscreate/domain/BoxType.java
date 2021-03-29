@@ -20,9 +20,9 @@ public class BoxType {
     @Enumerated(EnumType.STRING)
     private EBoxType name;
 
-    @JsonIgnore
-    @OneToMany (mappedBy = "box_type")
-    private Set<Box> boxSet;
+//    @JsonIgnore
+//    @OneToMany (mappedBy = "box_type")
+//    private Set<Box> boxSet;
 
     public long getBoxtypeId() {
         return boxtypeId;
@@ -36,7 +36,7 @@ public class BoxType {
         this.name = name;
     }
 
-    public Set<Box> getBoxSet() {
-        return boxSet;
-    }
+//    public Set<Box> getBoxSet() {
+//        return boxSet;
+//    }
 }

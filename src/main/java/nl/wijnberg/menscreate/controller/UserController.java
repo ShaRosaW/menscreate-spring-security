@@ -33,8 +33,8 @@ public class UserController {
     @GetMapping(value = "")
 //    @PreAuthorize("hasRole('ADMIN')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Object> getAllUsers() {
-        List<User> users = userService.getAllUsers();
+    public ResponseEntity<?> getAllUsers() {
+        List<User> users = (List<User>) userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
@@ -52,13 +52,6 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-//    @PostMapping("/update")
-//    @PreAuthorize("hasRole('USER')")
-//    public ResponseEntity<?> updateUser(@RequestHeader Map<String, String> headers,
-//                                        @RequestBody UpdateUserRequest updateRequest) {
-//        return userService.updateUserById(headers.get("authorization"), updateRequest);
-//    }
-
     // todo: test if value /update/pathvariable works or with user/update/pv or w/o /
     //  update, same goes for delete, etc. and same goes for bookingcontroller.
 
@@ -72,17 +65,9 @@ public class UserController {
     @PutMapping(value = "/{id}")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Object> updateUser(@PathVariable("id") int id, @RequestBody UpdateUserRequest updateUserRequest) {
-        userService.updateUser(id, updateUserRequest);
-        return new ResponseEntity<>(updateUserRequest, HttpStatus.OK);
-    }
-
-    @PostMapping(value = "/user")
-//    @PreAuthorize("hasRole('USER')")
-        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Object> saveUser(@RequestBody UpdateUserRequest updateUserRequest) {
-        long newId = userService.saveUser(updateUserRequest);
-        return new ResponseEntity<>(newId, HttpStatus.CREATED);
+    public ResponseEntity<Object> updateUser(@PathVariable("id") int id, @RequestBody UpdateUserRequest userUpdate) {
+        userService.updateUser(id, userUpdate);
+        return new ResponseEntity<>(userUpdate, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -94,3 +79,18 @@ public class UserController {
     }
 
 }
+
+//    @PostMapping("/update")
+//    @PreAuthorize("hasRole('USER')")
+//    public ResponseEntity<?> updateUser(@RequestHeader Map<String, String> headers,
+//                                        @RequestBody UpdateUserRequest updateRequest) {
+//        return userService.updateUserById(headers.get("authorization"), updateRequest);
+//    }
+
+//    @PostMapping(value = "/user")
+////    @PreAuthorize("hasRole('USER')")
+//        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<Object> saveUser(@RequestBody UpdateUserRequest updateUserRequest) {
+//        long newId = userService.saveUser(updateUserRequest);
+//        return new ResponseEntity<>(newId, HttpStatus.CREATED);
+//    }

@@ -1,4 +1,4 @@
-package nl.wijnberg.menscreate.service.sequrity.jwt;
+package nl.wijnberg.menscreate.service.security.jwt;
 
 import io.jsonwebtoken.*;
 import nl.wijnberg.menscreate.service.UserDetailsImpl;
@@ -15,10 +15,10 @@ public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     // Deze waardes staan geconfigureerd in application.properties
-    @Value("${novi.sec.jwtSecret}")
+    @Value("${mens.sec.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${novi.sec.jwtExpirationMs}")
+    @Value("${mens.sec.jwtExpirationMs}")
     private int jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {

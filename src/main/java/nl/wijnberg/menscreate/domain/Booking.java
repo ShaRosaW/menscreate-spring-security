@@ -1,11 +1,10 @@
 package nl.wijnberg.menscreate.domain;
 
 import nl.wijnberg.menscreate.domain.enums.EDayPart;
-import nl.wijnberg.menscreate.domain.enums.ETimeTable;
+//import nl.wijnberg.menscreate.domain.enums.ETimeTable;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table
@@ -15,35 +14,53 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY,
             generator = "native"
     )
-    @Column(columnDefinition = "serial")
+    @Column(columnDefinition = "serial", name = "booking_id")
     private Long bookingId;
 
     @Column
     private LocalDate bookingDate;
 
-    @Column
-    private EDayPart dayPart;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "day_part")
+    private EDayPart name;
 
-    @Column
-    private ETimeTable timeTable;
+//    @Column
+//    private ETimeTable timeTable;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "bookingtype_id")
     private BookingType bookingType;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "booking_moment",
+            joinColumns =
+                    {@JoinColumn(name = "booking", referencedColumnName = "booking_id")},
+            inverseJoinColumns =
+                    {@JoinColumn(name = "day_part", referencedColumnName = "id")}
+    )
+    private DayPart dayPart;
+
     public Booking() {
     }
 
-    public Booking(LocalDate bookingDate, EDayPart dayPart, ETimeTable timeTable, User user, BookingType bookingType) {
+    public Booking(LocalDate bookingDate, EDayPart name,
+//                   ETimeTable timeTable,
+                   User user, BookingType bookingType) {
         this.bookingDate = bookingDate;
-        this.dayPart = dayPart;
-        this.timeTable = timeTable;
+        this.name = name;
+//        this.timeTable = timeTable;
         this.user = user;
         this.bookingType = bookingType;
+    }
+
+    public Booking(long userId, String toString, String toString1) {
+    }
+
+    public Booking(String toString, String toString1, long userId, BookingType bookingType) {
     }
 
     public Long getBookingId() {
@@ -62,21 +79,21 @@ public class Booking {
         this.bookingDate = bookingDate;
     }
 
-    public EDayPart getDayPart() {
-        return dayPart;
+    public EDayPart getName() {
+        return name;
     }
 
-    public void setDayPart(EDayPart dayPart) {
-        this.dayPart = dayPart;
+    public void setName(EDayPart name) {
+        this.name = name;
     }
-
-    public ETimeTable getTimeTable() {
-        return timeTable;
-    }
-
-    public void setTimeTable(ETimeTable timeTable) {
-        this.timeTable = timeTable;
-    }
+//
+//    public ETimeTable getTimeTable() {
+//        return timeTable;
+//    }
+//
+//    public void setTimeTable(ETimeTable timeTable) {
+//        this.timeTable = timeTable;
+//    }
 
     public User getUser() {
         return user;
@@ -92,6 +109,9 @@ public class Booking {
 
     public void setBookingType(BookingType bookingType) {
         this.bookingType = bookingType;
+    }
+
+    public void setUser(long userId) {
     }
 }
 
