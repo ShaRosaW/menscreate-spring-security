@@ -1,9 +1,13 @@
 package nl.wijnberg.menscreate.controller;
 
+import nl.wijnberg.menscreate.domain.File;
 import nl.wijnberg.menscreate.domain.User;
 import nl.wijnberg.menscreate.payload.request.UpdateUserRequest;
+import nl.wijnberg.menscreate.payload.response.MessageResponse;
+import nl.wijnberg.menscreate.service.FileService;
 import nl.wijnberg.menscreate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,12 +28,14 @@ public class UserController {
     // to change if needed.
 
     private UserService userService;
+    private FileService fileService;
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
+    // Get a list of all users (Admin only)
     @GetMapping(value = "")
 //    @PreAuthorize("hasRole('ADMIN')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -38,6 +44,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    // Get a user by it's token
     @GetMapping("/user")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -45,6 +52,7 @@ public class UserController {
         return userService.findUserByToken(headers.get("authorization"));
     }
 
+    // Get user by ID
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> getUserById(@PathVariable("id") long id) {
@@ -55,13 +63,50 @@ public class UserController {
     // todo: test if value /update/pathvariable works or with user/update/pv or w/o /
     //  update, same goes for delete, etc. and same goes for bookingcontroller.
 
+    // Upload a file to directory
     @PostMapping(value = "/{id}/uploads")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void uploadFile(@PathVariable("id") int id, @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
-        userService.uploadFile(file);
+    public void uploadFileToDir(@PathVariable("id") int id, @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
+        userService.uploadFileToDir(file);
     }
 
+    // Upload a file to the database by user ID
+    @PostMapping(value = "/{id}/uploads")
+//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<MessageResponse> uploadFileToDB(@PathVariable ("id") long userId, @RequestParam("file") MultipartFile file){
+        try {
+            fileService.store(file, userId);
+            String message = "Picture was uploaded successfully: " + file.getOriginalFilename();
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
+        } catch (Exception e) {
+            String message = "Could not upload this picture" + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
+        }
+    }
+
+    // Get a file by user ID
+    @GetMapping("/download/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<byte[]> getFile(@PathVariable ("id") long userId) {
+        File imgFile = fileService.getFileByUserId(userId);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imgFile.getUser() + "\"")
+                .body(imgFile.getImage());
+    }
+
+    // Update new user profile information by ID
+//    @PutMapping(value = "/{id}")
+//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PostMapping(value = "/{id}")
+    public ResponseEntity<Object> saveUserProfile(@PathVariable("id") int id, @RequestBody UpdateUserRequest updateUserRequest){
+        long newId = userService.saveUserProfile(updateUserRequest);
+        return new ResponseEntity<>(newId, HttpStatus.CREATED);
+    }
+
+    // Update user information by ID
     @PutMapping(value = "/{id}")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -70,6 +115,7 @@ public class UserController {
         return new ResponseEntity<>(userUpdate, HttpStatus.OK);
     }
 
+    // Delete user entirely by ID
     @DeleteMapping(value = "/{id}")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")

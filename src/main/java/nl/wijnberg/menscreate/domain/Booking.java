@@ -20,21 +20,6 @@ public class Booking {
     @Column
     private LocalDate bookingDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "day_part")
-    private EDayPart name;
-
-//    @Column
-//    private ETimeTable timeTable;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "bookingtype_id")
-    private BookingType bookingType;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "booking_moment",
             joinColumns =
@@ -44,14 +29,30 @@ public class Booking {
     )
     private DayPart dayPart;
 
+//    @OneToOne
+//    @JoinColumn(name = "day_part", referencedColumnName = "id")
+//    private DayPart dayPart;
+
+//    @Column
+//    private ETimeTable timeTable;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    // or many to many? or one to many?
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bookingtype_id")
+    private BookingType bookingType;
+
     public Booking() {
     }
 
-    public Booking(LocalDate bookingDate, EDayPart name,
+    public Booking(LocalDate bookingDate, DayPart dayPart,
 //                   ETimeTable timeTable,
                    User user, BookingType bookingType) {
         this.bookingDate = bookingDate;
-        this.name = name;
+        this.dayPart = dayPart;
 //        this.timeTable = timeTable;
         this.user = user;
         this.bookingType = bookingType;
@@ -61,6 +62,9 @@ public class Booking {
     }
 
     public Booking(String toString, String toString1, long userId, BookingType bookingType) {
+    }
+
+    public Booking(LocalDate bookingDate, DayPart dayPart) {
     }
 
     public Long getBookingId() {
@@ -79,12 +83,12 @@ public class Booking {
         this.bookingDate = bookingDate;
     }
 
-    public EDayPart getName() {
-        return name;
+    public DayPart getDayPart() {
+        return dayPart;
     }
 
-    public void setName(EDayPart name) {
-        this.name = name;
+    public void setDayPart(DayPart dayPart) {
+        this.dayPart = dayPart;
     }
 //
 //    public ETimeTable getTimeTable() {
@@ -103,6 +107,9 @@ public class Booking {
         this.user = user;
     }
 
+    public void setUser(long userId) {
+    }
+
     public BookingType getBookingType() {
         return bookingType;
     }
@@ -111,8 +118,11 @@ public class Booking {
         this.bookingType = bookingType;
     }
 
-    public void setUser(long userId) {
+    public void addBookingType(BookingType bookingType){
+        bookingType.add(bookingType);
     }
+
+
 }
 
 

@@ -2,6 +2,7 @@ package nl.wijnberg.menscreate.service;
 
 import nl.wijnberg.menscreate.domain.*;
 import nl.wijnberg.menscreate.domain.enums.EBookingType;
+import nl.wijnberg.menscreate.domain.enums.EDayPart;
 import nl.wijnberg.menscreate.domain.enums.ESpaceType;
 import nl.wijnberg.menscreate.payload.request.AvailabilityRequest;
 import nl.wijnberg.menscreate.payload.request.BookingRequest;
@@ -11,9 +12,7 @@ import nl.wijnberg.menscreate.payload.response.BookingResponse;
 import nl.wijnberg.menscreate.payload.response.MessageResponse;
 import nl.wijnberg.menscreate.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 
@@ -29,9 +28,9 @@ public class BookingTypeServiceImpl implements BookingService {
     private BoxTypeRepository boxTypeRepository;
 
 
-    public String spaceTypeOption(SpaceType spacetype) {
+    public String spaceTypeOption(ESpaceType spacetype) {
         String typeOfSpace = null;
-        switch (spacetype.getName()) {
+        switch (spacetype) {
             case WORK_AREA:
                 typeOfSpace = "Meeting space";
                 break;
@@ -144,6 +143,11 @@ public class BookingTypeServiceImpl implements BookingService {
     }
 
     @Override
+    public EDayPart getDayPartOfBooking(long bookingId) {
+        return null;
+    }
+
+    @Override
     public ResponseEntity<BookingResponse> getBookingById(long bookingId) {
         return null;
     }
@@ -152,6 +156,16 @@ public class BookingTypeServiceImpl implements BookingService {
     public ResponseEntity<?> getUserBookings(String token) {
         return null;
     }
+
+    @Override
+    public ResponseEntity<Object> createBookingByDayPart(AvailabilityRequest availabilityRequest) {
+        return null;
+    }
+
+//    @Override
+//    public ResponseEntity<MessageResponse> createBookingByDayPart(BookingRequest bookingRequest) {
+//        return null;
+//    }
 
     @Override
     public ResponseEntity<MessageResponse> createBookingByDate(BookingRequest bookingRequest) {
@@ -179,8 +193,18 @@ public class BookingTypeServiceImpl implements BookingService {
     }
 
     @Override
+    public long saveAvailableDayPart(long userId, AvailabilityRequest availabilityRequest) {
+        return 0;
+    }
+
+    @Override
     public BookingRequest updateBooking(long bookingId, BookingRequest bookingUpdate) {
         return null;
+    }
+
+    @Override
+    public void updateDayPartOfBooking(long bookingId, EDayPart eDayPart) {
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package nl.wijnberg.menscreate.domain;
 
 import nl.wijnberg.menscreate.domain.enums.EBookingType;
+import nl.wijnberg.menscreate.payload.request.BookingRequest;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -19,9 +20,8 @@ public class BookingType {
     @Enumerated(EnumType.STRING)
     private EBookingType name;
 
-    @Column
-    private String bookingimage;
-
+//    @Column
+//    private String bookingimage;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "booking_space",
@@ -44,9 +44,8 @@ public class BookingType {
 //    @OneToMany(mappedBy = "bookings")
 //    private Set<Booking> bookingSet;
 
-    public BookingType(EBookingType name, String bookingimage, Space space, Box box) {
+    public BookingType(EBookingType name, Space space, Box box) {
         this.name = name;
-        this.bookingimage = bookingimage;
         this.space = space;
         this.box = box;
     }
@@ -62,6 +61,11 @@ public class BookingType {
 
     public BookingType() {
 
+    }
+
+    public BookingType(BookingRequest bookingRequest){
+        this.name = bookingRequest.getBookingType().getName();
+        this.box = bookingRequest.getBookingType().getBox();
     }
 
 
@@ -80,14 +84,14 @@ public class BookingType {
     public void setName(EBookingType name) {
         this.name = name;
     }
-
-    public String getBookingimage() {
-        return bookingimage;
-    }
-
-    public void setBookingimage(String bookingimage) {
-        this.bookingimage = bookingimage;
-    }
+//
+//    public String getBookingimage() {
+//        return bookingimage;
+//    }
+//
+//    public void setBookingimage(String bookingimage) {
+//        this.bookingimage = bookingimage;
+//    }
 
     public Space getSpace() {
         return space;
@@ -103,6 +107,12 @@ public class BookingType {
 
     public void setBox(Box box) {
         this.box = box;
+    }
+
+    public void setBooking(Booking booking) {
+    }
+
+    public void add(BookingType bookingType) {
     }
 
 //    public Set<Booking> getBookingSet() {

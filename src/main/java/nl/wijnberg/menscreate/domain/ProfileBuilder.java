@@ -4,9 +4,11 @@ import nl.wijnberg.menscreate.payload.request.UpdateUserRequest;
 
 public class ProfileBuilder {
 
+    // Registration for User
     private String username;
     private String email;
     private String password;
+    // Profile additional info for User
     private String firstName;
     private String lastName;
     private String phoneNumber;

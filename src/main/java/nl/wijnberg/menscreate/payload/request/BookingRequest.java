@@ -1,6 +1,7 @@
 package nl.wijnberg.menscreate.payload.request;
 
 import nl.wijnberg.menscreate.domain.BookingType;
+import nl.wijnberg.menscreate.domain.DayPart;
 import nl.wijnberg.menscreate.domain.enums.EDayPart;
 //import nl.wijnberg.menscreate.domain.enums.ETimeTable;
 
@@ -14,7 +15,7 @@ public class BookingRequest {
     @NotNull
     private LocalDate bookingDate;
     @NotNull
-    private EDayPart dayPart;
+    private DayPart dayPart;
 //    @NotNull
 //    private ETimeTable timeTable;
     @NotNull
@@ -23,7 +24,7 @@ public class BookingRequest {
     public BookingRequest() {
     }
 
-    public BookingRequest(long userId, long bookingId, @NotNull LocalDate bookingDate, @NotNull EDayPart dayPart,
+    public BookingRequest(long userId, long bookingId, @NotNull LocalDate bookingDate, @NotNull DayPart dayPart,
 //                          @NotNull ETimeTable timeTable,
                           @NotNull BookingType bookingType) {
         this.userId = userId;
@@ -58,11 +59,11 @@ public class BookingRequest {
         this.bookingDate = bookingDate;
     }
 
-    public EDayPart getDayPart() {
+    public DayPart getDayPart() {
         return dayPart;
     }
 
-    public void setDayPart(EDayPart dayPart) {
+    public void setDayPart(DayPart dayPart) {
         this.dayPart = dayPart;
     }
 //

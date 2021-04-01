@@ -68,8 +68,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void uploadFile(MultipartFile file) throws IOException {
+    public void uploadFileToDir(MultipartFile file) throws IOException {
         file.transferTo(new File(uploadDirectory + file.getOriginalFilename() ));
+    }
+
+    @Override
+    public ResponseEntity<MessageResponse> uploadFileToDB(long id, MultipartFile file) {
+        return null;
     }
 
     @Override
@@ -115,6 +120,11 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.save(user).getId();
     }
+    //    @Override
+//    public long saveUser(UpdateUserRequest updateUserRequest) {
+//        User newUser = userRepository.save();
+//        return newUser.getId();
+//    }
 
     @Override
     public ResponseEntity<?> updateUser(long id, UpdateUserRequest userUpdate) {

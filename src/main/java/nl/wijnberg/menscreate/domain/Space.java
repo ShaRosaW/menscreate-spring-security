@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import nl.wijnberg.menscreate.domain.enums.ESpaceType;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "space")

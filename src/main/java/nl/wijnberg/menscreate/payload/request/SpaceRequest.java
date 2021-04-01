@@ -1,9 +1,8 @@
 package nl.wijnberg.menscreate.payload.request;
 
-import nl.wijnberg.menscreate.domain.enums.EBookingType;
+import nl.wijnberg.menscreate.domain.SpaceType;
 import nl.wijnberg.menscreate.domain.enums.ESpaceType;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
 public class SpaceRequest {
@@ -13,7 +12,7 @@ public class SpaceRequest {
 //
 //    private String bookingimage;
     @NotNull
-    private ESpaceType spaceType;
+    private SpaceType spaceType;
 
     @NotNull
     private int amountPeople;
@@ -24,7 +23,7 @@ public class SpaceRequest {
 
     public SpaceRequest(
 //            @NotNull EBookingType bookingType, String bookingimage,
-            @NotNull ESpaceType spaceType,
+            @NotNull SpaceType spaceType,
             @NotNull int amountPeople, String extraInfo) {
 //        this.bookingType = bookingType;
 //        this.bookingimage = bookingimage;
@@ -34,7 +33,20 @@ public class SpaceRequest {
 
     }
 
-//    public EBookingType getBookingType() {
+    public SpaceRequest(@NotNull int amountPeople, String extraInfo) {
+        this.amountPeople = amountPeople;
+        this.extraInfo = extraInfo;
+        SpaceType spaceType = new SpaceType();
+        spaceType.setName(ESpaceType.WORK_SPOT);
+        this.spaceType = spaceType;
+    }
+    public SpaceRequest() {
+        SpaceType spaceType = new SpaceType();
+        spaceType.setName(ESpaceType.WORK_SPOT);
+        this.spaceType = spaceType;
+    }
+
+    //    public EBookingType getBookingType() {
 //        return bookingType;
 //    }
 //
@@ -49,11 +61,11 @@ public class SpaceRequest {
 //    public void setBookingimage(String bookingimage) {
 //        this.bookingimage = bookingimage;
 //    }
-public ESpaceType getSpaceType() {
+public SpaceType getSpaceType() {
     return spaceType;
 }
 
-    public void setSpaceType(ESpaceType spaceType) {
+    public void setSpaceType(SpaceType spaceType) {
         this.spaceType = spaceType;
     }
 
