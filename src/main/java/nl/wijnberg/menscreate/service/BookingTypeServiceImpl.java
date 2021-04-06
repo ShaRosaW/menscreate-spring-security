@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 public class BookingTypeServiceImpl implements BookingService {
     private static final String NOT_FOUND_ERROR = "Error: Request is not found.";
@@ -28,9 +29,9 @@ public class BookingTypeServiceImpl implements BookingService {
     private BoxTypeRepository boxTypeRepository;
 
 
-    public String spaceTypeOption(ESpaceType spacetype) {
+    public String spaceTypeOption(SpaceType spacetype) {
         String typeOfSpace = null;
-        switch (spacetype) {
+        switch (spacetype.getName()) {
             case WORK_AREA:
                 typeOfSpace = "Meeting space";
                 break;
@@ -148,14 +149,19 @@ public class BookingTypeServiceImpl implements BookingService {
     }
 
     @Override
+    public Optional<User> getUserByBookingId(long bookingId) {
+        return Optional.empty();
+    }
+
+    @Override
     public ResponseEntity<BookingResponse> getBookingById(long bookingId) {
         return null;
     }
 
-    @Override
-    public ResponseEntity<?> getUserBookings(String token) {
-        return null;
-    }
+//    @Override
+//    public ResponseEntity<?> getUserBookings(String token) {
+//        return null;
+//    }
 
     @Override
     public ResponseEntity<Object> createBookingByDayPart(AvailabilityRequest availabilityRequest) {

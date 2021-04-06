@@ -24,7 +24,7 @@ public class BookingController {
     private BookingService bookingService;
 
     // Get list of all bookings (Admin only)
-    @GetMapping("")
+    @GetMapping("/list/all")
 //    @PreAuthorize("hasRole('ADMIN')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getAllBookings() {
@@ -33,7 +33,7 @@ public class BookingController {
     }
 
     // Get list of all bookings by user
-    @GetMapping("")
+    @GetMapping("/list/user")
 //    @PreAuthorize("hasRole('ADMIN')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     ResponseEntity<?> getAllBookingsByUser(String username){
@@ -61,7 +61,7 @@ public class BookingController {
     }
 
     // Create a new booking (Admin only??)
-    @PostMapping(value = "")
+    @PostMapping(value = "/new")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> createBooking(@RequestBody Booking booking) {
@@ -70,7 +70,7 @@ public class BookingController {
     }
 
     // Create a new booking by day part
-    @PostMapping(value = "")
+    @PostMapping(value = "/user/{id}/new")
 //    @PreAuthorize("hasRole('USER')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     ResponseEntity<Object> createBookingByDayPart(

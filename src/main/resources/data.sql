@@ -37,9 +37,9 @@ VALUES
 
 INSERT INTO booking(booking_date, day_part, bookingtype_id, user_id)
 VALUES
-(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 'MORNING', '2', 1),
-(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 'MORNING', '1', 1),
-(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 'AFTERNOON', '2', 3);
+(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 1, 2, 1),
+(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 1, 1, 1),
+(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 2, 2, 3);
 -- INSERT INTO bookings(booking_id, user_id)
 -- VALUES
 -- (1,1), (2,1), (3,3);

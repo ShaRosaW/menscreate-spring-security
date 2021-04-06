@@ -6,18 +6,19 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "files")
 public class File {
 
     @Id
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @GeneratedValue(generator = "uuid")
-    private Long fileId;
-
-//    @Column
-//    private String info;
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
     @Column
     private String name;
+
+    @Column
+    private String type;
 
     //Binary Large OBject for large binary dataobject storage, like image
     @JsonIgnore
@@ -30,10 +31,9 @@ public class File {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-
-    public File(Long fileId, String name, byte[] image) {
-        this.fileId = fileId;
+    public File(String name, String type, byte[] image) {
         this.name = name;
+        this.type = type;
         this.image = image;
     }
 
@@ -41,15 +41,43 @@ public class File {
 
     }
 
-    public File(String fileName, String contentType, byte[] bytes) {
+    //
+//    public File(String fileId, String name, byte[] image) {
+//        this.fileId = fileId;
+//        this.name = name;
+//        this.image = image;
+//    }
+//
+//    public File() {
+//
+//    }
+//
+//    public File(String fileName, String contentType, byte[] bytes) {
+//    }
+//
+//    public Long getFileId() {
+//        return fileId;
+//    }
+//
+//    public void setFileId(Long fileId) {
+//        this.fileId = fileId;
+//    }
+
+
+    public String getId() {
+        return id;
     }
 
-    public Long getFileId() {
-        return fileId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setFileId(Long fileId) {
-        this.fileId = fileId;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {

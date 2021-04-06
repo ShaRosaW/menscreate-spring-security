@@ -21,12 +21,13 @@ public class Booking {
     private LocalDate bookingDate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "booking_moment",
-            joinColumns =
-                    {@JoinColumn(name = "booking", referencedColumnName = "booking_id")},
-            inverseJoinColumns =
-                    {@JoinColumn(name = "day_part", referencedColumnName = "id")}
-    )
+//    @JoinTable(name = "booking_moment",
+//            joinColumns =
+//                    {@JoinColumn(name = "booking", referencedColumnName = "booking_id")},
+//            inverseJoinColumns =
+//                    {@JoinColumn(name = "day_part", referencedColumnName = "id")}
+//    )
+    @JoinColumn(name = "day_part", referencedColumnName = "id")
     private DayPart dayPart;
 
 //    @OneToOne

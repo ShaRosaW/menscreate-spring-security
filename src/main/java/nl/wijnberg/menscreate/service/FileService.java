@@ -11,6 +11,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 @Service
 public class FileService {
@@ -33,19 +35,25 @@ public class FileService {
         return fileRepository.save(imgFile);
     }
 
-    public File getFile(Long fileId){
-        if(!fileRepository.existsById(fileId)){
+    public File getFileById(String id){
+        if(!fileRepository.existsById(id)){
             throw new RecordNotFoundException();
-        } return fileRepository.findById(fileId).get();
+        } return fileRepository.findById(id).get();
     }
 
-    public File getFileByUserId(long userId){
-        if (!fileRepository.existsByUser_Id(userId)){
+    public File getFile(Long userId){
+        if (fileRepository.existsByUser_Id(userId)){
             return fileRepository.findByUserId(userId);
         } else {
             throw new RecordNotFoundException();
         }
     }
+
+    public Stream<File> getAllFiles() {
+        return fileRepository.findAll().stream();
+    }
+
+
 //
 //    public static String uploadDirectory = System.getProperty("user.dir") + "/file-uploads/";
 //
