@@ -19,13 +19,13 @@ public class User {
             strategy = "native"
     )
     @Column(columnDefinition = "serial")
-    private Long id;
+    private long id;
     private String username;
     private String email;
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
-    private UserProfileInfo userProfileInfo;
+//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+//    private UserProfileInfo userProfileInfo;
 
     //for bookings in profile with image file as well
     @Column
@@ -49,14 +49,14 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    private Set<Booking> bookings;
+//    @OneToMany(fetch = FetchType.LAZY,
+//            mappedBy = "user",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true)
+//    private Set<Booking> bookings;
 
-    @OneToOne(mappedBy = "user")
-    private File file;
+//    @OneToOne(mappedBy = "user")
+//    private File file;
 
     public User() {
 
@@ -69,16 +69,16 @@ public class User {
     }
 
 
-    public User(String username, String email, String password, String firstName, String lastName, String phoneNumber, Set<Booking> bookings, File file) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.bookings = bookings;
-        this.file = file;
-    }
+//    public User(String username, String email, String password, String firstName, String lastName, String phoneNumber, Set<Booking> bookings, File file) {
+//        this.username = username;
+//        this.email = email;
+//        this.password = password;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.phoneNumber = phoneNumber;
+//        this.bookings = bookings;
+//        this.file = file;
+//    }
 
     public Long getId() {
         return id;
@@ -144,30 +144,30 @@ public class User {
         this.roles = roles;
     }
 
-    public Set<Booking> getBookings() {
-        return bookings;
-    }
+//    public Set<Booking> getBookings() {
+//        return bookings;
+//    }
+//
+//    public void setBookings(Set<Booking> bookings) {
+//        this.bookings = bookings;
+//    }
+//
+//    public File getFile() {
+//        return file;
+//    }
+//
+//    public void setFile(File file) {
+//        this.file = file;
+//    }
+//
+//    public void setFile(Long fileId) {
+//    }
 
-    public void setBookings(Set<Booking> bookings) {
-        this.bookings = bookings;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public void setFile(Long fileId) {
-    }
-
-    public UserProfileInfo getUserProfileInfo() {
-        return userProfileInfo;
-    }
-
-    public void setUserProfileInfo(UserProfileInfo userProfileInfo) {
-        this.userProfileInfo = userProfileInfo;
-    }
+//    public UserProfileInfo getUserProfileInfo() {
+//        return userProfileInfo;
+//    }
+//
+//    public void setUserProfileInfo(UserProfileInfo userProfileInfo) {
+//        this.userProfileInfo = userProfileInfo;
+//    }
 }

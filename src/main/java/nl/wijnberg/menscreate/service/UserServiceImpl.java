@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
         UserProfileInfo userProfileInfo = new ProfileBuilder(updateUserRequest).buildProfileInfo();
 
         UserProfileInfo addedProfileInfo = profileInfoRepository.save(userProfileInfo);
-        user.setUserProfileInfo(addedProfileInfo);
+//        user.setUserProfileInfo(addedProfileInfo);
         userProfileInfo.setUser(user);
 
         return userRepository.save(user).getId();
@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
                 existingUser.setFirstName(userUpdate.getFirstName());
                 existingUser.setLastName(userUpdate.getLastName());
                 existingUser.setPhoneNumber(userUpdate.getPhoneNumber());
-                existingUser.setFile(userUpdate.getFileId());
+//                existingUser.setFile(userUpdate.getFileId());
                 return ResponseEntity.ok().body(userRepository.save(existingUser));
             }
             catch (Exception ex) {

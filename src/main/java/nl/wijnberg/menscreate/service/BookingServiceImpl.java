@@ -86,9 +86,9 @@ public class BookingServiceImpl implements BookingService {
             User user = userRepository.findById(userId).orElse(null);
             if (!bookingRepository.existsByUser_IdAndBookingDate(userId, booking.getBookingDate())){
 
-                Set<Booking> bookings = user.getBookings();
-                bookings.add(booking);
-                user.setBookings(bookings);
+//                Set<Booking> bookings = user.getBookings();
+//                bookings.add(booking);
+//                user.setBookings(bookings);
                 booking.setUser(user);
                 bookingRepository.save(booking);
                 return userId;
