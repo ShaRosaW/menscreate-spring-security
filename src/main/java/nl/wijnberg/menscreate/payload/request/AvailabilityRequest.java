@@ -2,8 +2,6 @@ package nl.wijnberg.menscreate.payload.request;
 
 import nl.wijnberg.menscreate.domain.DayPart;
 import nl.wijnberg.menscreate.domain.enums.EDayPart;
-//import nl.wijnberg.menscreate.domain.enums.ETimeTable;
-
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -12,15 +10,14 @@ public class AvailabilityRequest {
     private LocalDate bookingDate;
 
     private DayPart dayPart;
-//
-//    private ETimeTable timeTable;
+    private String boxName;
 
-    public AvailabilityRequest(@NotNull LocalDate bookingDate, DayPart dayPart
-//            , ETimeTable timeTable
+    public AvailabilityRequest(@NotNull LocalDate bookingDate, DayPart dayPart,
+                               String boxName
     ) {
         this.bookingDate = bookingDate;
         this.dayPart = dayPart;
-//        this.timeTable = timeTable;
+        this.boxName = boxName;
     }
 
     public AvailabilityRequest(LocalDate bookingDate) {
@@ -51,12 +48,12 @@ public class AvailabilityRequest {
     public void setDayPart(DayPart dayPart) {
         this.dayPart = dayPart;
     }
-//
-//    public ETimeTable getTimeTable() {
-//        return timeTable;
-//    }
-//
-//    public void setTimeTable(ETimeTable timeTable) {
-//        this.timeTable = timeTable;
-//    }
+
+    public String getBoxName() {
+        return boxName;
+    }
+
+    public void setBoxName(String boxName) {
+        this.boxName = boxName;
+    }
 }

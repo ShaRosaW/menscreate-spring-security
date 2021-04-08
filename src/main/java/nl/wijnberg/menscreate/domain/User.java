@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "app_user")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -35,25 +35,17 @@ public class User {
     @Column
     private String phoneNumber;
 
-    // relevant for coaching, which is not implemented for now.
-//    @Column
-//    private int age;
-//    @Column
-//    private String gender;
-    // turn into enum ?
-
-
     @ManyToMany
     @JoinTable (name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-//    @OneToMany(fetch = FetchType.LAZY,
-//            mappedBy = "user",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true)
-//    private Set<Booking> bookings;
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Set<Booking> bookings;
 
 //    @OneToOne(mappedBy = "user")
 //    private File file;
@@ -144,13 +136,13 @@ public class User {
         this.roles = roles;
     }
 
-//    public Set<Booking> getBookings() {
-//        return bookings;
-//    }
-//
-//    public void setBookings(Set<Booking> bookings) {
-//        this.bookings = bookings;
-//    }
+    public Set<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(Set<Booking> bookings) {
+        this.bookings = bookings;
+    }
 //
 //    public File getFile() {
 //        return file;

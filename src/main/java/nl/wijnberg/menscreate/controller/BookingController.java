@@ -70,7 +70,7 @@ public class BookingController {
     }
 
     // Create a new booking by day part
-    @PostMapping(value = "/user/{id}/new")
+    @PostMapping(value = "/{id}/new")
 //    @PreAuthorize("hasRole('USER')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     ResponseEntity<Object> createBookingByDayPart(

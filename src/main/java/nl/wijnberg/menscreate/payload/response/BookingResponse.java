@@ -1,9 +1,9 @@
 package nl.wijnberg.menscreate.payload.response;
 
-import nl.wijnberg.menscreate.domain.BookingType;
+//import nl.wijnberg.menscreate.domain.BookingType;
 import nl.wijnberg.menscreate.domain.DayPart;
 import nl.wijnberg.menscreate.domain.User;
-import nl.wijnberg.menscreate.domain.enums.EBookingType;
+//import nl.wijnberg.menscreate.domain.enums.EBookingType;
 import nl.wijnberg.menscreate.domain.enums.EDayPart;
 //import nl.wijnberg.menscreate.domain.enums.ETimeTable;
 
@@ -14,9 +14,77 @@ public class BookingResponse {
 
     private User userId;
     private long bookingId;
-    private BookingType bookingType;
+    private String boxName;
     private String bookingDate;
     private DayPart dayPart;
+
+    public BookingResponse(User userId,
+                           String boxName,
+                           String bookingDate, DayPart dayPart) {
+        this.userId = userId;
+        this.boxName = boxName;
+        this.bookingDate = bookingDate;
+        this.dayPart = dayPart;
+    }
+
+    public BookingResponse(List<BookingResponse> bookingResponses) {
+    }
+
+    public BookingResponse(LocalDate bookingDate, EDayPart dayPart) {
+
+    }
+
+    public BookingResponse(User user, Long bookingId, String boxName, String bookingDate, String dayPart) {
+    }
+
+    public BookingResponse(User user, String toString, DayPart dayPart) {
+    }
+
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
+
+    public long getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(long bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public String getBoxName() {
+        return boxName;
+    }
+
+    public void setBoxName(String boxName) {
+        this.boxName = boxName;
+    }
+
+    public String getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(String bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+
+    public DayPart getDayPart() {
+        return dayPart;
+    }
+
+    public void setDayPart(DayPart dayPart) {
+        this.dayPart = dayPart;
+    }
+}
+
+
+
+    //    private BookingType bookingType;
 //    private String timeTable;
 //    private Boolean morning;
 //    private Boolean afternoon;
@@ -34,32 +102,18 @@ public class BookingResponse {
 //
 //    }
 
-
-    public BookingResponse(User userId, BookingType bookingType, String bookingDate, DayPart dayPart) {
-        this.userId = userId;
-        this.bookingType = bookingType;
-        this.bookingDate = bookingDate;
-        this.dayPart = dayPart;
-    }
-
-    public BookingResponse(List<BookingResponse> bookingResponses) {
-    }
-
-    public BookingResponse(User user, Long bookingId, EBookingType name, String toString, String name1) {
-    }
-
-    public BookingResponse(LocalDate bookingDate, EDayPart dayPart) {
-
-    }
-
-    public BookingResponse(User id, EBookingType name, String bookingDate, String dayPart) {
-
-    }
-
 //    public BookingResponse(boolean morning, boolean afternoon, boolean wholeDay) {
 //        this.morning = morning;
 //        this.afternoon = afternoon;
 //        this.wholeDay = wholeDay;
+//    }
+
+//    public BookingResponse(User user, Long bookingId, EBookingType name, String toString, String name1) {
+//    }
+
+
+//    public BookingResponse(User id, EBookingType name, String bookingDate, String dayPart) {
+//
 //    }
 //
 //    public Boolean getMorning() {
@@ -91,37 +145,6 @@ public class BookingResponse {
 //    public BookingResponse(long id, Long bookingtypeId, String toString, String name, String name1) {
 //    }
 
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
-
-    public long getBookingId() {
-        return bookingId;
-    }
-
-    public void setBookingId(long bookingId) {
-        this.bookingId = bookingId;
-    }
-
-    public String getBookingDate() {
-        return bookingDate;
-    }
-
-    public void setBookingDate(String bookingDate) {
-        this.bookingDate = bookingDate;
-    }
-
-    public DayPart getDayPart() {
-        return dayPart;
-    }
-
-    public void setDayPart(DayPart dayPart) {
-        this.dayPart = dayPart;
-    }
 
 //    public String getTimeTable() {
 //        return timeTable;
@@ -131,11 +154,10 @@ public class BookingResponse {
 //        this.timeTable = timeTable;
 //    }
 
-    public BookingType getBookingType() {
-        return bookingType;
-    }
-
-    public void setBookingType(BookingType bookingType) {
-        this.bookingType = bookingType;
-    }
-}
+//    public BookingType getBookingType() {
+//        return bookingType;
+//    }
+//
+//    public void setBookingType(BookingType bookingType) {
+//        this.bookingType = bookingType;
+//    }

@@ -20,49 +20,28 @@ public class Booking {
     @Column
     private LocalDate bookingDate;
 
+    @Column
+    private String boxName;
+
     @OneToOne(cascade = CascadeType.ALL)
-//    @JoinTable(name = "booking_moment",
-//            joinColumns =
-//                    {@JoinColumn(name = "booking", referencedColumnName = "booking_id")},
-//            inverseJoinColumns =
-//                    {@JoinColumn(name = "day_part", referencedColumnName = "id")}
-//    )
     @JoinColumn(name = "day_part", referencedColumnName = "id")
     private DayPart dayPart;
 
-//    @OneToOne
-//    @JoinColumn(name = "day_part", referencedColumnName = "id")
-//    private DayPart dayPart;
-
-//    @Column
-//    private ETimeTable timeTable;
-
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id")
     private User user;
-
-    // or many to many? or one to many?
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "bookingtype_id")
-    private BookingType bookingType;
 
     public Booking() {
     }
 
-    public Booking(LocalDate bookingDate, DayPart dayPart,
-//                   ETimeTable timeTable,
-                   User user, BookingType bookingType) {
+    public Booking(LocalDate bookingDate,
+                   String boxName,
+                   DayPart dayPart,
+                   User user) {
         this.bookingDate = bookingDate;
+        this.boxName = boxName;
         this.dayPart = dayPart;
-//        this.timeTable = timeTable;
         this.user = user;
-        this.bookingType = bookingType;
-    }
-
-    public Booking(long userId, String toString, String toString1) {
-    }
-
-    public Booking(String toString, String toString1, long userId, BookingType bookingType) {
     }
 
     public Booking(LocalDate bookingDate, DayPart dayPart) {
@@ -84,6 +63,14 @@ public class Booking {
         this.bookingDate = bookingDate;
     }
 
+    public String getBoxName() {
+        return boxName;
+    }
+
+    public void setBoxName(String boxName) {
+        this.boxName = boxName;
+    }
+
     public DayPart getDayPart() {
         return dayPart;
     }
@@ -91,14 +78,6 @@ public class Booking {
     public void setDayPart(DayPart dayPart) {
         this.dayPart = dayPart;
     }
-//
-//    public ETimeTable getTimeTable() {
-//        return timeTable;
-//    }
-//
-//    public void setTimeTable(ETimeTable timeTable) {
-//        this.timeTable = timeTable;
-//    }
 
     public User getUser() {
         return user;
@@ -110,23 +89,35 @@ public class Booking {
 
     public void setUser(long userId) {
     }
-
-    public BookingType getBookingType() {
-        return bookingType;
-    }
-
-    public void setBookingType(BookingType bookingType) {
-        this.bookingType = bookingType;
-    }
-
-    public void addBookingType(BookingType bookingType){
-        bookingType.add(bookingType);
-    }
-
-
 }
 
+//    // or many to many? or one to many?
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "bookingtype_id")
+//    private BookingType bookingType;
 
+//
+//    public ETimeTable getTimeTable() {
+//        return timeTable;
+//    }
+//
+//    public void setTimeTable(ETimeTable timeTable) {
+//        this.timeTable = timeTable;
+//    }
+
+
+
+//    public BookingType getBookingType() {
+//        return bookingType;
+//    }
+//
+//    public void setBookingType(BookingType bookingType) {
+//        this.bookingType = bookingType;
+//    }
+//
+//    public void addBookingType(BookingType bookingType){
+//        bookingType.add(bookingType);
+//    }
 
 //    @ManyToOne(fetch = FetchType.EAGER)
 //    @JoinColumn(name = "space_id")

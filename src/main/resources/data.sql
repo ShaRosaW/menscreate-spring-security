@@ -3,10 +3,10 @@ VALUES
 ('ROLE_USER'),
 ('ROLE_ADMIN');
 
-INSERT INTO booking_type(name)
-VALUES
-('SPACE'),
-('BOX');
+-- INSERT INTO booking_type(name)
+-- VALUES
+-- ('SPACE'),
+-- ('BOX');
 
 INSERT INTO day_part(name)
 VALUES
@@ -14,7 +14,7 @@ VALUES
 ('AFTERNOON'),
 ('WHOLE_DAY');
 
-INSERT INTO app_user(username,email,password)
+INSERT INTO users(username,email,password)
 VALUES
 ( 'sharonr', 'sharon@gmail.com', '$2a$10$44azppeekabMTwZZ1vtq4OWr/SboMJh4KxUOepB8EFkEJH6gbfeQq' ),
 ( 'user','user@mail.nl','$2a$10$44azppeekabMTwZZ1vtq4OWr/SboMJh4KxUOepB8EFkEJH6gbfeQq' ),
@@ -34,12 +34,17 @@ VALUES
 -- INSERT INTO app_user(file)
 -- VALUES
 -- ( )
-
-INSERT INTO booking(booking_date, day_part, bookingtype_id, user_id)
+INSERT INTO booking(booking_date, day_part, box_name, user_id)
 VALUES
-(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 1, 2, 1),
-(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 1, 1, 1),
-(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 2, 2, 3);
+(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 1, 'work space', 1),
+(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 1, 'meeting area', 1),
+(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 2, 'work space', 3);
+
+-- INSERT INTO booking(booking_date, day_part, bookingtype_id, user_id)
+-- VALUES
+-- (TO_DATE('29/03/2021', 'DD/MM/YYYY'), 1, 2, 1),
+-- (TO_DATE('29/03/2021', 'DD/MM/YYYY'), 1, 1, 1),
+-- (TO_DATE('29/03/2021', 'DD/MM/YYYY'), 2, 2, 3);
 -- INSERT INTO bookings(booking_id, user_id)
 -- VALUES
 -- (1,1), (2,1), (3,3);

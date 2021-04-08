@@ -5,8 +5,8 @@ import nl.wijnberg.menscreate.domain.User;
 import nl.wijnberg.menscreate.domain.enums.EDayPart;
 import nl.wijnberg.menscreate.payload.request.AvailabilityRequest;
 import nl.wijnberg.menscreate.payload.request.BookingRequest;
-import nl.wijnberg.menscreate.payload.request.BoxRequest;
-import nl.wijnberg.menscreate.payload.request.SpaceRequest;
+//import nl.wijnberg.menscreate.payload.request.BoxRequest;
+//import nl.wijnberg.menscreate.payload.request.SpaceRequest;
 import nl.wijnberg.menscreate.payload.response.BookingResponse;
 import nl.wijnberg.menscreate.payload.response.MessageResponse;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +31,9 @@ public interface BookingService {
     // Post - Create
     ResponseEntity<Object> createBookingByDayPart(AvailabilityRequest availabilityRequest);
     ResponseEntity<MessageResponse> createBookingByDate(BookingRequest bookingRequest);
-    ResponseEntity<MessageResponse> createBookingByBookingType(BookingRequest bookingRequest);
-    ResponseEntity<MessageResponse> createBookingBySpaceType(SpaceRequest spaceRequest);
-    ResponseEntity<MessageResponse> createBookingByBoxType(BoxRequest boxRequest);
+//    ResponseEntity<MessageResponse> createBookingByBookingType(BookingRequest bookingRequest);
+//    ResponseEntity<MessageResponse> createBookingBySpaceType(SpaceRequest spaceRequest);
+//    ResponseEntity<MessageResponse> createBookingByBoxType(BoxRequest boxRequest);
     long createBooking(Booking booking);
     long saveAvailableDayPart(long userId, AvailabilityRequest availabilityRequest);
     //    long saveBooking(Booking booking);

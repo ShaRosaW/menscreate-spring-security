@@ -1,15 +1,15 @@
 package nl.wijnberg.menscreate.service;
 
 import nl.wijnberg.menscreate.domain.*;
-import nl.wijnberg.menscreate.domain.enums.EBookingType;
+//import nl.wijnberg.menscreate.domain.enums.EBookingType;
 import nl.wijnberg.menscreate.domain.enums.EDayPart;
-import nl.wijnberg.menscreate.domain.enums.ESpaceType;
+//import nl.wijnberg.menscreate.domain.enums.ESpaceType;
 import nl.wijnberg.menscreate.exceptions.DatabaseErrorException;
 import nl.wijnberg.menscreate.exceptions.RecordNotFoundException;
 import nl.wijnberg.menscreate.payload.request.AvailabilityRequest;
 import nl.wijnberg.menscreate.payload.request.BookingRequest;
-import nl.wijnberg.menscreate.payload.request.BoxRequest;
-import nl.wijnberg.menscreate.payload.request.SpaceRequest;
+//import nl.wijnberg.menscreate.payload.request.BoxRequest;
+//import nl.wijnberg.menscreate.payload.request.SpaceRequest;
 import nl.wijnberg.menscreate.payload.response.BookingResponse;
 import nl.wijnberg.menscreate.payload.response.MessageResponse;
 import nl.wijnberg.menscreate.repository.*;
@@ -27,13 +27,16 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     private BookingRepository bookingRepository;
-    private BookingTypeRepository bookingTypeRepository;
     private UserRepository userRepository;
     private UserService userService;
-    private SpaceTypeRepository spaceTypeRepository;
-    private BoxTypeRepository boxTypeRepository;
     private DayPartRepository dayPartRepository;
 
+    //    private BookingTypeRepository bookingTypeRepository;
+//    private SpaceTypeRepository spaceTypeRepository;
+//    private BoxTypeRepository boxTypeRepository;
+
+
+    //get all bookings
     @Override
     public ResponseEntity<?> getAllBookings() {
         List<Booking> bookings = bookingRepository.findAll();
@@ -44,30 +47,20 @@ public class BookingServiceImpl implements BookingService {
         return ResponseEntity.ok(bookingResponses);
     }
 
-    @Override
-    public ResponseEntity<?> getAllBookingsByDate() {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<?> getAvailabilityDayPartCheck(AvailabilityRequest availabilityRequest) {
-        return null;
-    }
-//        return createBookingResponse(bookings);
-//    }
-
+    // get all user bookings by username
     public ResponseEntity<ResponseEntity<BookingResponse>> getAllBookingsByUser(String username) {
         List<Booking> bookings = bookingRepository.findAllBookingsByUser(userRepository.findByUsername(username));
         return ResponseEntity.ok(createBookingResponse(bookings));
     }
 
+    // get booking by booking id
     @Override
     public ResponseEntity<BookingResponse> getBookingById(long bookingId) {
         if (bookingRepository.existsById(bookingId)) {
             Booking booking = bookingRepository.findByBookingId(bookingId);
             BookingResponse bookingResponse = new BookingResponse(
                     booking.getUser(),
-                    booking.getBookingType(),
+//                    booking.getBookingType(),
                     booking.getBookingDate().toString(),
                     booking.getDayPart());
 //                    booking.getTimeTable().name());
@@ -78,6 +71,17 @@ public class BookingServiceImpl implements BookingService {
         }
     }
 
+    // get user by booking id
+    public Optional<User> getUserByBookingId(long bookingId){
+        if(bookingRepository.existsById(bookingId)){
+            Booking booking = bookingRepository.findByBookingId(bookingId);
+            return userRepository.findById(booking.getUser().getId());
+        } else {
+            throw new RecordNotFoundException();
+        }
+    }
+
+    // save day part to booking
     public long saveAvailableDayPart(long userId, AvailabilityRequest availabilityRequest){
         DayPart dayPart = dayPartRepository.findByName(availabilityRequest.getDayPart().getName());
         Booking booking = new Booking(availabilityRequest.getBookingDate(), dayPart);
@@ -100,6 +104,7 @@ public class BookingServiceImpl implements BookingService {
         }
     }
 
+    // get day part of booking
     public EDayPart getDayPartOfBooking(long bookingId){
         if (bookingRepository.existsById(bookingId)){
             Booking booking = bookingRepository.findByBookingId(bookingId);
@@ -107,6 +112,8 @@ public class BookingServiceImpl implements BookingService {
             booking.setDayPart(dayPart);
         } return null;
     }
+
+    // update day part of booking
     public void updateDayPartOfBooking(long bookingId, EDayPart eDayPart){
         if (bookingRepository.existsById(bookingId)) {
             Booking booking = bookingRepository.findByBookingId(bookingId);
@@ -118,14 +125,111 @@ public class BookingServiceImpl implements BookingService {
         }
     }
 
-    public void addSpaceTypeToBooking(long bookingId, long spaceTypeId, BookingType bookingType){
-        if (bookingRepository.existsById(bookingId) && spaceTypeRepository.existsById(spaceTypeId) && bookingTypeRepository.existsById(bookingType.getBookingtypeId())){
-            Booking booking = bookingRepository.findByBookingId(bookingId);
-            if (booking.getBookingType().getName()== EBookingType.SPACE){
-                SpaceType spaceType = spaceTypeRepository.findByName(ESpaceType.WORK_SPOT);
-            }
-        }
+    // create new booking
+    @Override
+    public long createBooking(Booking booking) {
+        Booking newBooking = bookingRepository.save(booking);
+        return newBooking.getBookingId();
     }
+
+    // create booking response list
+    public ResponseEntity<BookingResponse> createBookingResponse(List<Booking> bookings) {
+        List<BookingResponse> bookingResponses = new ArrayList<>();
+
+        for (int i = 0; i < bookings.size(); i++) {
+            BookingResponse bookingResponse = new BookingResponse(
+                    bookings.get(i).getUser(),
+                    bookings.get(i).getBookingId(),
+                    bookings.get(i).getBoxName(),
+//                    bookings.get(i).getBookingType().getName(),
+                    bookings.get(i).getBookingDate().toString(),
+                    bookings.get(i).getDayPart().toString()
+//                    bookings.get(i).getTimeTable().name()
+            );
+            bookingResponses.add(bookingResponse);
+        }
+        BookingResponse allBookings = new BookingResponse(
+                bookingResponses
+        );
+        return ResponseEntity.ok(allBookings);
+    }
+
+    // update booking by booking id
+    @Override
+    public BookingRequest updateBooking(long bookingId, BookingRequest bookingUpdate) {
+        if (bookingRepository.existsById(bookingId)) {
+            try {
+                Booking existBooking = bookingRepository.findByBookingId(bookingId);
+//                        .orElse(null);
+//                        .get();
+//                existBooking.setBookingType(bookingUpdate.getBookingType());
+                existBooking.setBookingDate(bookingUpdate.getBookingDate());
+                existBooking.setBoxName(bookingUpdate.getBoxName());
+                existBooking.setDayPart(bookingUpdate.getDayPart());
+//                existBooking.setTimeTable(bookingUpdate.getTimeTable());
+                existBooking.setUser(bookingUpdate.getUserId());
+                bookingRepository.save(existBooking);
+            } catch (Exception exception) {
+                throw new DatabaseErrorException();
+            }
+        } else {
+            throw new RecordNotFoundException();
+        }
+        return bookingUpdate;
+    }
+
+    // delete booking
+    @Override
+    public ResponseEntity<?> deleteBooking(String token, long bookingId) {
+        if (bookingRepository.existsById(bookingId)) {
+//            Booking booking = bookingRepository.findByBookingId(bookingId);
+            User userBooking = (User) userService.findUserByToken(token).getBody();
+//            List<Booking> bookingsOfUser = (List<Booking>) getUserBookings(token);
+            String username = userBooking.getUsername();
+
+            if (bookingRepository.findByBookingId(bookingId).getUser().getId()
+                    == userRepository.findByUsername(username).get().getId()) {
+                return bookingRepository.deleteByBookingId(bookingId);
+            } else throw new RecordNotFoundException();
+        } return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Override
+    public ResponseEntity<?> getAllBookingsByDate() {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<?> getAvailabilityDayPartCheck(AvailabilityRequest availabilityRequest) {
+        return null;
+    }
+//        return createBookingResponse(bookings);
+//    }
+
+    @Override
+    public ResponseEntity<Object> createBookingByDayPart(AvailabilityRequest availabilityRequest) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<MessageResponse> createBookingByDate(BookingRequest bookingRequest) {
+        return null;
+    }
+
+
+}
+
+
+
+
+//    public void addSpaceTypeToBooking(long bookingId, long spaceTypeId, BookingType bookingType){
+//        if (bookingRepository.existsById(bookingId) && spaceTypeRepository.existsById(spaceTypeId) && bookingTypeRepository.existsById(bookingType.getBookingtypeId())){
+//            Booking booking = bookingRepository.findByBookingId(bookingId);
+//            if (booking.getBookingType().getName()== EBookingType.SPACE){
+//                SpaceType spaceType = spaceTypeRepository.findByName(ESpaceType.WORK_SPOT);
+//            }
+//        }
+//    }
 ////        BookingResponse bookingResponse = new BookingResponse();
 ////        bookingResponse.setBookingDate(availabilityRequest.getBookingDate().toString());
 ////        bookingResponse.setDayPart(availabilityRequest.getDayPart().toString());
@@ -189,10 +293,10 @@ public class BookingServiceImpl implements BookingService {
 //
 //    }
 
-    @Override
-    public ResponseEntity<MessageResponse> createBookingByBookingType(BookingRequest bookingRequest) {
-        return null;
-    }
+//    @Override
+//    public ResponseEntity<MessageResponse> createBookingByBookingType(BookingRequest bookingRequest) {
+//        return null;
+//    }
 //    public String bookingTypeOption(BookingType bookingtype) {
 //        String typeOfBooking = null;
 //        switch (bookingtype.getName()) {
@@ -216,15 +320,15 @@ public class BookingServiceImpl implements BookingService {
 //        );
 //    }
 
-    @Override
-    public ResponseEntity<MessageResponse> createBookingBySpaceType(SpaceRequest spaceRequest) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<MessageResponse> createBookingByBoxType(BoxRequest boxRequest) {
-        return null;
-    }
+//    @Override
+//    public ResponseEntity<MessageResponse> createBookingBySpaceType(SpaceRequest spaceRequest) {
+//        return null;
+//    }
+//
+//    @Override
+//    public ResponseEntity<MessageResponse> createBookingByBoxType(BoxRequest boxRequest) {
+//        return null;
+//    }
 //    public ResponseEntity<MessageResponse> createBookingBySpaceType(SpaceRequest spaceRequest){
 ////    if(Boolean.TRUE.equals(spaceTypeRepository.existsByName(spaceRequest.getSpaceType().name())));
 //        Space spacetype = new Space(spaceRequest.getSpaceType().name(),
@@ -257,14 +361,6 @@ public class BookingServiceImpl implements BookingService {
 //
 //    }
 
-    public Optional<User> getUserByBookingId(long bookingId){
-        if(bookingRepository.existsById(bookingId)){
-            Booking booking = bookingRepository.findByBookingId(bookingId);
-            return userRepository.findById(booking.getUser().getId());
-        } else {
-            throw new RecordNotFoundException();
-        }
-    }
 //
 //    public ResponseEntity<?> getUserBookings(String token){
 //        User userBooking = (User) userService.findUserByToken(token).getBody();
@@ -272,31 +368,7 @@ public class BookingServiceImpl implements BookingService {
 //        return (ResponseEntity<?>) bookings;
 //    }
 
-    @Override
-    public long createBooking(Booking booking) {
-        Booking newBooking = bookingRepository.save(booking);
-        return newBooking.getBookingId();
-    }
 
-    public ResponseEntity<BookingResponse> createBookingResponse(List<Booking> bookings) {
-        List<BookingResponse> bookingResponses = new ArrayList<>();
-
-        for (int i = 0; i < bookings.size(); i++) {
-            BookingResponse bookingResponse = new BookingResponse(
-                    bookings.get(i).getUser(),
-                    bookings.get(i).getBookingId(),
-                    bookings.get(i).getBookingType().getName(),
-                    bookings.get(i).getBookingDate().toString(),
-                    bookings.get(i).getDayPart().toString()
-//                    bookings.get(i).getTimeTable().name()
-            );
-            bookingResponses.add(bookingResponse);
-        }
-        BookingResponse allBookings = new BookingResponse(
-                bookingResponses
-        );
-        return ResponseEntity.ok(allBookings);
-    }
 
 
 //    @Override
@@ -304,63 +376,15 @@ public class BookingServiceImpl implements BookingService {
 //        return null;
 //    }
 
-    @Override
-    public BookingRequest updateBooking(long bookingId, BookingRequest bookingUpdate) {
-        if (bookingRepository.existsById(bookingId)) {
-            try {
-                Booking existBooking = bookingRepository.findByBookingId(bookingId);
-//                        .orElse(null);
-//                        .get();
-                existBooking.setBookingType(bookingUpdate.getBookingType());
-                existBooking.setBookingDate(bookingUpdate.getBookingDate());
-                existBooking.setDayPart(bookingUpdate.getDayPart());
-//                existBooking.setTimeTable(bookingUpdate.getTimeTable());
-                existBooking.setUser(bookingUpdate.getUserId());
-                bookingRepository.save(existBooking);
-            } catch (Exception exception) {
-                throw new DatabaseErrorException();
-            }
-        } else {
-            throw new RecordNotFoundException();
-        }
-        return bookingUpdate;
-    }
-
-    public void saveBookingTypeToBooking(Booking booking, BookingType bookingType) {
-        booking.addBookingType(bookingType);
-        bookingType.setBooking(booking);
-        bookingTypeRepository.save(bookingType);
-    }
-
-    @Override
-    public ResponseEntity<?> deleteBooking(String token, long bookingId) {
-        if (bookingRepository.existsById(bookingId)) {
-//            Booking booking = bookingRepository.findByBookingId(bookingId);
-            User userBooking = (User) userService.findUserByToken(token).getBody();
-//            List<Booking> bookingsOfUser = (List<Booking>) getUserBookings(token);
-            String username = userBooking.getUsername();
-
-            if (bookingRepository.findByBookingId(bookingId).getUser().getId()
-                    == userRepository.findByUsername(username).get().getId()) {
-                return bookingRepository.deleteByBookingId(bookingId);
-            } else throw new RecordNotFoundException();
-        } return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 
 
-
-    @Override
-    public ResponseEntity<Object> createBookingByDayPart(AvailabilityRequest availabilityRequest) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<MessageResponse> createBookingByDate(BookingRequest bookingRequest) {
-        return null;
-    }
+//    public void saveBookingTypeToBooking(Booking booking, BookingType bookingType) {
+//        booking.addBookingType(bookingType);
+//        bookingType.setBooking(booking);
+//        bookingTypeRepository.save(bookingType);
+//    }
 
 
-}
 
 //    @Override
 //    public long saveBooking(Booking booking) {
