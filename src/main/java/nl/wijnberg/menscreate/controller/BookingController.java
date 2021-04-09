@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -64,20 +65,20 @@ public class BookingController {
     @PostMapping(value = "/new")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Object> createBooking(@RequestBody Booking booking) {
-        long newBookingId = bookingService.createBooking(booking);
+    public ResponseEntity<Object> createBooking(@RequestHeader Map<String, String> headers, @RequestBody Booking booking) {
+        long newBookingId = bookingService.createBooking(headers.get("authorization"), booking);
         return new ResponseEntity<>(newBookingId, HttpStatus.CREATED);
     }
 
-    // Create a new booking by day part
-    @PostMapping(value = "/{id}/new")
-//    @PreAuthorize("hasRole('USER')")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    ResponseEntity<Object> createBookingByDayPart(
-            @PathVariable("id") long id, @RequestBody AvailabilityRequest availabilityRequest){
-        long userId = bookingService.saveAvailableDayPart(id, availabilityRequest);
-        return new ResponseEntity<>(userId, HttpStatus.CREATED);
-    }
+//    // Create a new booking by day part
+//    @PostMapping(value = "/{id}/new")
+////    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    ResponseEntity<Object> createBookingByDayPart(
+//            @PathVariable("id") long id, @RequestBody AvailabilityRequest availabilityRequest){
+//        long userId = bookingService.saveAvailableDayPart(id, availabilityRequest);
+//        return new ResponseEntity<>(userId, HttpStatus.CREATED);
+//    }
 
     // Update or make a change to a booking
     @PutMapping(value = "/{bookingId}")

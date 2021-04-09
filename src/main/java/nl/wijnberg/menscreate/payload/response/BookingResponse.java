@@ -1,10 +1,10 @@
 package nl.wijnberg.menscreate.payload.response;
 
 //import nl.wijnberg.menscreate.domain.BookingType;
-import nl.wijnberg.menscreate.domain.DayPart;
+//import nl.wijnberg.menscreate.domain.DayPart;
 import nl.wijnberg.menscreate.domain.User;
 //import nl.wijnberg.menscreate.domain.enums.EBookingType;
-import nl.wijnberg.menscreate.domain.enums.EDayPart;
+//import nl.wijnberg.menscreate.domain.enums.EDayPart;
 //import nl.wijnberg.menscreate.domain.enums.ETimeTable;
 
 import java.time.LocalDate;
@@ -16,29 +16,38 @@ public class BookingResponse {
     private long bookingId;
     private String boxName;
     private String bookingDate;
-    private DayPart dayPart;
+//    private DayPart dayPart;
 
     public BookingResponse(User userId,
                            String boxName,
-                           String bookingDate, DayPart dayPart) {
+                           String bookingDate
+//            , DayPart dayPart
+    ) {
         this.userId = userId;
         this.boxName = boxName;
         this.bookingDate = bookingDate;
-        this.dayPart = dayPart;
+//        this.dayPart = dayPart;
     }
 
     public BookingResponse(List<BookingResponse> bookingResponses) {
     }
 
-    public BookingResponse(LocalDate bookingDate, EDayPart dayPart) {
+    public BookingResponse(LocalDate bookingDate
+//            , EDayPart dayPart
+    ) {
 
     }
 
-    public BookingResponse(User user, Long bookingId, String boxName, String bookingDate, String dayPart) {
+    public BookingResponse(User user, Long bookingId, String boxName, String bookingDate
+//            , String dayPart
+    ) {
     }
 
-    public BookingResponse(User user, String toString, DayPart dayPart) {
+    public BookingResponse(User user, String toString) {
     }
+
+//    public BookingResponse(User user, String toString, DayPart dayPart) {
+//    }
 
 
     public User getUserId() {
@@ -73,13 +82,13 @@ public class BookingResponse {
         this.bookingDate = bookingDate;
     }
 
-    public DayPart getDayPart() {
-        return dayPart;
-    }
-
-    public void setDayPart(DayPart dayPart) {
-        this.dayPart = dayPart;
-    }
+//    public DayPart getDayPart() {
+//        return dayPart;
+//    }
+//
+//    public void setDayPart(DayPart dayPart) {
+//        this.dayPart = dayPart;
+//    }
 }
 
 

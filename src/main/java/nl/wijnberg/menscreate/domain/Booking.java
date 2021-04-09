@@ -1,6 +1,6 @@
 package nl.wijnberg.menscreate.domain;
 
-import nl.wijnberg.menscreate.domain.enums.EDayPart;
+//import nl.wijnberg.menscreate.domain.enums.EDayPart;
 //import nl.wijnberg.menscreate.domain.enums.ETimeTable;
 
 import javax.persistence.*;
@@ -23,9 +23,9 @@ public class Booking {
     @Column
     private String boxName;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "day_part", referencedColumnName = "id")
-    private DayPart dayPart;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "day_part", referencedColumnName = "id")
+//    private DayPart dayPart;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -36,16 +36,16 @@ public class Booking {
 
     public Booking(LocalDate bookingDate,
                    String boxName,
-                   DayPart dayPart,
+//                   DayPart dayPart,
                    User user) {
         this.bookingDate = bookingDate;
         this.boxName = boxName;
-        this.dayPart = dayPart;
+//        this.dayPart = dayPart;
         this.user = user;
     }
 
-    public Booking(LocalDate bookingDate, DayPart dayPart) {
-    }
+//    public Booking(LocalDate bookingDate, DayPart dayPart) {
+//    }
 
     public Long getBookingId() {
         return bookingId;
@@ -71,13 +71,13 @@ public class Booking {
         this.boxName = boxName;
     }
 
-    public DayPart getDayPart() {
-        return dayPart;
-    }
-
-    public void setDayPart(DayPart dayPart) {
-        this.dayPart = dayPart;
-    }
+//    public DayPart getDayPart() {
+//        return dayPart;
+//    }
+//
+//    public void setDayPart(DayPart dayPart) {
+//        this.dayPart = dayPart;
+//    }
 
     public User getUser() {
         return user;

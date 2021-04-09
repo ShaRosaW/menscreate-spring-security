@@ -2,7 +2,7 @@ package nl.wijnberg.menscreate.service;
 
 import nl.wijnberg.menscreate.domain.*;
 //import nl.wijnberg.menscreate.domain.enums.EBookingType;
-import nl.wijnberg.menscreate.domain.enums.EDayPart;
+//import nl.wijnberg.menscreate.domain.enums.EDayPart;
 //import nl.wijnberg.menscreate.domain.enums.ESpaceType;
 import nl.wijnberg.menscreate.exceptions.DatabaseErrorException;
 import nl.wijnberg.menscreate.exceptions.RecordNotFoundException;
@@ -28,8 +28,9 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private BookingRepository bookingRepository;
     private UserRepository userRepository;
+    @Autowired
     private UserService userService;
-    private DayPartRepository dayPartRepository;
+//    private DayPartRepository dayPartRepository;
 
     //    private BookingTypeRepository bookingTypeRepository;
 //    private SpaceTypeRepository spaceTypeRepository;
@@ -61,8 +62,8 @@ public class BookingServiceImpl implements BookingService {
             BookingResponse bookingResponse = new BookingResponse(
                     booking.getUser(),
 //                    booking.getBookingType(),
-                    booking.getBookingDate().toString(),
-                    booking.getDayPart());
+                    booking.getBookingDate().toString());
+//                    booking.getDayPart());
 //                    booking.getTimeTable().name());
             return ResponseEntity.ok(bookingResponse);
 //            return bookingRepository.findById(bookingId).orElse(null);
@@ -81,53 +82,56 @@ public class BookingServiceImpl implements BookingService {
         }
     }
 
-    // save day part to booking
-    public long saveAvailableDayPart(long userId, AvailabilityRequest availabilityRequest){
-        DayPart dayPart = dayPartRepository.findByName(availabilityRequest.getDayPart().getName());
-        Booking booking = new Booking(availabilityRequest.getBookingDate(), dayPart);
-
-        if (userRepository.existsById(userId)){
-            User user = userRepository.findById(userId).orElse(null);
-            if (!bookingRepository.existsByUser_IdAndBookingDate(userId, booking.getBookingDate())){
-
-//                Set<Booking> bookings = user.getBookings();
-//                bookings.add(booking);
-//                user.setBookings(bookings);
-                booking.setUser(user);
-                bookingRepository.save(booking);
-                return userId;
-            } else {
-                throw new DatabaseErrorException();
-            }
-        } else {
-            throw new RecordNotFoundException();
-        }
-    }
+//    // save day part to booking
+//    public long saveAvailableDayPart(long userId, AvailabilityRequest availabilityRequest){
+//        DayPart dayPart = dayPartRepository.findByName(availabilityRequest.getDayPart().getName());
+//        Booking booking = new Booking(availabilityRequest.getBookingDate(), dayPart);
+//
+//        if (userRepository.existsById(userId)){
+//            User user = userRepository.findById(userId).orElse(null);
+//            if (!bookingRepository.existsByUser_IdAndBookingDate(userId, booking.getBookingDate())){
+//
+////                Set<Booking> bookings = user.getBookings();
+////                bookings.add(booking);
+////                user.setBookings(bookings);
+//                booking.setUser(user);
+//                bookingRepository.save(booking);
+//                return userId;
+//            } else {
+//                throw new DatabaseErrorException();
+//            }
+//        } else {
+//            throw new RecordNotFoundException();
+//        }
+//    }
 
     // get day part of booking
-    public EDayPart getDayPartOfBooking(long bookingId){
-        if (bookingRepository.existsById(bookingId)){
-            Booking booking = bookingRepository.findByBookingId(bookingId);
-            DayPart dayPart = booking.getDayPart();
-            booking.setDayPart(dayPart);
-        } return null;
-    }
-
-    // update day part of booking
-    public void updateDayPartOfBooking(long bookingId, EDayPart eDayPart){
-        if (bookingRepository.existsById(bookingId)) {
-            Booking booking = bookingRepository.findByBookingId(bookingId);
-            DayPart dayPart = dayPartRepository.findByName(eDayPart);
-            booking.setDayPart(dayPart);
-            bookingRepository.save(booking);
-        } else {
-            throw new RecordNotFoundException();
-        }
-    }
+//    public EDayPart getDayPartOfBooking(long bookingId){
+//        if (bookingRepository.existsById(bookingId)){
+//            Booking booking = bookingRepository.findByBookingId(bookingId);
+////            DayPart dayPart = booking.getDayPart();
+////            booking.setDayPart(dayPart);
+//        } return null;
+////    }
+//
+//    // update day part of booking
+//    public void updateDayPartOfBooking(long bookingId, EDayPart eDayPart){
+//        if (bookingRepository.existsById(bookingId)) {
+//            Booking booking = bookingRepository.findByBookingId(bookingId);
+//            DayPart dayPart = dayPartRepository.findByName(eDayPart);
+////            booking.setDayPart(dayPart);
+//            bookingRepository.save(booking);
+//        } else {
+//            throw new RecordNotFoundException();
+//        }
+//    }
 
     // create new booking
     @Override
-    public long createBooking(Booking booking) {
+    public long createBooking(String token, Booking booking) {
+        User requestUser = (User) userService.findUserByToken(token).getBody();
+//        long id = requestUser.getId();
+        booking.setUser(requestUser);
         Booking newBooking = bookingRepository.save(booking);
         return newBooking.getBookingId();
     }
@@ -142,8 +146,8 @@ public class BookingServiceImpl implements BookingService {
                     bookings.get(i).getBookingId(),
                     bookings.get(i).getBoxName(),
 //                    bookings.get(i).getBookingType().getName(),
-                    bookings.get(i).getBookingDate().toString(),
-                    bookings.get(i).getDayPart().toString()
+                    bookings.get(i).getBookingDate().toString()
+//                    bookings.get(i).getDayPart().toString()
 //                    bookings.get(i).getTimeTable().name()
             );
             bookingResponses.add(bookingResponse);
@@ -165,7 +169,7 @@ public class BookingServiceImpl implements BookingService {
 //                existBooking.setBookingType(bookingUpdate.getBookingType());
                 existBooking.setBookingDate(bookingUpdate.getBookingDate());
                 existBooking.setBoxName(bookingUpdate.getBoxName());
-                existBooking.setDayPart(bookingUpdate.getDayPart());
+//                existBooking.setDayPart(bookingUpdate.getDayPart());
 //                existBooking.setTimeTable(bookingUpdate.getTimeTable());
                 existBooking.setUser(bookingUpdate.getUserId());
                 bookingRepository.save(existBooking);
@@ -198,18 +202,18 @@ public class BookingServiceImpl implements BookingService {
     public ResponseEntity<?> getAllBookingsByDate() {
         return null;
     }
-
-    @Override
-    public ResponseEntity<?> getAvailabilityDayPartCheck(AvailabilityRequest availabilityRequest) {
-        return null;
-    }
-//        return createBookingResponse(bookings);
+//
+//    @Override
+//    public ResponseEntity<?> getAvailabilityDayPartCheck(AvailabilityRequest availabilityRequest) {
+//        return null;
 //    }
-
-    @Override
-    public ResponseEntity<Object> createBookingByDayPart(AvailabilityRequest availabilityRequest) {
-        return null;
-    }
+////        return createBookingResponse(bookings);
+////    }
+//
+//    @Override
+//    public ResponseEntity<Object> createBookingByDayPart(AvailabilityRequest availabilityRequest) {
+//        return null;
+//    }
 
     @Override
     public ResponseEntity<MessageResponse> createBookingByDate(BookingRequest bookingRequest) {

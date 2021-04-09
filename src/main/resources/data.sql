@@ -8,11 +8,11 @@ VALUES
 -- ('SPACE'),
 -- ('BOX');
 
-INSERT INTO day_part(name)
-VALUES
-('MORNING'),
-('AFTERNOON'),
-('WHOLE_DAY');
+-- INSERT INTO day_part(name)
+-- VALUES
+-- ('MORNING'),
+-- ('AFTERNOON'),
+-- ('WHOLE_DAY');
 
 INSERT INTO users(username,email,password)
 VALUES
@@ -34,11 +34,11 @@ VALUES
 -- INSERT INTO app_user(file)
 -- VALUES
 -- ( )
-INSERT INTO booking(booking_date, day_part, box_name, user_id)
+INSERT INTO booking(booking_date, box_name, user_id)
 VALUES
-(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 1, 'work space', 1),
-(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 1, 'meeting area', 1),
-(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 2, 'work space', 3);
+(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 'work space', 1),
+(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 'meeting area', 1),
+(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 'work space', 3);
 
 -- INSERT INTO booking(booking_date, day_part, bookingtype_id, user_id)
 -- VALUES

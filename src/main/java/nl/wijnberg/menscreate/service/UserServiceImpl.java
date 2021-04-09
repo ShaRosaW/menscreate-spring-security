@@ -168,6 +168,7 @@ public class UserServiceImpl implements UserService {
         }
         return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
     }
+
     private User findUserByUsername(String username) {
         return userRepository.findByUsername(username).get();
     }
