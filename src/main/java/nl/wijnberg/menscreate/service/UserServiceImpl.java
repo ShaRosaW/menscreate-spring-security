@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public static String uploadDirectory = System.getProperty("user.dir") + "/fileUploads/";
 
 
-
+    // get all users list (for admin)
     @Override
     public ResponseEntity<?> getAllUsers() {
         List<User> users = userRepository.findAll();
@@ -50,12 +50,13 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.ok(users);
     }
 
-
+    //get user by username
     @Override
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
+    //get user by id
     @Override
     public User getUserById(long id) {
         if (userRepository.existsById(id)) {
@@ -77,6 +78,7 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    // update user profile
     @Override
     public ResponseEntity<?> updateUserProfile(String token, @Valid UpdateUserRequest profileUpdate) {
         if(token == null || token.isEmpty()) {
@@ -126,6 +128,7 @@ public class UserServiceImpl implements UserService {
 //        return newUser.getId();
 //    }
 
+    //update user
     @Override
     public ResponseEntity<?> updateUser(long id, UpdateUserRequest userUpdate) {
         if (userRepository.existsById(id)) {
@@ -149,6 +152,31 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    //    @Override
+//    public ResponseEntity<?> updateUserById(String token, UpdateUserRequest userUpdate) {
+//        if(token == null || token.isEmpty()) {
+//            return ResponseEntity.badRequest().body(new MessageResponse("Invalid token"));
+//        }
+//        String username =  getUsernameFromToken(token);
+//
+//        if(userExists(username) && updateRequestIsValid(userUpdate)) {
+//            User updatedUser = findUserByUsername(username);
+//            if(!userUpdate.getPassword().isEmpty() && !userUpdate.getRepeatedPassword().isEmpty()) {
+//                updatedUser.setPassword(encoder.encode(userUpdate.getPassword()));
+//            }
+//            if(!userRepository.existsByEmail(userUpdate.getEmail()) && userUpdate.getEmail() != null && !userUpdate.getEmail().isEmpty()) {
+//                updatedUser.setEmail(userUpdate.getEmail());
+//            }
+//            if(userUpdate.getPhoneNumber() != null && !userUpdate.getPhoneNumber().isEmpty()){
+//            updatedUser.setPhoneNumber(userUpdate.getPhoneNumber());
+//            }
+//            return ResponseEntity.ok().body(userRepository.save(updatedUser));
+//        }
+//
+//        return ResponseEntity.badRequest().body(new MessageResponse("User cannot be updated with provided data."));
+//    }
+
+    // delete user
     @Override
     public void deleteUser(long id) {
         if (userRepository.existsById(id)) {
@@ -159,6 +187,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    // find user by token
     @Override
     public ResponseEntity<?> findUserByToken(String token) {
         String username = getUsernameFromToken(token);
@@ -210,38 +239,7 @@ public class UserServiceImpl implements UserService {
 //        return newUser.getId();
 //    }
 
-//    @Override
-//    public ResponseEntity<?> updateUserById(String token, UpdateUserRequest userUpdate) {
-//        if(token == null || token.isEmpty()) {
-//            return ResponseEntity.badRequest().body(new MessageResponse("Invalid token"));
-//        }
-//        String username =  getUsernameFromToken(token);
-//
-//        if(userExists(username) && updateRequestIsValid(userUpdate)) {
-//            User updatedUser = findUserByUsername(username);
-//            if(!userUpdate.getPassword().isEmpty() && !userUpdate.getRepeatedPassword().isEmpty()) {
-//                updatedUser.setPassword(encoder.encode(userUpdate.getPassword()));
-//            }
-//            if(!userRepository.existsByEmail(userUpdate.getEmail()) && userUpdate.getEmail() != null && !userUpdate.getEmail().isEmpty()) {
-//                updatedUser.setEmail(userUpdate.getEmail());
-//            }
-//            if(userUpdate.getPhoneNumber() != null && !userUpdate.getPhoneNumber().isEmpty()){
-//            updatedUser.setPhoneNumber(userUpdate.getPhoneNumber());
-//            }
-//            return ResponseEntity.ok().body(userRepository.save(updatedUser));
-//        }
-//
-//        return ResponseEntity.badRequest().body(new MessageResponse("User cannot be updated with provided data."));
-//    }
 
-//private User findUserByUsername(String username) {
-//        return userRepository.findByUsername(username).get();
-//    }
 
-//    private boolean updateRequestIsValid(UpdateUserRequest updateUserRequest) {
-//        if(updateUserRequest.getPassword().equals(updateUserRequest.getRepeatedPassword())) {
-//            return true;
-//        }
-//        return false;
-//    }
+
 

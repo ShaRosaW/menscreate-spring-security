@@ -2,10 +2,8 @@ package nl.wijnberg.menscreate.controller;
 
 import nl.wijnberg.menscreate.domain.Booking;
 import nl.wijnberg.menscreate.domain.User;
-import nl.wijnberg.menscreate.payload.request.AvailabilityRequest;
 import nl.wijnberg.menscreate.payload.request.BookingRequest;
 import nl.wijnberg.menscreate.payload.response.BookingResponse;
-import nl.wijnberg.menscreate.payload.response.MessageResponse;
 import nl.wijnberg.menscreate.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,23 +31,31 @@ public class BookingController {
         return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
 
+    // Get bookings by user
+    @GetMapping("/user/{id}")
+//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<?> getUserBookings(@PathVariable("id") long id, @RequestHeader Map<String, String> headers){
+        return bookingService.getUserBookings(headers.get("authorization"));
+    }
+
     // Get list of all bookings by user
     @GetMapping("/list/user")
 //    @PreAuthorize("hasRole('ADMIN')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     ResponseEntity<?> getAllBookingsByUser(String username){
-        List<User> userBookings = (List<User>) bookingService.getAllBookingsByUser(username);
+        List<User> userBookings = (List<User>) bookingService.getAllBookingsByUsername(username);
         return new ResponseEntity<>(userBookings, HttpStatus.OK);
     }
 
-    // Get userinfo by booking ID
-    @GetMapping("/user/{id}")
-//    @PreAuthorize("hasRole('ADMIN')")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Object> getUserInfoByBookingId(@PathVariable("id") long bookingId){
-        Optional<User> user = bookingService.getUserByBookingId(bookingId);
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
+//    // Get userinfo by booking ID
+//    @GetMapping("/user/{id}")
+////    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<Object> getUserInfoByBookingId(@PathVariable("id") long bookingId){
+//        Optional<User> user = bookingService.getUserByBookingId(bookingId);
+//        return new ResponseEntity<>(user, HttpStatus.OK);
+//    }
 
 
     // Get a booking by ID
@@ -61,7 +67,7 @@ public class BookingController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // Create a new booking (Admin only??)
+    // Create a new booking by user token
     @PostMapping(value = "/new")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")

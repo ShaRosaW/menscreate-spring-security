@@ -3,6 +3,7 @@ package nl.wijnberg.menscreate.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -45,7 +46,7 @@ public class User {
             mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Set<Booking> bookings;
+    private List<Booking> bookings;
 
 //    @OneToOne(mappedBy = "user")
 //    private File file;
@@ -136,12 +137,16 @@ public class User {
         this.roles = roles;
     }
 
-    public Set<Booking> getBookings() {
+    public List<Booking> getBookings() {
         return bookings;
     }
 
-    public void setBookings(Set<Booking> bookings) {
+    public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
+    }
+
+    public void addBooking(Booking booking){
+        this.bookings.add(booking);
     }
 //
 //    public File getFile() {

@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     // Get a list of all users (Admin only)
-    @GetMapping(value = "")
+    @GetMapping(value = "/all")
 //    @PreAuthorize("hasRole('ADMIN')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getAllUsers() {
@@ -55,11 +56,19 @@ public class UserController {
         return userService.findUserByToken(headers.get("authorization"));
     }
 
-    // Get user by ID
-    @GetMapping(value = "/{id}")
+//    // Get user by ID
+//    @GetMapping(value = "/{id}")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<Object> getUserById(@PathVariable("id") long id) {
+//        User user = userService.getUserById(id);
+//        return new ResponseEntity<>(user, HttpStatus.OK);
+//    }
+
+    // Get user by username
+    @GetMapping(value = "/user/{username}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Object> getUserById(@PathVariable("id") long id) {
-        User user = userService.getUserById(id);
+    public ResponseEntity<Object> getUserByUsername(@PathVariable("username") String username) {
+        Optional<User> user = userService.getUserByUsername(username);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -121,6 +130,14 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
+    // update user profile info by token
+    @PutMapping("/update")
+    @PreAuthorize("hasRole('USER')or hasRole('ADMIN')")
+    public ResponseEntity<?> updateUserProfile(@RequestHeader Map<String, String> headers,
+                                               @RequestBody UpdateUserRequest profileUpdate) {
+        return userService.updateUserProfile(headers.get("authorization"), profileUpdate);
+    }
+
     // Update new user profile information by ID
 //    @PutMapping(value = "/{id}")
 //    @PreAuthorize("hasRole('USER')")
@@ -141,6 +158,7 @@ public class UserController {
         userService.updateUser(id, userUpdate);
         return new ResponseEntity<>(userUpdate, HttpStatus.OK);
     }
+
 
     // Delete user entirely by ID
     @DeleteMapping(value = "/{id}")

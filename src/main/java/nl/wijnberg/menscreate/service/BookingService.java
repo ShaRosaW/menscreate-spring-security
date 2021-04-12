@@ -3,7 +3,6 @@ package nl.wijnberg.menscreate.service;
 import nl.wijnberg.menscreate.domain.Booking;
 import nl.wijnberg.menscreate.domain.User;
 //import nl.wijnberg.menscreate.domain.enums.EDayPart;
-import nl.wijnberg.menscreate.payload.request.AvailabilityRequest;
 import nl.wijnberg.menscreate.payload.request.BookingRequest;
 //import nl.wijnberg.menscreate.payload.request.BoxRequest;
 //import nl.wijnberg.menscreate.payload.request.SpaceRequest;
@@ -12,6 +11,7 @@ import nl.wijnberg.menscreate.payload.response.MessageResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,11 +19,11 @@ public interface BookingService {
 
     // Get - Read
     ResponseEntity<?> getAllBookings();
-    ResponseEntity<ResponseEntity<BookingResponse>> getAllBookingsByUser(String username);
+    ResponseEntity<ResponseEntity<List<BookingResponse>>> getAllBookingsByUsername(String username);
     ResponseEntity<?> getAllBookingsByDate();
 //    ResponseEntity<?> getAvailabilityDayPartCheck(AvailabilityRequest availabilityRequest);
 //    EDayPart getDayPartOfBooking(long bookingId);
-//    ResponseEntity<?> getUserBookings(String token);
+    ResponseEntity<?> getUserBookings(String token);
     Optional<User> getUserByBookingId(long bookingId);
     ResponseEntity<BookingResponse> getBookingById(long bookingId);
 

@@ -87,6 +87,8 @@ public class Booking {
         this.user = user;
     }
 
+
+
     public void setUser(long userId) {
     }
 }

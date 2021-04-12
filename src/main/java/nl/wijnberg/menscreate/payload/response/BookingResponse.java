@@ -12,22 +12,22 @@ import java.util.List;
 
 public class BookingResponse {
 
-    private User userId;
+    private Long userId;
     private long bookingId;
     private String boxName;
     private String bookingDate;
 //    private DayPart dayPart;
 
-    public BookingResponse(User userId,
-                           String boxName,
-                           String bookingDate
-//            , DayPart dayPart
-    ) {
-        this.userId = userId;
-        this.boxName = boxName;
-        this.bookingDate = bookingDate;
-//        this.dayPart = dayPart;
-    }
+//    public BookingResponse(User userId,
+//                           String boxName,
+//                           String bookingDate
+////            , DayPart dayPart
+//    ) {
+//        this.userId = userId;
+//        this.boxName = boxName;
+//        this.bookingDate = bookingDate;
+////        this.dayPart = dayPart;
+//    }
 
     public BookingResponse(List<BookingResponse> bookingResponses) {
     }
@@ -39,8 +39,11 @@ public class BookingResponse {
     }
 
     public BookingResponse(User user, Long bookingId, String boxName, String bookingDate
-//            , String dayPart
     ) {
+        this.userId = user.getId();
+        this.setBookingId(bookingId); // todo: investigate later
+        this.boxName = boxName;
+        this.bookingDate = bookingDate;
     }
 
     public BookingResponse(User user, String toString) {
@@ -50,11 +53,11 @@ public class BookingResponse {
 //    }
 
 
-    public User getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(User userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
