@@ -20,7 +20,7 @@ public interface BookingService {
     // Get - Read
     ResponseEntity<?> getAllBookings();
     ResponseEntity<ResponseEntity<List<BookingResponse>>> getAllBookingsByUsername(String username);
-    ResponseEntity<?> getAllBookingsByDate();
+//    ResponseEntity<?> getAllBookingsByDate();
 //    ResponseEntity<?> getAvailabilityDayPartCheck(AvailabilityRequest availabilityRequest);
 //    EDayPart getDayPartOfBooking(long bookingId);
     ResponseEntity<?> getUserBookings(String token);
@@ -30,7 +30,7 @@ public interface BookingService {
 
     // Post - Create
 //    ResponseEntity<Object> createBookingByDayPart(AvailabilityRequest availabilityRequest);
-    ResponseEntity<MessageResponse> createBookingByDate(BookingRequest bookingRequest);
+//    ResponseEntity<MessageResponse> createBookingByDate(BookingRequest bookingRequest);
 //    ResponseEntity<MessageResponse> createBookingByBookingType(BookingRequest bookingRequest);
 //    ResponseEntity<MessageResponse> createBookingBySpaceType(SpaceRequest spaceRequest);
 //    ResponseEntity<MessageResponse> createBookingByBoxType(BoxRequest boxRequest);

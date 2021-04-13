@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -66,7 +67,7 @@ public class BookingServiceImpl implements BookingService {
 //        return (ResponseEntity<?>) bookings;
 //    }
 
-     // get all user bookings by username
+    // get all user bookings by username
     public ResponseEntity<ResponseEntity<List<BookingResponse>>> getAllBookingsByUsername(String username) {
         List<Booking> bookings = bookingRepository.findAllBookingsByUser(userRepository.findByUsername(username));
         return ResponseEntity.ok(createBookingResponse(bookings));
@@ -91,8 +92,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     // get user by booking id
-    public Optional<User> getUserByBookingId(long bookingId){
-        if(bookingRepository.existsById(bookingId)){
+    public Optional<User> getUserByBookingId(long bookingId) {
+        if (bookingRepository.existsById(bookingId)) {
             Booking booking = bookingRepository.findByBookingId(bookingId);
             return userRepository.findById(booking.getUser().getId());
         } else {
@@ -161,32 +162,46 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public ResponseEntity<?> deleteBooking(String token, long bookingId) {
         if (bookingRepository.existsById(bookingId)) {
-//            Booking booking = bookingRepository.findByBookingId(bookingId);
-            User userBooking = (User) userService.findUserByToken(token).getBody();
-//            List<Booking> bookingsOfUser = (List<Booking>) getUserBookings(token);
-            String username = userBooking.getUsername();
+            Booking booking = bookingRepository.findByBookingId(bookingId);
+//            User userBooking = (User) userService.findUserByToken(token).getBody();
+            List<Booking> bookingsUser = findUserBookings(token);
+//            String username = userBooking.getUsername();
+
+            List<Long> listOfBookingId = new ArrayList<>();
+            for (Booking b : bookingsUser) {
+                listOfBookingId.add(b.getBookingId());
+            }
 
             if (bookingRepository.findByBookingId(bookingId).getUser().getId()
-                    == userRepository.findByUsername(username).get().getId()) {
+                    == userService.findUserByToken(token).getBody()) {
+//                    == userRepository.findByUsername(username).get().getId()) {
+//                booking.setBookingId(bookingId);}
+                listOfBookingId.contains(bookingId);
                 return bookingRepository.deleteByBookingId(bookingId);
-            } else throw new RecordNotFoundException();
-        } return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return ResponseEntity.ok(new MessageResponse("Booking with id number: " + bookingId + " was deleted with success"));
+
+        } else {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "There was no booking found with this id " + bookingId + ".");
+        }
     }
-
-    @Override
-    public ResponseEntity<?> getAllBookingsByDate() {
-        return null;
-    }
-
-
-
-    @Override
-    public ResponseEntity<MessageResponse> createBookingByDate(BookingRequest bookingRequest) {
-        return null;
-    }
-
-
 }
+
+//    @Override
+//    public ResponseEntity<?> getAllBookingsByDate() {
+//        return null;
+//    }
+
+
+//
+//    @Override
+//    public ResponseEntity<MessageResponse> createBookingByDate(BookingRequest bookingRequest) {
+//        return null;
+//    }
+
+
+
 
 
 //    // save day part to booking

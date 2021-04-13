@@ -32,31 +32,21 @@ public class BookingController {
     }
 
     // Get bookings by user
-    @GetMapping("/user/{id}")
+    @GetMapping("/user")
 //    @PreAuthorize("hasRole('ADMIN')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> getUserBookings(@PathVariable("id") long id, @RequestHeader Map<String, String> headers){
+    public ResponseEntity<?> getUserBookings(@RequestHeader Map<String, String> headers){
         return bookingService.getUserBookings(headers.get("authorization"));
     }
 
     // Get list of all bookings by user
-    @GetMapping("/list/user")
+    @GetMapping("/user/{username}")
 //    @PreAuthorize("hasRole('ADMIN')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    ResponseEntity<?> getAllBookingsByUser(String username){
+    ResponseEntity<?> getAllBookingsByUser(@PathVariable("username") String username){
         List<User> userBookings = (List<User>) bookingService.getAllBookingsByUsername(username);
         return new ResponseEntity<>(userBookings, HttpStatus.OK);
     }
-
-//    // Get userinfo by booking ID
-//    @GetMapping("/user/{id}")
-////    @PreAuthorize("hasRole('ADMIN')")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    public ResponseEntity<Object> getUserInfoByBookingId(@PathVariable("id") long bookingId){
-//        Optional<User> user = bookingService.getUserByBookingId(bookingId);
-//        return new ResponseEntity<>(user, HttpStatus.OK);
-//    }
-
 
     // Get a booking by ID
     @GetMapping(value = "/{bookingId}")
@@ -76,16 +66,6 @@ public class BookingController {
         return new ResponseEntity<>(newBookingId, HttpStatus.CREATED);
     }
 
-//    // Create a new booking by day part
-//    @PostMapping(value = "/{id}/new")
-////    @PreAuthorize("hasRole('USER')")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    ResponseEntity<Object> createBookingByDayPart(
-//            @PathVariable("id") long id, @RequestBody AvailabilityRequest availabilityRequest){
-//        long userId = bookingService.saveAvailableDayPart(id, availabilityRequest);
-//        return new ResponseEntity<>(userId, HttpStatus.CREATED);
-//    }
-
     // Update or make a change to a booking
     @PutMapping(value = "/{bookingId}")
 //    @PreAuthorize("hasRole('USER')")
@@ -98,23 +78,21 @@ public class BookingController {
 //        return ResponseEntity.noContent().build();
     }
 
-//    @PostMapping(value = "")
-//    @PreAuthorize("hasRole('USER')")
-//    public ResponseEntity<Object> saveBooking(@RequestBody Booking booking) {
-//        long newBookingId = bookingService.saveBooking(booking);
-//        return new ResponseEntity<>(newBookingId, HttpStatus.OK);
-//    }
-
     // Delete a booking
     //    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    @DeleteMapping(value = "/{bookingId}")
+////    @PreAuthorize("hasRole('USER')")
+//        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<?> deleteBooking(String token,
+//            @PathVariable("bookingId") long bookingId) {
+//        bookingService.deleteBooking(token, bookingId);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+////        return ResponseEntity.noContent().build();
+//    }
     @DeleteMapping(value = "/{bookingId}")
-//    @PreAuthorize("hasRole('USER')")
-        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> deleteBooking(String token,
-            @PathVariable("bookingId") long bookingId) {
-        bookingService.deleteBooking(token, bookingId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        return ResponseEntity.noContent().build();
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<?> deleteBooking(@PathVariable("bookingId") long bookingId, @RequestHeader Map<String, String> headers){
+        return bookingService.deleteBooking(headers.get("authorization"), bookingId);
     }
 
     @Autowired
@@ -122,3 +100,35 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 }
+
+
+
+
+//    // Get userinfo by booking ID
+//    @GetMapping("/user/{id}")
+////    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<Object> getUserInfoByBookingId(@PathVariable("id") long bookingId){
+//        Optional<User> user = bookingService.getUserByBookingId(bookingId);
+//        return new ResponseEntity<>(user, HttpStatus.OK);
+//    }
+
+
+
+//    // Create a new booking by day part
+//    @PostMapping(value = "/{id}/new")
+////    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    ResponseEntity<Object> createBookingByDayPart(
+//            @PathVariable("id") long id, @RequestBody AvailabilityRequest availabilityRequest){
+//        long userId = bookingService.saveAvailableDayPart(id, availabilityRequest);
+//        return new ResponseEntity<>(userId, HttpStatus.CREATED);
+//    }
+
+
+//    @PostMapping(value = "")
+//    @PreAuthorize("hasRole('USER')")
+//    public ResponseEntity<Object> saveBooking(@RequestBody Booking booking) {
+//        long newBookingId = bookingService.saveBooking(booking);
+//        return new ResponseEntity<>(newBookingId, HttpStatus.OK);
+//    }

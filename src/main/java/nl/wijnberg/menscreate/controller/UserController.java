@@ -131,7 +131,7 @@ public class UserController {
     }
 
     // update user profile info by token
-    @PutMapping("/update")
+    @PutMapping("/user/update-profile")
     @PreAuthorize("hasRole('USER')or hasRole('ADMIN')")
     public ResponseEntity<?> updateUserProfile(@RequestHeader Map<String, String> headers,
                                                @RequestBody UpdateUserRequest profileUpdate) {
@@ -141,7 +141,7 @@ public class UserController {
     // Update new user profile information by ID
 //    @PutMapping(value = "/{id}")
 //    @PreAuthorize("hasRole('USER')")
-    @PostMapping(value = "/{id}")
+    @PostMapping(value = "/user/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> saveUserProfile(@PathVariable("id") int id, @RequestBody UpdateUserRequest updateUserRequest){
         long newId = userService.saveUserProfile(updateUserRequest);
@@ -151,7 +151,7 @@ public class UserController {
     // todo: saveUserProfile is with updateUserRequest, updateUser same, or connect Requestbody to domain User?
 
     // Update user information by ID
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/user/{id}")
 //    @PreAuthorize("hasRole('USER')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> updateUser(@PathVariable("id") int id, @RequestBody UpdateUserRequest userUpdate) {
@@ -161,13 +161,19 @@ public class UserController {
 
 
     // Delete user entirely by ID
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/user/{id}")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> deleteUser(@PathVariable("id") long id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+//    @DeleteMapping("/delete")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<?> deleteUser(@RequestHeader Map<String, String> headers, @RequestBody String username){
+//        return userService.deleteUser(headers.get("authorization"), username);
+//    }
 
 }
 
