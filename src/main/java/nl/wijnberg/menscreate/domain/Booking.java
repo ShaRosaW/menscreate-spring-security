@@ -35,6 +35,12 @@ public class Booking {
     }
 
     public Booking(LocalDate bookingDate,
+                   String boxName){
+        this.bookingDate = bookingDate;
+        this.boxName = boxName;
+    }
+
+    public Booking(LocalDate bookingDate,
                    String boxName,
 //                   DayPart dayPart,
                    User user) {

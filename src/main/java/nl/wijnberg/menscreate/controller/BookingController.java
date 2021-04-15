@@ -57,6 +57,16 @@ public class BookingController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    // Get userinfo by booking ID
+    @GetMapping("/user/{bookingId}")
+//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<?> getUserInfoByBookingId(@PathVariable("bookingId") long bookingId){
+        ResponseEntity<BookingResponse> user = bookingService.getUserByBookingId(bookingId);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     // Create a new booking by user token
     @PostMapping(value = "/new")
 //    @PreAuthorize("hasRole('USER')")
@@ -72,23 +82,23 @@ public class BookingController {
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> updateBooking(
             @PathVariable("bookingId") long bookingId,
-            @RequestBody BookingRequest bookingRequest) {
-        Booking updatedBooking = bookingService.updateBooking(bookingId, bookingRequest);
+            @RequestBody BookingRequest bookingRequest,
+            @RequestHeader Map<String, String> headers) {
+        Booking updatedBooking = bookingService.updateBooking(bookingId, bookingRequest, headers.get("authorization"));
         return new ResponseEntity<>(updatedBooking, HttpStatus.OK);
 //        return ResponseEntity.noContent().build();
     }
 
-    // Delete a booking
-    //    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    @DeleteMapping(value = "/{bookingId}")
+//    // Update or make a change to a booking
+//    @PutMapping(value = "/{bookingId}")
 ////    @PreAuthorize("hasRole('USER')")
-//        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    public ResponseEntity<?> deleteBooking(String token,
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<?> updateBookingById(
+//            @RequestHeader Map<String, String> headers,
 //            @PathVariable("bookingId") long bookingId) {
-//        bookingService.deleteBooking(token, bookingId);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-////        return ResponseEntity.noContent().build();
+//        return bookingService.updateByBookingId(headers.get("authorization"), bookingId);
 //    }
+
     @DeleteMapping(value = "/{bookingId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> deleteBooking(@RequestHeader Map<String, String> headers, @PathVariable("bookingId") long bookingId){
@@ -104,13 +114,16 @@ public class BookingController {
 
 
 
-//    // Get userinfo by booking ID
-//    @GetMapping("/user/{id}")
-////    @PreAuthorize("hasRole('ADMIN')")
+// Delete a booking
 //    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    public ResponseEntity<Object> getUserInfoByBookingId(@PathVariable("id") long bookingId){
-//        Optional<User> user = bookingService.getUserByBookingId(bookingId);
-//        return new ResponseEntity<>(user, HttpStatus.OK);
+//    @DeleteMapping(value = "/{bookingId}")
+////    @PreAuthorize("hasRole('USER')")
+//        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<?> deleteBooking(String token,
+//            @PathVariable("bookingId") long bookingId) {
+//        bookingService.deleteBooking(token, bookingId);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+////        return ResponseEntity.noContent().build();
 //    }
 
 

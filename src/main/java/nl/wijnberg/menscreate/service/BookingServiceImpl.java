@@ -55,6 +55,7 @@ public class BookingServiceImpl implements BookingService {
         return ResponseEntity.ok(createBookingResponse(bookings));
     }
 
+
     private List<Booking> findUserBookings(String token) {
         User userBooking = (User) userService.findUserByToken(token).getBody();
         List<Booking> bookings = new ArrayList<>();
@@ -80,26 +81,51 @@ public class BookingServiceImpl implements BookingService {
             Booking booking = bookingRepository.findByBookingId(bookingId);
             BookingResponse bookingResponse = new BookingResponse(
                     booking.getUser(),
-//                    booking.getBookingType(),
+                    booking.getBoxName(),
                     booking.getBookingDate().toString());
-//                    booking.getDayPart());
-//                    booking.getTimeTable().name());
+
             return ResponseEntity.ok(bookingResponse);
 //            return bookingRepository.findById(bookingId).orElse(null);
         } else {
             throw new RecordNotFoundException();
         }
     }
-
     // get user by booking id
-    public Optional<User> getUserByBookingId(long bookingId) {
+
+    public ResponseEntity<BookingResponse> getUserByBookingId(String token, long bookingId) {
+        User owner = (User) userService.findUserByToken(token).getBody();
+        String username = owner.getUsername();
+
         if (bookingRepository.existsById(bookingId)) {
-            Booking booking = bookingRepository.findByBookingId(bookingId);
-            return userRepository.findById(booking.getUser().getId());
-        } else {
+            if (bookingRepository.findByBookingId(bookingId).getUser().getId()
+                    == userRepository.findByUsername(username).get().getId()) {
+                return getBookingById(bookingId);
+            } else {
+                throw new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED);
+//            Booking booking = ;
+//            return findById(booking.);
+            }
+        }   else {
             throw new RecordNotFoundException();
         }
     }
+
+//    @Override
+    public ResponseEntity<BookingResponse> getUserByBookingId(long bookingId) {
+        return null;
+    }
+
+
+//    // get user by booking id
+//    public Optional<User> getUserByBookingId(long bookingId) {
+//        if (bookingRepository.existsById(bookingId)) {
+//            Booking booking = bookingRepository.findByBookingId(bookingId);
+//            return userRepository.findById(booking.getUser().getId());
+//        } else {
+//            throw new RecordNotFoundException();
+//        }
+//    }
 
 
     // create new booking
@@ -121,10 +147,7 @@ public class BookingServiceImpl implements BookingService {
                     bookings.get(i).getUser(),
                     bookings.get(i).getBookingId(),
                     bookings.get(i).getBoxName(),
-//                    bookings.get(i).getBookingType().getName(),
                     bookings.get(i).getBookingDate().toString()
-//                    bookings.get(i).getDayPart().toString()
-//                    bookings.get(i).getTimeTable().name()
             );
             bookingResponses.add(bookingResponse);
         }
@@ -133,25 +156,51 @@ public class BookingServiceImpl implements BookingService {
 //        );
         return ResponseEntity.ok(bookingResponses);
     }
+    //        List<Booking> userBookings = findUserBookings(token);
+    //                        existBooking.setUser(bookingRequest.getUserId()));
+//    if (bookingRepository.existsById(bookingRequest.getBookingId())){
+    //            } else  {
+    //                throw new DatabaseErrorException();
+    // update booking by booking id
+//    @Override
+//    public ResponseEntity<?> updateByBookingId(String token, long bookingId) {
+//        if (bookingRepository.existsById(bookingId)) {
+//            Booking booking = bookingRepository.findByBookingId(bookingId);
+//            User userBookingUpdate = (User) userService.findUserByToken(token).getBody();
+//            if (booking.getUser().getId() == userBookingUpdate.getId()) {
+//                Booking bookingUpdate = bookingRepository.findByBookingId(bookingId);
+//                bookingUpdate.setBookingDate(booking.getBookingDate());
+//                bookingUpdate.setBoxName(booking.getBoxName());
+//                bookingRepository.save(bookingUpdate);
+//                return ResponseEntity.ok(bookingUpdate);
+//            } else {
+//                throw new DatabaseErrorException();
+//            }
+//        } else {
+//            throw new ResponseStatusException(
+//                    HttpStatus.NOT_FOUND, "There was no booking found with this id " + bookingId + ".");
+//        }
+//    }
 
     // update booking by booking id
     @Override
-    public Booking updateBooking(long bookingId, BookingRequest bookingRequest) {
+    public Booking updateBooking(long bookingId, BookingRequest bookingRequest, String authorization) {
         // todo: in parameter string token?
         if (bookingRepository.existsById(bookingId)) {
-            try {
+                User userBookingUpdate = (User) userService.findUserByToken(authorization).getBody();
                 Booking existBooking = bookingRepository.findByBookingId(bookingId);
 
-                // todo: get usertoken of user aan hand van token en dan checken of matched met existbooking, als dan
+                if(existBooking.getUser().getId() == userBookingUpdate.getId()) {
 
-                existBooking.setBookingDate(bookingRequest.getBookingDate());
-                existBooking.setBoxName(bookingRequest.getBoxName());
+                    existBooking.setBookingDate(bookingRequest.getBookingDate());
+                    existBooking.setBoxName(bookingRequest.getBoxName());
 
-                bookingRepository.save(existBooking);
-                return existBooking;
-            } catch (Exception exception) {
-                throw new DatabaseErrorException();
-            }
+                    bookingRepository.save(existBooking);
+                    return existBooking;
+                } else {
+                    throw new ResponseStatusException(
+                            HttpStatus.FORBIDDEN, "This booking with id " + bookingId + "does not belong to you.");
+                }
         } else {
             throw new RecordNotFoundException();
         }
