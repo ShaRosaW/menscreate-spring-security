@@ -22,7 +22,7 @@ public interface BookingService {
 //    EDayPart getDayPartOfBooking(long bookingId);
     ResponseEntity<?> getUserBookings(String token);
     ResponseEntity<BookingResponse> getUserByBookingId(long bookingId);
-    ResponseEntity<BookingResponse> getBookingById(long bookingId);
+    BookingResponse getBookingById(long bookingId);
 
 
     // Post - Create

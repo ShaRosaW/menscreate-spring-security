@@ -52,9 +52,9 @@ public class BookingController {
     @GetMapping(value = "/{bookingId}")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<BookingResponse> getBookingById(@PathVariable("bookingId") long bookingId) {
-        bookingService.getBookingById(bookingId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> getBookingById(@PathVariable("bookingId") long bookingId) {
+       BookingResponse booking = bookingService.getBookingById(bookingId);
+        return new ResponseEntity<>(booking, HttpStatus.OK);
     }
 
 

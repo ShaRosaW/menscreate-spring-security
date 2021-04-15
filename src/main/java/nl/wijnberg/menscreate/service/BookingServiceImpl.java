@@ -4,7 +4,6 @@ import nl.wijnberg.menscreate.domain.*;
 //import nl.wijnberg.menscreate.domain.enums.EBookingType;
 //import nl.wijnberg.menscreate.domain.enums.EDayPart;
 //import nl.wijnberg.menscreate.domain.enums.ESpaceType;
-import nl.wijnberg.menscreate.exceptions.DatabaseErrorException;
 import nl.wijnberg.menscreate.exceptions.RecordNotFoundException;
 import nl.wijnberg.menscreate.payload.request.BookingRequest;
 //import nl.wijnberg.menscreate.payload.request.BoxRequest;
@@ -55,6 +54,10 @@ public class BookingServiceImpl implements BookingService {
         return ResponseEntity.ok(createBookingResponse(bookings));
     }
 
+    @Override
+    public ResponseEntity<BookingResponse> getUserByBookingId(long bookingId) {
+        return null;
+    }
 
     private List<Booking> findUserBookings(String token) {
         User userBooking = (User) userService.findUserByToken(token).getBody();
@@ -76,47 +79,58 @@ public class BookingServiceImpl implements BookingService {
 
     // get booking by booking id
     @Override
-    public ResponseEntity<BookingResponse> getBookingById(long bookingId) {
+    public BookingResponse getBookingById(long bookingId) {
         if (bookingRepository.existsById(bookingId)) {
             Booking booking = bookingRepository.findByBookingId(bookingId);
             BookingResponse bookingResponse = new BookingResponse(
                     booking.getUser(),
+                    booking.getBookingId(),
                     booking.getBoxName(),
                     booking.getBookingDate().toString());
 
-            return ResponseEntity.ok(bookingResponse);
-//            return bookingRepository.findById(bookingId).orElse(null);
+            return bookingResponse;
         } else {
             throw new RecordNotFoundException();
         }
     }
-    // get user by booking id
 
-    public ResponseEntity<BookingResponse> getUserByBookingId(String token, long bookingId) {
-        User owner = (User) userService.findUserByToken(token).getBody();
-        String username = owner.getUsername();
+//     get user by booking id
 
-        if (bookingRepository.existsById(bookingId)) {
-            if (bookingRepository.findByBookingId(bookingId).getUser().getId()
-                    == userRepository.findByUsername(username).get().getId()) {
-                return getBookingById(bookingId);
-            } else {
-                throw new ResponseStatusException(
-                        HttpStatus.UNAUTHORIZED);
-//            Booking booking = ;
-//            return findById(booking.);
-            }
-        }   else {
-            throw new RecordNotFoundException();
-        }
-    }
+//    public ResponseEntity<BookingResponse> getUserByBookingId(String token, long bookingId) {
+//        User owner = (User) userService.findUserByToken(token).getBody();
+//        String username = owner.getUsername();
+//
+//        if (bookingRepository.existsById(bookingId)) {
+//            if (bookingRepository.findByBookingId(bookingId).getUser().getId()
+//                    == userRepository.findByUsername(username).get().getId()) {
+////                return getBookingById(bookingId);
+//            } else {
+//                throw new ResponseStatusException(
+//                        HttpStatus.UNAUTHORIZED);
+////            Booking booking = ;
+////            return findById(booking.);
+//            }
+//        }   else {
+//            throw new RecordNotFoundException();
+//        }
+//    }
 
-//    @Override
-    public ResponseEntity<BookingResponse> getUserByBookingId(long bookingId) {
-        return null;
-    }
-
-
+////    @Override
+//    public ResponseEntity<BookingResponse> getUserByBookingId(String token, long bookingId) {
+//        if (bookingRepository.existsById(bookingId)) {
+//        User ownerBooking = (User) userService.findUserByToken(token).getBody();
+//        Booking existBooking = bookingRepository.findByBookingId(bookingId);
+//
+//        if (existBooking.getUser().getId() == ownerBooking.getId()) {
+//
+//            existBooking.setBookingDate(getBookingDate());
+//            existBooking.setBoxName(bookingRequest.getBoxName());
+//
+//            bookingRepository.save(existBooking);
+//            return existBooking;
+//        }
+//
+//    }
 //    // get user by booking id
 //    public Optional<User> getUserByBookingId(long bookingId) {
 //        if (bookingRepository.existsById(bookingId)) {

@@ -50,6 +50,7 @@ public class BookingResponse {
     }
 
     public BookingResponse(User user, String boxName, String toString) {
+
     }
 
 //    public BookingResponse(User user, String toString, DayPart dayPart) {
