@@ -136,57 +136,138 @@ public class BookingServiceImpl implements BookingService {
 
     // update booking by booking id
     @Override
-    public BookingRequest updateBooking(long bookingId, BookingRequest bookingUpdate) {
+    public Booking updateBooking(long bookingId, BookingRequest bookingRequest) {
+        // todo: in parameter string token?
         if (bookingRepository.existsById(bookingId)) {
             try {
                 Booking existBooking = bookingRepository.findByBookingId(bookingId);
-//                        .orElse(null);
-//                        .get();
-//                existBooking.setBookingType(bookingUpdate.getBookingType());
-                existBooking.setBookingDate(bookingUpdate.getBookingDate());
-                existBooking.setBoxName(bookingUpdate.getBoxName());
-//                existBooking.setDayPart(bookingUpdate.getDayPart());
-//                existBooking.setTimeTable(bookingUpdate.getTimeTable());
-                existBooking.setUser(bookingUpdate.getUserId());
+
+                // todo: get usertoken of user aan hand van token en dan checken of matched met existbooking, als dan
+
+                existBooking.setBookingDate(bookingRequest.getBookingDate());
+                existBooking.setBoxName(bookingRequest.getBoxName());
+
                 bookingRepository.save(existBooking);
+                return existBooking;
             } catch (Exception exception) {
                 throw new DatabaseErrorException();
             }
         } else {
             throw new RecordNotFoundException();
         }
-        return bookingUpdate;
+
     }
 
     // delete booking
     @Override
     public ResponseEntity<?> deleteBooking(String token, long bookingId) {
-        if (bookingRepository.existsById(bookingId)) {
-            Booking booking = bookingRepository.findByBookingId(bookingId);
-//            User userBooking = (User) userService.findUserByToken(token).getBody();
-            List<Booking> bookingsUser = findUserBookings(token);
-//            String username = userBooking.getUsername();
+        if (bookingRepository.existsById(bookingId)){
+        Booking cancelBooking = bookingRepository.findByBookingId(bookingId);
+            User userBooking = (User) userService.findUserByToken(token).getBody();
 
-            List<Long> listOfBookingId = new ArrayList<>();
-            for (Booking b : bookingsUser) {
-                listOfBookingId.add(b.getBookingId());
+            if (cancelBooking.getUser().getId() == userBooking.getId()) {
+                bookingRepository.delete(cancelBooking);
+                return ResponseEntity.ok(new MessageResponse("Booking with id number: " + bookingId + " was deleted with success"));
+            } else {
+                throw new ResponseStatusException(
+                        HttpStatus.FORBIDDEN, "This booking with this id " + bookingId + "does not belong to you.");
             }
-
-            if (bookingRepository.findByBookingId(bookingId).getUser().getId()
-                    == userService.findUserByToken(token).getBody()) {
-//                    == userRepository.findByUsername(username).get().getId()) {
-//                booking.setBookingId(bookingId);}
-                listOfBookingId.contains(bookingId);
-                return bookingRepository.deleteByBookingId(bookingId);
-            }
-            return ResponseEntity.ok(new MessageResponse("Booking with id number: " + bookingId + " was deleted with success"));
-
         } else {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "There was no booking found with this id " + bookingId + ".");
         }
     }
 }
+
+
+//            String username = userBooking.getUsername();
+//         if (bookingRepository.findByBookingId(bookingId).getUser().getId()
+//                == userRepository.findByUsername(username).get().getId()) {
+//             cancelBooking.setBookingId(bookingId);
+
+
+//            List<Booking> bookingsUser = findUserBookings(token);
+//             bookingsUser.contains(bookingId);
+//            List<Long> listOfBookingId = new ArrayList<>();
+//            for (Booking b : bookingsUser) {
+//                listOfBookingId.add(b.getBookingId());
+//            }
+
+//            if (
+//                    bookingRepository.findByBookingId(bookingId).getUser().getId()
+//                    == userRepository.findByUsername(username).get().getId()) {
+//                    == userService.findUserByToken(token).getBody()) {
+//                    == userRepository.findByUsername(username).get().getId()) {
+//                booking.setBookingId(bookingId);}
+//                listOfBookingId.contains(bookingId);
+//                bookingRepository.delete(cancelBooking);
+//                return bookingRepository.deleteByBookingId(cancelBooking.getBookingId());
+
+// @Override
+//    public ResponseEntity<?> deleteBooking(String token, long bookingId) {
+//
+//        Booking cancelBooking = bookingRepository.findByBookingId(bookingId);
+//            User userBooking = (User) userService.findUserByToken(token).getBody();
+//            List<Booking> bookingsUser = findUserBookings(token);
+////            String username = userBooking.getUsername();
+//
+//            List<Long> listOfBookingId = new ArrayList<>();
+//            for (Booking b : bookingsUser) {
+//                listOfBookingId.add(b.getBookingId());
+//            }
+//
+//        if (bookingRepository.existsById(bookingId) ?
+//                listOfBookingId.contains(bookingId) :
+//                userRepository.existsById(userBooking.getUsername())) {
+//
+////            if (
+////                    bookingRepository.findByBookingId(bookingId).getUser().getId()
+////                    == userRepository.findByUsername(username).get().getId()) {
+////                    == userService.findUserByToken(token).getBody()) {
+////                    == userRepository.findByUsername(username).get().getId()) {
+////                booking.setBookingId(bookingId);}
+////                listOfBookingId.contains(bookingId);
+////                bookingRepository.delete(cancelBooking);
+////                return bookingRepository.deleteByBookingId(cancelBooking.getBookingId());
+//
+//            bookingRepository.delete(cancelBooking);
+//            return ResponseEntity.ok(new MessageResponse("Booking with id number: " + bookingId + " was deleted with success"));
+//
+//        } else {
+//            throw new ResponseStatusException(
+//                    HttpStatus.NOT_FOUND, "There was no booking found with this id " + bookingId + ".");
+//        }
+//    }
+
+
+
+//    @Override
+//    public ResponseEntity<?> deleteBooking(String token, long bookingId) {
+//        if (bookingRepository.existsById(bookingId)) {
+//            Booking cancelBooking = bookingRepository.findByBookingId(bookingId);
+////            User userBooking = (User) userService.findUserByToken(token).getBody();
+//            List<Booking> bookingsUser = findUserBookings(token);
+////            String username = userBooking.getUsername();
+//
+//            List<Long> listOfBookingId = new ArrayList<>();
+//            for (Booking b : bookingsUser) {
+//                listOfBookingId.add(b.getBookingId());
+//            }
+//
+//            if (bookingRepository.findByBookingId(bookingId).getUser().getId()
+//                    == userService.findUserByToken(token).getBody()) {
+////                    == userRepository.findByUsername(username).get().getId()) {
+////                booking.setBookingId(bookingId);}
+//                listOfBookingId.contains(bookingId);
+//                return bookingRepository.deleteByBookingId(cancelBooking.getBookingId());
+//            }
+//            return ResponseEntity.ok(new MessageResponse("Booking with id number: " + bookingId + " was deleted with success"));
+//
+//        } else {
+//            throw new ResponseStatusException(
+//                    HttpStatus.NOT_FOUND, "There was no booking found with this id " + bookingId + ".");
+//        }
+//    }
 
 //    @Override
 //    public ResponseEntity<?> getAllBookingsByDate() {

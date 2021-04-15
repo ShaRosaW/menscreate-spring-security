@@ -73,7 +73,7 @@ public class BookingController {
     public ResponseEntity<Object> updateBooking(
             @PathVariable("bookingId") long bookingId,
             @RequestBody BookingRequest bookingRequest) {
-        BookingRequest updatedBooking = bookingService.updateBooking(bookingId, bookingRequest);
+        Booking updatedBooking = bookingService.updateBooking(bookingId, bookingRequest);
         return new ResponseEntity<>(updatedBooking, HttpStatus.OK);
 //        return ResponseEntity.noContent().build();
     }
@@ -91,7 +91,7 @@ public class BookingController {
 //    }
     @DeleteMapping(value = "/{bookingId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> deleteBooking(@PathVariable("bookingId") long bookingId, @RequestHeader Map<String, String> headers){
+    public ResponseEntity<?> deleteBooking(@RequestHeader Map<String, String> headers, @PathVariable("bookingId") long bookingId){
         return bookingService.deleteBooking(headers.get("authorization"), bookingId);
     }
 

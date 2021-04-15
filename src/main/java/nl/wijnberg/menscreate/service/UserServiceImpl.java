@@ -152,6 +152,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+
     //    @Override
 //    public ResponseEntity<?> updateUserById(String token, UpdateUserRequest userUpdate) {
 //        if(token == null || token.isEmpty()) {
@@ -185,6 +187,11 @@ public class UserServiceImpl implements UserService {
         else {
             throw new RecordNotFoundException();
         }
+    }
+
+    @Override
+    public ResponseEntity<?> deleteUser(String token, String username) {
+        return null;
     }
 
     // find user by token

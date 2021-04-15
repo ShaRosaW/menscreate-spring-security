@@ -73,7 +73,7 @@ public class User {
 //        this.file = file;
 //    }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

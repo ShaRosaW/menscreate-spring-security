@@ -7,7 +7,6 @@ import nl.wijnberg.menscreate.payload.request.BookingRequest;
 //import nl.wijnberg.menscreate.payload.request.BoxRequest;
 //import nl.wijnberg.menscreate.payload.request.SpaceRequest;
 import nl.wijnberg.menscreate.payload.response.BookingResponse;
-import nl.wijnberg.menscreate.payload.response.MessageResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +38,7 @@ public interface BookingService {
     //    long saveBooking(Booking booking);
 
     // Put or Post - Update
-    BookingRequest updateBooking(long bookingId, BookingRequest bookingUpdate);
+    Booking updateBooking(long bookingId, BookingRequest bookingRequest);
 //    void updateDayPartOfBooking(long bookingId, EDayPart eDayPart);
 //    void updateBooking(long bookingId, Booking booking);
 //    ResponseEntity<?> updateBookingById(String token, BookingRequest bookingRequest);

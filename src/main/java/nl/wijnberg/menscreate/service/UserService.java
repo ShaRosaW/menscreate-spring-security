@@ -33,7 +33,7 @@ public interface UserService {
 
     // Delete
     void deleteUser(long id);
-//    ResponseEntity<?> deleteUser(String token, String username);
+    ResponseEntity<?> deleteUser(String token, String username);
 }
 
 //    long saveUser(UpdateUserRequest updateUserRequest);

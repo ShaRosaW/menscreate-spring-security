@@ -24,7 +24,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 //    List<Booking> findBookingByBookingType_Name(EBookingType bookingType);
 //    List<Booking> findByBookingDate(LocalDate bookingDate);
 //    boolean existsByUser_IdAndBookingDate(Long userId, LocalDate bookingDate);
-    ResponseEntity<MessageResponse> deleteByBookingId(long bookingId);
+    ResponseEntity<MessageResponse> deleteByBookingId(Long bookingId);
 
 
 }
