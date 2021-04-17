@@ -1,13 +1,9 @@
 package nl.wijnberg.menscreate.service;
 
 import nl.wijnberg.menscreate.domain.*;
-//import nl.wijnberg.menscreate.domain.enums.EBookingType;
-//import nl.wijnberg.menscreate.domain.enums.EDayPart;
-//import nl.wijnberg.menscreate.domain.enums.ESpaceType;
+
 import nl.wijnberg.menscreate.exceptions.RecordNotFoundException;
 import nl.wijnberg.menscreate.payload.request.BookingRequest;
-//import nl.wijnberg.menscreate.payload.request.BoxRequest;
-//import nl.wijnberg.menscreate.payload.request.SpaceRequest;
 import nl.wijnberg.menscreate.payload.response.BookingResponse;
 import nl.wijnberg.menscreate.payload.response.MessageResponse;
 import nl.wijnberg.menscreate.repository.*;
@@ -29,14 +25,9 @@ public class BookingServiceImpl implements BookingService {
     private UserRepository userRepository;
     @Autowired
     private UserService userService;
-//    private DayPartRepository dayPartRepository;
 
-    //    private BookingTypeRepository bookingTypeRepository;
-//    private SpaceTypeRepository spaceTypeRepository;
-//    private BoxTypeRepository boxTypeRepository;
-
-
-    //get all bookings //todo: make this work
+    // todo: works
+    // get all bookings (for admin)
     @Override
     public ResponseEntity<?> getAllBookings() {
         List<Booking> bookings = bookingRepository.findAll();
@@ -46,7 +37,6 @@ public class BookingServiceImpl implements BookingService {
         }
         return ResponseEntity.ok(bookingResponses);
     }
-    //(List<BookingResponse>)
 
     //todo: works
     // get user bookings by token
@@ -64,6 +54,7 @@ public class BookingServiceImpl implements BookingService {
         return (bookings);
     }
 
+    // find all user bookings by username //todo: make this work
     private List <Booking> findUserBookingsByUsername(String username) {
         User userBooking = userService.getUserByUsername(username).get();
         List<Booking> bookings = new ArrayList<>();
@@ -71,6 +62,171 @@ public class BookingServiceImpl implements BookingService {
         return (bookings);
     }
 
+    //todo: works
+    // get booking by booking id
+    @Override
+    public ResponseEntity<BookingResponse> getBookingById(long bookingId) {
+        if (bookingRepository.existsById(bookingId)) {
+            Booking booking = bookingRepository.findByBookingId(bookingId);
+            BookingResponse bookingResponse = new BookingResponse(
+                    booking.getUser(),
+                    booking.getBookingId(),
+                    booking.getBoxName(),
+                    booking.getBookingDate().toString());
+
+            return ResponseEntity.ok(bookingResponse);
+        } else {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "There was no booking found with this id " + bookingId + ".");
+        }
+    }
+
+    //todo: works
+    // get booking by booking id with user authentication token
+    @Override
+    public ResponseEntity<BookingResponse> getUserBookingByBookingId(String token, long bookingId) {
+
+        if (bookingRepository.existsById(bookingId)) {
+            Booking booking = bookingRepository.findByBookingId(bookingId);
+            User ownerBooking = (User) userService.findUserByToken(token).getBody();
+            if(booking.getUser().getId()
+                    == ownerBooking.getId()){
+                return getBookingById(bookingId);
+            } else {
+                throw new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED);
+            }
+        } else {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "There was no booking found with this id " + bookingId + ".");
+        }
+    }
+
+    //todo: works
+    // create new booking
+    @Override
+    public long createBooking(String token, Booking booking) {
+        User requestUser = (User) userService.findUserByToken(token).getBody();
+//        long id = requestUser.getId();
+        booking.setUser(requestUser);
+        Booking newBooking = bookingRepository.save(booking);
+        return newBooking.getBookingId();
+    }
+
+    //todo: works
+    // create a booking response list
+    public List <BookingResponse> createBookingResponse(List<Booking> bookings) {
+        List<BookingResponse> bookingResponses = new ArrayList<>();
+
+        for (int i = 0; i < bookings.size(); i++) {
+            BookingResponse bookingResponse = new BookingResponse(
+                    bookings.get(i).getUser(),
+                    bookings.get(i).getBookingId(),
+                    bookings.get(i).getBoxName(),
+                    bookings.get(i).getBookingDate().toString()
+            );
+            bookingResponses.add(bookingResponse);
+        }
+//        BookingResponse allBookings = new BookingResponse(
+//                bookingResponses
+//        );
+        return bookingResponses;
+    }
+
+//    // todo: works
+//    // update booking by booking id
+//    @Override
+//    public Booking updateBooking(long bookingId, BookingRequest bookingRequest, String authorization) {
+//        // todo: investigate the user info Json array, perhaps check the createbookingresponse list by findallbookingsbyusername
+//        if (bookingRepository.existsById(bookingId)) {
+//                User userBookingUpdate = (User) userService.findUserByToken(authorization).getBody();
+//                Booking existBooking = bookingRepository.findByBookingId(bookingId);
+//
+//                if(bookingRepository.findByBookingId(bookingId).getUser().getId()
+//                        == userService.findUserByToken(authorization).getBody()) {
+//
+//                    existBooking.setBookingDate(bookingRequest.getBookingDate());
+//                    existBooking.setBoxName(bookingRequest.getBoxName());
+//
+//                    bookingRepository.save(existBooking);
+//                    return existBooking;
+//                } else {
+//                    throw new ResponseStatusException(
+//                            HttpStatus.FORBIDDEN, "This booking with id " + bookingId + "does not belong to you.");
+//                }
+//        } else {
+//            throw new RecordNotFoundException();
+//        }
+//
+//    }
+
+        // todo: works
+        // update booking by booking id
+        @Override
+        public Booking updateBooking(long bookingId, BookingRequest bookingRequest, String authorization) {
+            // todo: investigate the user info Json array,
+            //  it has to do with getting entire User object, that keeps looping.
+            if (bookingRepository.existsById(bookingId)) {
+                    User userBookingUpdate = (User) userService.findUserByToken(authorization).getBody();
+                    Booking existBooking = bookingRepository.findByBookingId(bookingId);
+
+                    if(existBooking.getUser().getId() == userBookingUpdate.getId()) {
+
+                        existBooking.setBookingDate(bookingRequest.getBookingDate());
+                        existBooking.setBoxName(bookingRequest.getBoxName());
+
+                        bookingRepository.save(existBooking);
+                        return existBooking;
+                    } else {
+                        throw new ResponseStatusException(
+                                HttpStatus.FORBIDDEN, "This booking with id " + bookingId + "does not belong to you.");
+                    }
+            } else {
+                throw new RecordNotFoundException();
+            }
+
+        }
+
+    //todo: works
+    // delete booking
+    @Override
+    public ResponseEntity<?> deleteBooking(String token, long bookingId) {
+        if (bookingRepository.existsById(bookingId)){
+        Booking cancelBooking = bookingRepository.findByBookingId(bookingId);
+            User userBooking = (User) userService.findUserByToken(token).getBody();
+
+            if (cancelBooking.getUser().getId() == userBooking.getId()) {
+                bookingRepository.delete(cancelBooking);
+                return ResponseEntity.ok(new MessageResponse("Booking with id number: " + bookingId + " was deleted with success"));
+            } else {
+                throw new ResponseStatusException(
+                        HttpStatus.FORBIDDEN, "This booking with this id " + bookingId + "does not belong to you.");
+            }
+        } else {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "There was no booking found with this id " + bookingId + ".");
+        }
+    }
+}
+
+//    // create booking response list
+//    public ResponseEntity<List<BookingResponse>> createBookingResponse(List<Booking> bookings) {
+//        List<BookingResponse> bookingResponses = new ArrayList<>();
+//
+//        for (int i = 0; i < bookings.size(); i++) {
+//            BookingResponse bookingResponse = new BookingResponse(
+//                    bookings.get(i).getUser(),
+//                    bookings.get(i).getBookingId(),
+//                    bookings.get(i).getBoxName(),
+//                    bookings.get(i).getBookingDate().toString()
+//            );
+//            bookingResponses.add(bookingResponse);
+//        }
+////        BookingResponse allBookings = new BookingResponse(
+////                bookingResponses
+////        );
+//        return ResponseEntity.ok(bookingResponses);
+//    }
 
 //    // get all user bookings by username //todo: make this work
 //    public List <BookingResponse> getAllBookingsByUsername(String username) {
@@ -83,31 +239,26 @@ public class BookingServiceImpl implements BookingService {
 //        return ResponseEntity.ok(createBookingResponse(bookings));
 //    }
 
-    //todo: works
-    // get booking by booking id
-    @Override
-    public BookingResponse getBookingById(long bookingId) {
-        if (bookingRepository.existsById(bookingId)) {
-            Booking booking = bookingRepository.findByBookingId(bookingId);
-            BookingResponse bookingResponse = new BookingResponse(
-                    booking.getUser(),
-                    booking.getBookingId(),
-                    booking.getBoxName(),
-                    booking.getBookingDate().toString());
 
-            return bookingResponse;
-        } else {
-            throw new RecordNotFoundException();
-        }
-    }
+//        List<Booking> userBookings = findUserBookings(token);
+//                        existBooking.setUser(bookingRequest.getUserId()));
+//    if (bookingRepository.existsById(bookingRequest.getBookingId())){
+//            } else  {
+//                throw new DatabaseErrorException();
 
-    @Override
-    public ResponseEntity<BookingResponse> getUserByBookingId(long bookingId) {
-        return null;
-    }
+
+//
+//
+//
+//    BookingResponse bookingResponse = new BookingResponse(
+//            booking.getUser(),
+//            booking.getBookingId(),
+//            booking.getBoxName(),
+//            booking.getBookingDate().toString());
+//
+//            return bookingResponse;
 
 //     get user by booking id
-
 //    public ResponseEntity<BookingResponse> getUserByBookingId(String token, long bookingId) {
 //        User owner = (User) userService.findUserByToken(token).getBody();
 //        String username = owner.getUsername();
@@ -153,111 +304,9 @@ public class BookingServiceImpl implements BookingService {
 //        }
 //    }
 
-    //todo: works
-    // create new booking
-    @Override
-    public long createBooking(String token, Booking booking) {
-        User requestUser = (User) userService.findUserByToken(token).getBody();
-//        long id = requestUser.getId();
-        booking.setUser(requestUser);
-        Booking newBooking = bookingRepository.save(booking);
-        return newBooking.getBookingId();
-    }
-
-    //todo: works
-    // create booking response list
-    public List <BookingResponse> createBookingResponse(List<Booking> bookings) {
-        List<BookingResponse> bookingResponses = new ArrayList<>();
-
-        for (int i = 0; i < bookings.size(); i++) {
-            BookingResponse bookingResponse = new BookingResponse(
-                    bookings.get(i).getUser(),
-                    bookings.get(i).getBookingId(),
-                    bookings.get(i).getBoxName(),
-                    bookings.get(i).getBookingDate().toString()
-            );
-            bookingResponses.add(bookingResponse);
-        }
-//        BookingResponse allBookings = new BookingResponse(
-//                bookingResponses
-//        );
-        return bookingResponses;
-    }
-
-//    //todo: works
-//    // create booking response list
-//    public ResponseEntity<List<BookingResponse>> createBookingResponse(List<Booking> bookings) {
-//        List<BookingResponse> bookingResponses = new ArrayList<>();
-//
-//        for (int i = 0; i < bookings.size(); i++) {
-//            BookingResponse bookingResponse = new BookingResponse(
-//                    bookings.get(i).getUser(),
-//                    bookings.get(i).getBookingId(),
-//                    bookings.get(i).getBoxName(),
-//                    bookings.get(i).getBookingDate().toString()
-//            );
-//            bookingResponses.add(bookingResponse);
-//        }
-////        BookingResponse allBookings = new BookingResponse(
-////                bookingResponses
-////        );
-//        return ResponseEntity.ok(bookingResponses);
-//    }
-
-    // todo: works
-    // update booking by booking id
-    @Override
-    public Booking updateBooking(long bookingId, BookingRequest bookingRequest, String authorization) {
-        // todo: investigate the user info Json array, perhaps check the createbookingresponse list by findallbookingsbyusername
-        if (bookingRepository.existsById(bookingId)) {
-                User userBookingUpdate = (User) userService.findUserByToken(authorization).getBody();
-                Booking existBooking = bookingRepository.findByBookingId(bookingId);
-
-                if(existBooking.getUser().getId() == userBookingUpdate.getId()) {
-
-                    existBooking.setBookingDate(bookingRequest.getBookingDate());
-                    existBooking.setBoxName(bookingRequest.getBoxName());
-
-                    bookingRepository.save(existBooking);
-                    return existBooking;
-                } else {
-                    throw new ResponseStatusException(
-                            HttpStatus.FORBIDDEN, "This booking with id " + bookingId + "does not belong to you.");
-                }
-        } else {
-            throw new RecordNotFoundException();
-        }
-
-    }
-
-    //todo: works
-    // delete booking
-    @Override
-    public ResponseEntity<?> deleteBooking(String token, long bookingId) {
-        if (bookingRepository.existsById(bookingId)){
-        Booking cancelBooking = bookingRepository.findByBookingId(bookingId);
-            User userBooking = (User) userService.findUserByToken(token).getBody();
-
-            if (cancelBooking.getUser().getId() == userBooking.getId()) {
-                bookingRepository.delete(cancelBooking);
-                return ResponseEntity.ok(new MessageResponse("Booking with id number: " + bookingId + " was deleted with success"));
-            } else {
-                throw new ResponseStatusException(
-                        HttpStatus.FORBIDDEN, "This booking with this id " + bookingId + "does not belong to you.");
-            }
-        } else {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "There was no booking found with this id " + bookingId + ".");
-        }
-    }
-}
 
 
-//        List<Booking> userBookings = findUserBookings(token);
-//                        existBooking.setUser(bookingRequest.getUserId()));
-//    if (bookingRepository.existsById(bookingRequest.getBookingId())){
-//            } else  {
-//                throw new DatabaseErrorException();
+
 // update booking by booking id
 //    @Override
 //    public ResponseEntity<?> updateByBookingId(String token, long bookingId) {

@@ -22,8 +22,8 @@ public interface BookingService {
 //    ResponseEntity<?> getAvailabilityDayPartCheck(AvailabilityRequest availabilityRequest);
 //    EDayPart getDayPartOfBooking(long bookingId);
     ResponseEntity<?> getUserBookings(String token);
-    ResponseEntity<BookingResponse> getUserByBookingId(long bookingId);
-    BookingResponse getBookingById(long bookingId);
+    ResponseEntity<BookingResponse> getUserBookingByBookingId(String token, long bookingId);
+    ResponseEntity<BookingResponse> getBookingById(long bookingId);
 
 
     // Post - Create
@@ -45,6 +45,8 @@ public interface BookingService {
 
     // Delete
     ResponseEntity<?>deleteBooking(String token, long bookingId);
+
+
 //    void deleteBooking(long bookingId);
 }
 

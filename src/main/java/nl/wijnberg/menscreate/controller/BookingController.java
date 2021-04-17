@@ -22,24 +22,22 @@ public class BookingController {
 
     private BookingService bookingService;
 
-    // Get list of all bookings (Admin only) //todo: make this work
-    @GetMapping("/list/all")
+    @Autowired
+    public void setBookingService(BookingService bookingService) {
+        this.bookingService = bookingService;
+    }
+
+    //todo: works
+    // Get list of all bookings (Admin only, have to change preAuthorize later)
+    @GetMapping("/all")
 //    @PreAuthorize("hasRole('ADMIN')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getAllBookings() {
        return bookingService.getAllBookings();
     }
-//       // Get list of all bookings (Admin only) //todo: make this work
-//    @GetMapping("/list/all")
-////    @PreAuthorize("hasRole('ADMIN')")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    public ResponseEntity<?> getAllBookings() {
-//        List<Booking> bookings = (List<Booking>) bookingService.getAllBookings();
-//        return new ResponseEntity<>(bookings, HttpStatus.OK);
-//    }
 
     //todo: works
-    // Get bookings by user
+    // Get all bookings by user by token
     @GetMapping("/user")
 //    @PreAuthorize("hasRole('ADMIN')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -47,42 +45,27 @@ public class BookingController {
         return bookingService.getUserBookings(headers.get("authorization"));
     }
 
-//    // Get list of all bookings by user //todo: make this work or remove?
-//    @GetMapping("/user/{username}")
-////    @PreAuthorize("hasRole('ADMIN')")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    ResponseEntity<?> getAllBookingsByUser(@PathVariable("username") String username){
-//        List<User> userBookings = (List<User>) bookingService.getAllBookingsByUsername(username);
-//        return new ResponseEntity<>(userBookings, HttpStatus.OK);
-//    }
-//    // Get list of all bookings by user //todo: make this work or remove?
-//    @GetMapping("/user/{username}")
-////    @PreAuthorize("hasRole('ADMIN')")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    ResponseEntity<?> getAllBookingsByUser(@PathVariable("username") String username){
-//        List<User> userBookings = (List<User>) bookingService.getAllBookingsByUsername(username);
-//        return new ResponseEntity<>(userBookings, HttpStatus.OK);
-//    }
-
     //todo: works
     // Get a booking by ID
     @GetMapping(value = "/{bookingId}")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getBookingById(@PathVariable("bookingId") long bookingId) {
-       BookingResponse booking = bookingService.getBookingById(bookingId);
+       ResponseEntity<BookingResponse> booking = bookingService.getBookingById(bookingId);
         return new ResponseEntity<>(booking, HttpStatus.OK);
     }
 
-
-    // Get userinfo by booking ID //todo: make this work or remove?
+    //todo: works
+    // Get userinfo by booking ID
     @GetMapping("/user/{bookingId}")
 //    @PreAuthorize("hasRole('ADMIN')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> getUserInfoByBookingId(@PathVariable("bookingId") long bookingId){
-        ResponseEntity<BookingResponse> user = bookingService.getUserByBookingId(bookingId);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<?> getUserBookingByBookingId(
+            @RequestHeader Map<String, String> headers,
+            @PathVariable("bookingId") long bookingId){
+        return bookingService.getUserBookingByBookingId(headers.get("authorization"), bookingId);
     }
+//    return new ResponseEntity<>(user, HttpStatus.OK);
 
     //todo: works
     // Create a new booking by user token
@@ -108,6 +91,17 @@ public class BookingController {
 //        return ResponseEntity.noContent().build();
     }
 
+    //todo: works
+    // Delete a booking by bookingId
+    @DeleteMapping(value = "/{bookingId}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<?> deleteBooking(@RequestHeader Map<String, String> headers, @PathVariable("bookingId") long bookingId){
+        return bookingService.deleteBooking(headers.get("authorization"), bookingId);
+    }
+
+}
+
+
 //    // Update or make a change to a booking
 //    @PutMapping(value = "/{bookingId}")
 ////    @PreAuthorize("hasRole('USER')")
@@ -118,20 +112,15 @@ public class BookingController {
 //        return bookingService.updateByBookingId(headers.get("authorization"), bookingId);
 //    }
 
-    //todo: works
-    @DeleteMapping(value = "/{bookingId}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> deleteBooking(@RequestHeader Map<String, String> headers, @PathVariable("bookingId") long bookingId){
-        return bookingService.deleteBooking(headers.get("authorization"), bookingId);
-    }
 
-    @Autowired
-    public void setBookingService(BookingService bookingService) {
-        this.bookingService = bookingService;
-    }
-}
-
-
+//    // Get list of all bookings by username //todo: make this work or remove?
+//    @GetMapping("/user/{username}")
+////    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    ResponseEntity<?> getAllBookingsByUser(@PathVariable("username") String username){
+//        List<User> userBookings = (List<User>) bookingService.getAllBookingsByUsername(username);
+//        return new ResponseEntity<>(userBookings, HttpStatus.OK);
+//    }
 
 
 // Delete a booking
