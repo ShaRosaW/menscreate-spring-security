@@ -28,11 +28,15 @@ public class AuthController {
     @Autowired
     AuthorizationService authorizationService;
 
+    //todo: works
+    // Login registered user with JWT authentication
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
         return authorizationService.authenticateUser(loginRequest);
     }
 
+    //todo: works
+    // Register user with JWT authentication
     @PostMapping("/register")
     public ResponseEntity<MessageResponse> registerUser(@RequestBody SignupRequest signUpRequest) {
         return authorizationService.registerUser(signUpRequest);

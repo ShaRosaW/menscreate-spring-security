@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public static String uploadDirectory = System.getProperty("user.dir") + "/fileUploads/";
 
 
-    // get all users list (for admin)
+    // get all users list (for admin) //todo: make this work
     @Override
     public ResponseEntity<?> getAllUsers() {
         List<User> users = userRepository.findAll();

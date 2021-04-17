@@ -16,7 +16,8 @@ public interface BookingService {
 
     // Get - Read
     ResponseEntity<?> getAllBookings();
-    ResponseEntity<ResponseEntity<List<BookingResponse>>> getAllBookingsByUsername(String username);
+//    ResponseEntity<ResponseEntity<List<BookingResponse>>> getAllBookingsByUsername(String username);
+//    List<BookingResponse> getAllBookingsByUsername(String username);
 //    ResponseEntity<?> getAllBookingsByDate();
 //    ResponseEntity<?> getAvailabilityDayPartCheck(AvailabilityRequest availabilityRequest);
 //    EDayPart getDayPartOfBooking(long bookingId);

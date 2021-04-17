@@ -39,7 +39,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    // Get a list of all users (Admin only)
+
+    // Get a list of all users (Admin only) //todo: make this work
     @GetMapping(value = "/all")
 //    @PreAuthorize("hasRole('ADMIN')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -48,6 +49,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    //todo: works
     // Get a user by it's token
     @GetMapping("/user")
 //    @PreAuthorize("hasRole('USER')")
@@ -64,7 +66,7 @@ public class UserController {
 //        return new ResponseEntity<>(user, HttpStatus.OK);
 //    }
 
-    // Get user by username
+    // Get user by username //todo: make this work
     @GetMapping(value = "/user/{username}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> getUserByUsername(@PathVariable("username") String username) {
@@ -75,7 +77,7 @@ public class UserController {
     // todo: test if value /update/pathvariable works or with user/update/pv or w/o /
     //  update, same goes for delete, etc. and same goes for bookingcontroller.
 
-    // Upload a file to directory
+    // Upload a file to directory //todo: make this work
     @PostMapping(value = "/{id}/uploads")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -83,7 +85,7 @@ public class UserController {
         userService.uploadFileToDir(file);
     }
 
-    // Upload a file to the database by user ID
+    // Upload a file to the database by user ID //todo: make this work
     @PostMapping(value = "/upload/{id}")
 //    @PreAuthorize("hasRole('USER')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -98,7 +100,7 @@ public class UserController {
         }
     }
 
-    // Get a file by user ID
+    // Get a file by user ID //todo: make this work
     @GetMapping("/download/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<byte[]> getFile(@PathVariable ("id") String id) {
@@ -108,7 +110,7 @@ public class UserController {
                 .body(imgFile.getImage());
     }
 
-    // Get a list of files from the database (for Admin Only)
+    // Get a list of files from the database (for Admin Only) //todo: make this work
     @GetMapping(value = "/files")
 //    @PreAuthorize("hasRole('USER')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -130,7 +132,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
-    // update user profile info by token
+    // update user profile info by token //todo: make this work
     @PutMapping("/user/update-profile")
     @PreAuthorize("hasRole('USER')or hasRole('ADMIN')")
     public ResponseEntity<?> updateUserProfile(@RequestHeader Map<String, String> headers,
@@ -138,7 +140,7 @@ public class UserController {
         return userService.updateUserProfile(headers.get("authorization"), profileUpdate);
     }
 
-    // Update new user profile information by ID
+    // Update new user profile information by ID //todo: make this work
 //    @PutMapping(value = "/{id}")
 //    @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/user/{id}")
@@ -150,7 +152,7 @@ public class UserController {
 
     // todo: saveUserProfile is with updateUserRequest, updateUser same, or connect Requestbody to domain User?
 
-    // Update user information by ID
+    // Update user information by ID //todo: make this work
     @PutMapping(value = "/user/{id}")
 //    @PreAuthorize("hasRole('USER')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -160,7 +162,7 @@ public class UserController {
     }
 
 
-    // Delete user entirely by ID
+    // Delete user entirely by ID //todo: make this work
     @DeleteMapping(value = "/user/{id}")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
