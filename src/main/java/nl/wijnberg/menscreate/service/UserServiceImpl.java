@@ -39,8 +39,18 @@ public class UserServiceImpl implements UserService {
 //    private UpdateUserRequest updateUserRequest;
     public static String uploadDirectory = System.getProperty("user.dir") + "/fileUploads/";
 
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-    // get all users list (for admin) //todo: make this work
+    @Autowired
+    public void setEncoder(PasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
+
+    //todo: works
+    // get all users list (for admin)
     @Override
     public ResponseEntity<?> getAllUsers() {
         List<User> users = userRepository.findAll();
@@ -50,13 +60,53 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.ok(users);
     }
 
-    //get user by username
+    //todo:works
+    // get user by username
     @Override
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    //get user by id
+    //todo: works
+    // find user by token
+    @Override
+    public ResponseEntity<?> findUserByToken(String token) {
+        String username = getUsernameFromToken(token);
+
+        if(userExists(username)) {
+            return ResponseEntity.ok(findUserByUsername(username));
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
+    }
+
+    //todo: works
+    // find user by username
+    private User findUserByUsername(String username) {
+        return userRepository.findByUsername(username).get();
+    }
+
+    //todo: works
+    // get username from token
+    private String getUsernameFromToken(String token) {
+        String tokenWithoutBearer = removePrefix(token);
+
+        Claims claims = Jwts.parser()
+                .setSigningKey(DatatypeConverter.parseBase64Binary(jwtSecret))
+                .parseClaimsJws(tokenWithoutBearer).getBody();
+
+        return claims.getSubject();
+    }
+
+    private String removePrefix(String token) {
+        return token.replace(PREFIX, "");
+    }
+
+    private boolean userExists(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    //todo: works
+    // get user by id
     @Override
     public User getUserById(long id) {
         if (userRepository.existsById(id)) {
@@ -194,49 +244,7 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    // find user by token
-    @Override
-    public ResponseEntity<?> findUserByToken(String token) {
-        String username = getUsernameFromToken(token);
 
-        if(userExists(username)) {
-            return ResponseEntity.ok(findUserByUsername(username));
-        }
-        return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
-    }
-
-    private User findUserByUsername(String username) {
-        return userRepository.findByUsername(username).get();
-    }
-
-    private String getUsernameFromToken(String token) {
-        String tokenWithoutBearer = removePrefix(token);
-
-        Claims claims = Jwts.parser()
-                .setSigningKey(DatatypeConverter.parseBase64Binary(jwtSecret))
-                .parseClaimsJws(tokenWithoutBearer).getBody();
-
-        return claims.getSubject();
-    }
-
-    private String removePrefix(String token) {
-        return token.replace(PREFIX, "");
-    }
-
-    private boolean userExists(String username) {
-        return userRepository.existsByUsername(username);
-    }
-
-
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @Autowired
-    public void setEncoder(PasswordEncoder encoder) {
-        this.encoder = encoder;
-    }
 
 }
 

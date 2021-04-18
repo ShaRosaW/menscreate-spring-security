@@ -39,14 +39,13 @@ public class UserController {
         this.userService = userService;
     }
 
-
-    // Get a list of all users (Admin only) //todo: make this work
+    //todo: works
+    // Get a list of all users (Admin only)
     @GetMapping(value = "/all")
 //    @PreAuthorize("hasRole('ADMIN')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getAllUsers() {
-        List<User> users = (List<User>) userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return userService.getAllUsers();
     }
 
     //todo: works
@@ -58,15 +57,17 @@ public class UserController {
         return userService.findUserByToken(headers.get("authorization"));
     }
 
-//    // Get user by ID
-//    @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    public ResponseEntity<Object> getUserById(@PathVariable("id") long id) {
-//        User user = userService.getUserById(id);
-//        return new ResponseEntity<>(user, HttpStatus.OK);
-//    }
+    //todo: works
+    // Get user by ID
+    @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<Object> getUserById(@PathVariable("id") long id) {
+        User user = userService.getUserById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
-    // Get user by username //todo: make this work
+    //todo: works
+    // Get user by username
     @GetMapping(value = "/user/{username}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> getUserByUsername(@PathVariable("username") String username) {
