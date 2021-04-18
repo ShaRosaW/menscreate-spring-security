@@ -3,17 +3,6 @@ VALUES
 ('ROLE_USER'),
 ('ROLE_ADMIN');
 
--- INSERT INTO booking_type(name)
--- VALUES
--- ('SPACE'),
--- ('BOX');
-
--- INSERT INTO day_part(name)
--- VALUES
--- ('MORNING'),
--- ('AFTERNOON'),
--- ('WHOLE_DAY');
-
 INSERT INTO users(username,email,password)
 VALUES
 ( 'sharonr', 'sharon@gmail.com', '$2a$10$44azppeekabMTwZZ1vtq4OWr/SboMJh4KxUOepB8EFkEJH6gbfeQq' ),
@@ -27,18 +16,35 @@ VALUES
 ( 'Sharon', 'Wijnberg', '0612345678', 1),
 ( 'User1', 'Onelast', '0612345677', 2),
 ( 'Admin', 'Adminlast', '0612345676', 3);
--- INSERT INTO app_user(id, user_id)
--- VALUES
--- (1,1), (2,2), (3,3);
 
--- INSERT INTO app_user(file)
--- VALUES
--- ( )
 INSERT INTO booking(booking_date, box_name, user_id)
 VALUES
 (TO_DATE('29/03/2021', 'DD/MM/YYYY'), 'work space', 1),
 (TO_DATE('29/03/2021', 'DD/MM/YYYY'), 'meeting area', 1),
 (TO_DATE('29/03/2021', 'DD/MM/YYYY'), 'work space', 3);
+
+alter sequence native restart with 4;
+
+-- INSERT INTO booking_type(name)
+-- VALUES
+-- ('SPACE'),
+-- ('BOX');
+
+-- INSERT INTO day_part(name)
+-- VALUES
+-- ('MORNING'),
+-- ('AFTERNOON'),
+-- ('WHOLE_DAY');
+
+
+-- INSERT INTO app_user(id, user_id)
+-- VALUES
+-- (1,1), (2,2), (3,3);
+
+
+-- INSERT INTO app_user(file)
+-- VALUES
+-- ( )
 
 -- INSERT INTO booking(booking_date, day_part, bookingtype_id, user_id)
 -- VALUES
