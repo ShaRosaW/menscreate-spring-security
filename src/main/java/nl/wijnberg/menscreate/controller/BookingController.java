@@ -30,8 +30,8 @@ public class BookingController {
     //todo: works
     // Get list of all bookings (Admin only, have to change preAuthorize later)
     @GetMapping("/all")
-//    @PreAuthorize("hasRole('ADMIN')")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getAllBookings() {
        return bookingService.getAllBookings();
     }
@@ -95,6 +95,7 @@ public class BookingController {
     // Delete a booking by bookingId
     @DeleteMapping(value = "/{bookingId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
     public ResponseEntity<?> deleteBooking(@RequestHeader Map<String, String> headers, @PathVariable("bookingId") long bookingId){
         return bookingService.deleteBooking(headers.get("authorization"), bookingId);
     }

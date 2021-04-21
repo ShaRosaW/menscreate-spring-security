@@ -16,25 +16,25 @@ public interface BookingService {
 
     // Get - Read
     ResponseEntity<?> getAllBookings();
+    ResponseEntity<?> getUserBookings(String token);
+    ResponseEntity<BookingResponse> getUserBookingByBookingId(String token, long bookingId);
+    ResponseEntity<BookingResponse> getBookingById(long bookingId);
 //    ResponseEntity<ResponseEntity<List<BookingResponse>>> getAllBookingsByUsername(String username);
 //    List<BookingResponse> getAllBookingsByUsername(String username);
 //    ResponseEntity<?> getAllBookingsByDate();
 //    ResponseEntity<?> getAvailabilityDayPartCheck(AvailabilityRequest availabilityRequest);
 //    EDayPart getDayPartOfBooking(long bookingId);
-    ResponseEntity<?> getUserBookings(String token);
-    ResponseEntity<BookingResponse> getUserBookingByBookingId(String token, long bookingId);
-    ResponseEntity<BookingResponse> getBookingById(long bookingId);
-
 
     // Post - Create
+    long createBooking(String token, Booking booking);
 //    ResponseEntity<Object> createBookingByDayPart(AvailabilityRequest availabilityRequest);
 //    ResponseEntity<MessageResponse> createBookingByDate(BookingRequest bookingRequest);
 //    ResponseEntity<MessageResponse> createBookingByBookingType(BookingRequest bookingRequest);
 //    ResponseEntity<MessageResponse> createBookingBySpaceType(SpaceRequest spaceRequest);
 //    ResponseEntity<MessageResponse> createBookingByBoxType(BoxRequest boxRequest);
-    long createBooking(String token, Booking booking);
+
 //    long saveAvailableDayPart(long userId, AvailabilityRequest availabilityRequest);
-    //    long saveBooking(Booking booking);
+//    long saveBooking(Booking booking);
 
     // Put or Post - Update
     Booking updateBooking(long bookingId, BookingRequest bookingRequest, String authorization);
@@ -42,12 +42,10 @@ public interface BookingService {
 //    void updateBooking(long bookingId, Booking booking);
 //    ResponseEntity<?> updateByBookingId(String token, long bookingId);
 
-
     // Delete
     ResponseEntity<?>deleteBooking(String token, long bookingId);
-
-
 //    void deleteBooking(long bookingId);
+
 }
 
 //    Booking getBookingById(long bookingId);

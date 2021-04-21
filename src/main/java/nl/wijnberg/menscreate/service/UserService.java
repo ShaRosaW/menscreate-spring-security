@@ -32,8 +32,8 @@ public interface UserService {
     ResponseEntity<?> updateUser(long id, UpdateUserRequest userUpdate);
 
     // Delete
-    void deleteUser(long id);
-    ResponseEntity<?> deleteUser(String token, String username);
+//    void deleteUser(long id);
+    ResponseEntity<?> deleteUser(String token);
 }
 
 //    long saveUser(UpdateUserRequest updateUserRequest);

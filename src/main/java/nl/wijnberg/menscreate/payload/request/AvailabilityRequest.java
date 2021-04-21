@@ -8,7 +8,6 @@ import java.time.LocalDate;
 public class AvailabilityRequest {
     @NotNull
     private LocalDate bookingDate;
-
 //    private DayPart dayPart;
     private String boxName;
 

@@ -3,6 +3,8 @@ package nl.wijnberg.menscreate.domain;
 //import nl.wijnberg.menscreate.domain.enums.EDayPart;
 //import nl.wijnberg.menscreate.domain.enums.ETimeTable;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -27,6 +29,7 @@ public class Booking {
 //    @JoinColumn(name = "day_part", referencedColumnName = "id")
 //    private DayPart dayPart;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -43,7 +46,8 @@ public class Booking {
     public Booking(LocalDate bookingDate,
                    String boxName,
 //                   DayPart dayPart,
-                   User user) {
+                   User user
+    ) {
         this.bookingDate = bookingDate;
         this.boxName = boxName;
 //        this.dayPart = dayPart;
@@ -95,7 +99,7 @@ public class Booking {
 
 
 
-    public void setUser(long userId) {
+    public void setUser(long userId) { this.setUser(userId);
     }
 }
 

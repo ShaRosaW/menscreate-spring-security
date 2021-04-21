@@ -42,8 +42,8 @@ public class UserController {
     //todo: works
     // Get a list of all users (Admin only)
     @GetMapping(value = "/all")
-//    @PreAuthorize("hasRole('ADMIN')")
-        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
+//        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getAllUsers() {
         return userService.getAllUsers();
     }
@@ -163,20 +163,22 @@ public class UserController {
     }
 
 
-    // Delete user entirely by ID //todo: make this work
-    @DeleteMapping(value = "/user/{id}")
-//    @PreAuthorize("hasRole('USER')")
-        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Object> deleteUser(@PathVariable("id") long id) {
-        userService.deleteUser(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    // Delete user entirely by ID //todo: make this work
+//    @DeleteMapping(value = "/user/{id}")
+////    @PreAuthorize("hasRole('USER')")
+//        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<Object> deleteUser(@PathVariable("id") long id) {
+//        userService.deleteUser(id);
+//        return new ResponseEntity<>(" User with ID " + id + " has been deleted", HttpStatus.NO_CONTENT);
+//    }
+
+    @DeleteMapping("/user/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") int id,
+                                        @RequestHeader Map<String, String> headers){
+        return userService.deleteUser(headers.get("authorization"));
     }
 
-//    @DeleteMapping("/delete")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    public ResponseEntity<?> deleteUser(@RequestHeader Map<String, String> headers, @RequestBody String username){
-//        return userService.deleteUser(headers.get("authorization"), username);
-//    }
 
 }
 

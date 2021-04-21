@@ -3,6 +3,7 @@ package nl.wijnberg.menscreate.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import nl.wijnberg.menscreate.domain.ProfileBuilder;
+import nl.wijnberg.menscreate.domain.Role;
 import nl.wijnberg.menscreate.domain.User;
 import nl.wijnberg.menscreate.domain.UserProfileInfo;
 import nl.wijnberg.menscreate.exceptions.DatabaseErrorException;
@@ -24,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,6 +38,7 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder encoder;
     private UserRepository userRepository;
     private UserProfileInfoRepository profileInfoRepository;
+    private UserService userService;
 //    private UpdateUserRequest updateUserRequest;
     public static String uploadDirectory = System.getProperty("user.dir") + "/fileUploads/";
 
@@ -117,6 +120,8 @@ public class UserServiceImpl implements UserService {
             throw new RecordNotFoundException();
         }
     }
+
+//    public Set<Role> getAuthorities()
 
     @Override
     public void uploadFileToDir(MultipartFile file) throws IOException {
@@ -202,6 +207,37 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+//    @Override
+//    public ResponseEntity<?> deleteUser(String token, String username) {
+//        return null;
+//    }
+    // todo: find out why user cannot be deleted..
+    @Override
+    public ResponseEntity<?> deleteUser(String token) {
+        String username = getUsernameFromToken(token);
+        Optional<User> userProfile = userRepository.findByUsername(username);
+        if(userProfile.isPresent() == userExists(username)){
+            userRepository.deleteById(username);
+            return ResponseEntity.ok().body(new MessageResponse("User has been deleted"));
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("User can not be deleted"));
+    }
+
+
+    //    @Override
+    //    public ResponseEntity<?> deleteUser(String token, String username) {
+    //        User userProfile = (User) userService.findUserByToken(getUsernameFromToken(token)).getBody();
+    //        userRepository.findByUsername(userProfile.getUsername());
+    //        if(userExists(userProfile.getUsername())){
+    //            userRepository.deleteByUsername(username);
+    //            return ResponseEntity.ok().body(new MessageResponse("User has been deleted"));
+    //        }
+    //        return ResponseEntity.badRequest().body(new MessageResponse("User can not be deleted"));
+    //    }
+
+    //        == profileInfoRepository.findByUserUsername(userProfile.getUsername())) {
+    //userRepository.deleteByUsername(userProfile.getUsername());
+//userProfile.getUsername() == userRepository.deleteByUsername(username))
 
 
     //    @Override
@@ -228,25 +264,33 @@ public class UserServiceImpl implements UserService {
 //        return ResponseEntity.badRequest().body(new MessageResponse("User cannot be updated with provided data."));
 //    }
 
-    // delete user
-    @Override
-    public void deleteUser(long id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-        }
-        else {
-            throw new RecordNotFoundException();
-        }
-    }
+//    // delete user
+//    @Override
+//    public void deleteUser(long id) {
+//        if (userRepository.existsById(id)) {
+//            if (userRepository.findById(id).equals(profileInfoRepository.findById(id))){
+//            userRepository.deleteById(id);}
+//        }
+//        else {
+//            throw new RecordNotFoundException();
+//        }
+//    }
 
-    @Override
-    public ResponseEntity<?> deleteUser(String token, String username) {
-        return null;
-    }
-
+//    @Override
+//    public ResponseEntity<?> deleteUser(String token, String username) {
+//        User userProfile = (User) userService.findUserByToken(getUsernameFromToken(token)).getBody();
+//        if (userRepository.findByUsername(userProfile.getUsername())
+//        == profileInfoRepository.findByUserUsername(userProfile.getUsername())) {
+//            userRepository.deleteByUsername(userProfile.getUsername());
+//            return ResponseEntity.ok().body(new MessageResponse("User has been deleted"));
+//        }
+//        return ResponseEntity.badRequest().body(new MessageResponse("User can not be deleted"));
+//    }
+//userProfile.getUsername() == userRepository.deleteByUsername(username))
 
 
 }
+
 
 //    @Override
 //    public long saveUser(UpdateUserRequest updateUserRequest) {

@@ -1,5 +1,6 @@
 package nl.wijnberg.menscreate.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -25,8 +26,8 @@ public class User {
     private String email;
     private String password;
 
-//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
-//    private UserProfileInfo userProfileInfo;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+    private UserProfileInfo userProfileInfo;
 
     //for bookings in profile with image file as well
     @Column
@@ -42,6 +43,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "user",
             cascade = CascadeType.ALL,
@@ -160,11 +162,11 @@ public class User {
 //    public void setFile(Long fileId) {
 //    }
 
-//    public UserProfileInfo getUserProfileInfo() {
-//        return userProfileInfo;
-//    }
-//
-//    public void setUserProfileInfo(UserProfileInfo userProfileInfo) {
-//        this.userProfileInfo = userProfileInfo;
-//    }
+    public UserProfileInfo getUserProfileInfo() {
+        return userProfileInfo;
+    }
+
+    public void setUserProfileInfo(UserProfileInfo userProfileInfo) {
+        this.userProfileInfo = userProfileInfo;
+    }
 }

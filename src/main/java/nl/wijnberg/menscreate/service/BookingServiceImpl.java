@@ -2,6 +2,7 @@ package nl.wijnberg.menscreate.service;
 
 import nl.wijnberg.menscreate.domain.*;
 
+import nl.wijnberg.menscreate.domain.enums.ERole;
 import nl.wijnberg.menscreate.exceptions.RecordNotFoundException;
 import nl.wijnberg.menscreate.payload.request.BookingRequest;
 import nl.wijnberg.menscreate.payload.response.BookingResponse;
@@ -20,11 +21,30 @@ public class BookingServiceImpl implements BookingService {
 
 //    private static final String NOT_FOUND_ERROR = "Error: Request is not found.";
 
-    @Autowired
     private BookingRepository bookingRepository;
     private UserRepository userRepository;
-    @Autowired
+    private RoleRepository roleRepository;
     private UserService userService;
+
+    @Autowired
+    public void setBookingRepository(BookingRepository bookingRepository) {
+        this.bookingRepository = bookingRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setRoleRepository(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     // todo: works
     // get all bookings (for admin)
@@ -69,7 +89,7 @@ public class BookingServiceImpl implements BookingService {
         if (bookingRepository.existsById(bookingId)) {
             Booking booking = bookingRepository.findByBookingId(bookingId);
             BookingResponse bookingResponse = new BookingResponse(
-                    booking.getUser(),
+                    booking.getUser().getId(),
                     booking.getBookingId(),
                     booking.getBoxName(),
                     booking.getBookingDate().toString());
@@ -120,7 +140,7 @@ public class BookingServiceImpl implements BookingService {
 
         for (int i = 0; i < bookings.size(); i++) {
             BookingResponse bookingResponse = new BookingResponse(
-                    bookings.get(i).getUser(),
+                    bookings.get(i).getUser().getId(),
                     bookings.get(i).getBookingId(),
                     bookings.get(i).getBoxName(),
                     bookings.get(i).getBookingDate().toString()
@@ -133,32 +153,6 @@ public class BookingServiceImpl implements BookingService {
         return bookingResponses;
     }
 
-//    // todo: works
-//    // update booking by booking id
-//    @Override
-//    public Booking updateBooking(long bookingId, BookingRequest bookingRequest, String authorization) {
-//        // todo: investigate the user info Json array, perhaps check the createbookingresponse list by findallbookingsbyusername
-//        if (bookingRepository.existsById(bookingId)) {
-//                User userBookingUpdate = (User) userService.findUserByToken(authorization).getBody();
-//                Booking existBooking = bookingRepository.findByBookingId(bookingId);
-//
-//                if(bookingRepository.findByBookingId(bookingId).getUser().getId()
-//                        == userService.findUserByToken(authorization).getBody()) {
-//
-//                    existBooking.setBookingDate(bookingRequest.getBookingDate());
-//                    existBooking.setBoxName(bookingRequest.getBoxName());
-//
-//                    bookingRepository.save(existBooking);
-//                    return existBooking;
-//                } else {
-//                    throw new ResponseStatusException(
-//                            HttpStatus.FORBIDDEN, "This booking with id " + bookingId + "does not belong to you.");
-//                }
-//        } else {
-//            throw new RecordNotFoundException();
-//        }
-//
-//    }
 
         // todo: works
         // update booking by booking id
@@ -187,7 +181,7 @@ public class BookingServiceImpl implements BookingService {
 
         }
 
-    //todo: works
+        //todo: works
     // delete booking
     @Override
     public ResponseEntity<?> deleteBooking(String token, long bookingId) {
@@ -207,7 +201,89 @@ public class BookingServiceImpl implements BookingService {
                     HttpStatus.NOT_FOUND, "There was no booking found with this id " + bookingId + ".");
         }
     }
+
+//    //todo: works
+//    // delete booking
+//    @Override
+//    public ResponseEntity<?> deleteBooking(String token, long bookingId) {
+//
+//        Optional<Role> adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
+//        User userBooking = (User) userService.findUserByToken(token).getBody();
+//        List<Booking> bookingsUser = findUserBookings(token);
+//        List<Long> bookingList = new ArrayList<>();
+//        for (Booking b : bookingsUser) {
+//            bookingList.add(b.getBookingId());
+//        }
+//        if (bookingRepository.existsById(bookingId)) {
+//            if (bookingList.contains(bookingId) || userBooking.getRoles().contains(adminRole)) {
+//                Booking cancelBooking = bookingRepository.findByBookingId(bookingId);
+//                bookingRepository.deleteByBookingId(cancelBooking.getBookingId());
+//                return ResponseEntity.ok(new MessageResponse("Booking with id number: " + bookingId + " was deleted with success"));
+//            } else {
+//                throw new ResponseStatusException(
+//                        HttpStatus.FORBIDDEN, "This booking with this id " + bookingId + "does not belong to you.");
+//            }
+//        }   else{
+//                throw new ResponseStatusException(
+//                        HttpStatus.NOT_FOUND, "There was no booking found with this id " + bookingId + ".");
+//            }
+//
+//    }
+
+//    cancelBooking.getUser().getId();
+    //== userBooking.getId()
+    //cancelBooking.getUser().getRoles().contains(userBooking)
 }
+
+//    //todo: works
+//    // delete booking
+//    @Override
+//    public ResponseEntity<?> deleteBooking(String token, long bookingId) {
+//        if (bookingRepository.existsById(bookingId)){
+//        Booking cancelBooking = bookingRepository.findByBookingId(bookingId);
+//            User userBooking = (User) userService.findUserByToken(token).getBody();
+//
+//            if (cancelBooking.getUser().getId() == userBooking.getId()) {
+//                bookingRepository.delete(cancelBooking);
+//                return ResponseEntity.ok(new MessageResponse("Booking with id number: " + bookingId + " was deleted with success"));
+//            } else {
+//                throw new ResponseStatusException(
+//                        HttpStatus.FORBIDDEN, "This booking with this id " + bookingId + "does not belong to you.");
+//            }
+//        } else {
+//            throw new ResponseStatusException(
+//                    HttpStatus.NOT_FOUND, "There was no booking found with this id " + bookingId + ".");
+//        }
+//    }
+//}
+
+//    // todo: works
+//    // update booking by booking id
+//    @Override
+//    public Booking updateBooking(long bookingId, BookingRequest bookingRequest, String authorization) {
+//        // todo: investigate the user info Json array, perhaps check the createbookingresponse list by findallbookingsbyusername
+//        if (bookingRepository.existsById(bookingId)) {
+//                User userBookingUpdate = (User) userService.findUserByToken(authorization).getBody();
+//                Booking existBooking = bookingRepository.findByBookingId(bookingId);
+//
+//                if(bookingRepository.findByBookingId(bookingId).getUser().getId()
+//                        == userService.findUserByToken(authorization).getBody()) {
+//
+//                    existBooking.setBookingDate(bookingRequest.getBookingDate());
+//                    existBooking.setBoxName(bookingRequest.getBoxName());
+//
+//                    bookingRepository.save(existBooking);
+//                    return existBooking;
+//                } else {
+//                    throw new ResponseStatusException(
+//                            HttpStatus.FORBIDDEN, "This booking with id " + bookingId + "does not belong to you.");
+//                }
+//        } else {
+//            throw new RecordNotFoundException();
+//        }
+//
+//    }
+
 
 //    // create booking response list
 //    public ResponseEntity<List<BookingResponse>> createBookingResponse(List<Booking> bookings) {

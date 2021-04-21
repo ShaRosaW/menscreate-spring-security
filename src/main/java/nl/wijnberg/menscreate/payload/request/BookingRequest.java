@@ -1,6 +1,4 @@
 package nl.wijnberg.menscreate.payload.request;
-//
-//import nl.wijnberg.menscreate.domain.DayPart;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -12,20 +10,17 @@ public class BookingRequest {
     private String boxName;
     @NotNull
     private LocalDate bookingDate;
-//    @NotNull
-//    private DayPart dayPart;
 
-
-    public BookingRequest(long userId, long bookingId, @NotNull String boxName, @NotNull LocalDate bookingDate
-//            , @NotNull DayPart dayPart
+    public BookingRequest(long userId,
+                          long bookingId,
+                          @NotNull String boxName,
+                          @NotNull LocalDate bookingDate
     ) {
         this.userId = userId;
         this.bookingId = bookingId;
         this.boxName = boxName;
         this.bookingDate = bookingDate;
-//        this.dayPart = dayPart;
     }
-
 
     public long getUserId() {
         return userId;
@@ -59,6 +54,15 @@ public class BookingRequest {
         this.bookingDate = bookingDate;
     }
 
+}
+
+
+//    @NotNull
+//    private DayPart dayPart;
+
+//            , @NotNull DayPart dayPart
+//        this.dayPart = dayPart;
+
 //    public DayPart getDayPart() {
 //        return dayPart;
 //    }
@@ -66,8 +70,6 @@ public class BookingRequest {
 //    public void setDayPart(DayPart dayPart) {
 //        this.dayPart = dayPart;
 //    }
-}
-
 
 //    public BookingRequest(long userId, long bookingId, @NotNull LocalDate bookingDate, @NotNull DayPart dayPart,
 ////                          @NotNull ETimeTable timeTable,

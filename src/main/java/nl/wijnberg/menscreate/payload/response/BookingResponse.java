@@ -12,56 +12,35 @@ import java.util.List;
 
 public class BookingResponse {
 
-    private Long userId;
+    private long userId;
     private long bookingId;
     private String boxName;
     private String bookingDate;
-//    private DayPart dayPart;
 
-//    public BookingResponse(User userId,
-//                           String boxName,
-//                           String bookingDate
-////            , DayPart dayPart
-//    ) {
-//        this.userId = userId;
-//        this.boxName = boxName;
-//        this.bookingDate = bookingDate;
-////        this.dayPart = dayPart;
+//    public BookingResponse(List<BookingResponse> bookingResponses) {
 //    }
 
-    public BookingResponse(List<BookingResponse> bookingResponses) {
-    }
+//    public BookingResponse(User user, Long bookingId, String boxName, String bookingDate
+//    ) {
+//        this.userId = user.getId();
+//        this.setBookingId(bookingId); // todo: investigate later
+//        this.boxName = boxName;
+//        this.bookingDate = bookingDate;
+//    }
 
-    public BookingResponse(LocalDate bookingDate
-//            , EDayPart dayPart
+    public BookingResponse(long userId, long bookingId, String boxName, String bookingDate
     ) {
-
-    }
-
-    public BookingResponse(User user, Long bookingId, String boxName, String bookingDate
-    ) {
-        this.userId = user.getId();
+        this.setUserId(userId);
         this.setBookingId(bookingId); // todo: investigate later
         this.boxName = boxName;
         this.bookingDate = bookingDate;
     }
 
-    public BookingResponse(User user, String toString) {
-    }
-
-    public BookingResponse(User user, String boxName, String toString) {
-
-    }
-
-//    public BookingResponse(User user, String toString, DayPart dayPart) {
-//    }
-
-
-    public Long getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -89,6 +68,30 @@ public class BookingResponse {
         this.bookingDate = bookingDate;
     }
 
+}
+
+
+//    public BookingResponse(User userId,
+//                           String boxName,
+//                           String bookingDate
+////            , DayPart dayPart
+//    ) {
+//        this.userId = userId;
+//        this.boxName = boxName;
+//        this.bookingDate = bookingDate;
+////        this.dayPart = dayPart;
+//    }
+
+
+
+//    public BookingResponse(LocalDate bookingDate
+////            , EDayPart dayPart
+//    ) {
+//
+//    }
+
+//    private DayPart dayPart;
+
 //    public DayPart getDayPart() {
 //        return dayPart;
 //    }
@@ -96,9 +99,19 @@ public class BookingResponse {
 //    public void setDayPart(DayPart dayPart) {
 //        this.dayPart = dayPart;
 //    }
-}
 
+//    public BookingResponse(long id, Long bookingId, String boxName, String bookingDate) {
+//    }
 
+//    public BookingResponse(User user, String toString) {
+//    }
+//
+//    public BookingResponse(User user, String boxName, String toString) {
+//
+//    }
+
+//    public BookingResponse(User user, String toString, DayPart dayPart) {
+//    }
 
     //    private BookingType bookingType;
 //    private String timeTable;
