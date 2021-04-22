@@ -11,11 +11,11 @@ VALUES
 INSERT INTO user_role(user_id,role_id)
 VALUES ( 1,1 ),( 2,1 ),( 3,2 );
 
--- INSERT INTO user_profile(first_name,last_name,phone_number, user_id)
--- VALUES
--- ( 'Sharon', 'Wijnberg', '0612345678', 1),
--- ( 'User1', 'Onelast', '0612345677', 2),
--- ( 'Admin', 'Adminlast', '0612345676', 3);
+INSERT INTO user_profile(first_name,last_name,phone_number, user_id)
+VALUES
+( 'Sharon', 'Wijnberg', '0612345678', 1),
+( 'User1', 'Onelast', '0612345677', 2),
+( 'Admin', 'Adminlast', '0612345676', 3);
 
 INSERT INTO booking(booking_date, box_name, user_id)
 VALUES

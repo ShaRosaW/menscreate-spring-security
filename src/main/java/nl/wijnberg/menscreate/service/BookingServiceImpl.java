@@ -189,7 +189,9 @@ public class BookingServiceImpl implements BookingService {
         Booking cancelBooking = bookingRepository.findByBookingId(bookingId);
             User userBooking = (User) userService.findUserByToken(token).getBody();
 
-            if (cancelBooking.getUser().getId() == userBooking.getId()) {
+            Boolean isAdmin = userBooking.getRoles().stream().anyMatch(role -> role.getName() == ERole.ROLE_ADMIN);
+
+            if (cancelBooking.getUser().getId() == userBooking.getId() || isAdmin) {
                 bookingRepository.delete(cancelBooking);
                 return ResponseEntity.ok(new MessageResponse("Booking with id number: " + bookingId + " was deleted with success"));
             } else {

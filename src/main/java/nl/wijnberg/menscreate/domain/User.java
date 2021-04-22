@@ -1,5 +1,6 @@
 package nl.wijnberg.menscreate.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -26,15 +27,16 @@ public class User {
     private String email;
     private String password;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
     private UserProfileInfo userProfileInfo;
 
     //for bookings in profile with image file as well
-    @Column
+    @JsonIgnore
     private String firstName;
-    @Column
+    @JsonIgnore
     private String lastName;
-    @Column
+    @JsonIgnore
     private String phoneNumber;
 
     @ManyToMany
