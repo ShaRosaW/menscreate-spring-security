@@ -53,7 +53,7 @@ public class User {
     private List<Booking> bookings;
 
 //    @OneToOne(mappedBy = "user")
-//    private File file;
+//    private FileDB fileDB;
 
     public User() {
 
@@ -152,6 +152,24 @@ public class User {
     public void addBooking(Booking booking){
         this.bookings.add(booking);
     }
+
+
+    public UserProfileInfo getUserProfileInfo() {
+        return userProfileInfo;
+    }
+
+    public void setUserProfileInfo(UserProfileInfo userProfileInfo) {
+        this.userProfileInfo = userProfileInfo;
+    }
+
+//    public FileDB getFileDB() {
+//        return fileDB;
+//    }
+//
+//    public void setFileDB(FileDB fileDB) {
+//        this.fileDB = fileDB;
+//    }
+}
 //
 //    public File getFile() {
 //        return file;
@@ -163,12 +181,3 @@ public class User {
 //
 //    public void setFile(Long fileId) {
 //    }
-
-    public UserProfileInfo getUserProfileInfo() {
-        return userProfileInfo;
-    }
-
-    public void setUserProfileInfo(UserProfileInfo userProfileInfo) {
-        this.userProfileInfo = userProfileInfo;
-    }
-}

@@ -6,40 +6,43 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table
-public class File {
+@Table(name = "files")
+public class FileDB {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @Column
+//    @Column
     private String name;
 
-    @Column
+//    @Column
     private String type;
 
     //Binary Large OBject for large binary dataobject storage, like image
-    @JsonIgnore
+//    @JsonIgnore
+
+//    @Column(name = "data", columnDefinition="BLOB")
     @Lob
-    @Column(name = "image", columnDefinition="BLOB")
-    private byte[] image;
+    private byte[] data;
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+//    @JsonIgnore
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private User user;
 
-    public File(String name, String type, byte[] image) {
+    public FileDB() {
+
+    }
+
+    public FileDB(String name, String type, byte[] data) {
         this.name = name;
         this.type = type;
-        this.image = image;
+        this.data = data;
     }
 
-    public File() {
 
-    }
 
     //
 //    public File(String fileId, String name, byte[] image) {
@@ -88,19 +91,19 @@ public class File {
         this.name = file;
     }
 
-    public User getUser() {
-        return user;
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
+
+    public byte[] getData() {
+        return data;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setData(byte[] data) {
+        this.data = data;
     }
 }

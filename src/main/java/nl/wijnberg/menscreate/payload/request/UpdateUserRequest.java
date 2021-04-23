@@ -1,7 +1,5 @@
 package nl.wijnberg.menscreate.payload.request;
 
-import nl.wijnberg.menscreate.domain.File;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 

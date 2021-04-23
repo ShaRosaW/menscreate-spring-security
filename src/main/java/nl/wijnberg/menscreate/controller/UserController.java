@@ -1,11 +1,11 @@
 package nl.wijnberg.menscreate.controller;
 
-import nl.wijnberg.menscreate.domain.File;
+import nl.wijnberg.menscreate.domain.FileDB;
 import nl.wijnberg.menscreate.domain.User;
 import nl.wijnberg.menscreate.payload.request.UpdateUserRequest;
 import nl.wijnberg.menscreate.payload.response.FileResponse;
 import nl.wijnberg.menscreate.payload.response.MessageResponse;
-import nl.wijnberg.menscreate.service.FileService;
+import nl.wijnberg.menscreate.service.FileStorageService;
 import nl.wijnberg.menscreate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -32,7 +32,7 @@ public class UserController {
     // to change if needed.
 
     private UserService userService;
-    private FileService fileService;
+    private FileStorageService fileService;
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -86,52 +86,52 @@ public class UserController {
         userService.uploadFileToDir(file);
     }
 
-    // Upload a file to the database by user ID //todo: make this work
-    @PostMapping(value = "/upload/{id}")
-//    @PreAuthorize("hasRole('USER')")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<MessageResponse> uploadFileToDB(@PathVariable ("id") long userId, @RequestParam("file") MultipartFile file){
-        try {
-            fileService.store(file, userId);
-            String message = "Picture was uploaded successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
-        } catch (Exception e) {
-            String message = "Could not upload this picture" + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
-        }
-    }
+//    // Upload a file to the database by user ID //todo: make this work
+//    @PostMapping(value = "/upload/{id}")
+////    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<MessageResponse> uploadFileToDB(@PathVariable ("id") long userId, @RequestParam("file") MultipartFile file){
+//        try {
+//            fileService.store(file, userId);
+//            String message = "Picture was uploaded successfully: " + file.getOriginalFilename();
+//            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
+//        } catch (Exception e) {
+//            String message = "Could not upload this picture" + file.getOriginalFilename() + "!";
+//            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
+//        }
+//    }
+//
+//    // Get a file by user ID //todo: make this work
+//    @GetMapping("/download/{id}")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<byte[]> getFile(@PathVariable ("id") String id) {
+//        FileDB imgFile = fileService.getFileById(id);
+//        return ResponseEntity.ok()
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imgFile.getName() + "\"")
+//                .body(imgFile.getData());
+//    }
 
-    // Get a file by user ID //todo: make this work
-    @GetMapping("/download/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<byte[]> getFile(@PathVariable ("id") String id) {
-        File imgFile = fileService.getFileById(id);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imgFile.getName() + "\"")
-                .body(imgFile.getImage());
-    }
-
-    // Get a list of files from the database (for Admin Only) //todo: make this work
-    @GetMapping(value = "/files")
-//    @PreAuthorize("hasRole('USER')")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<List<FileResponse>> getFilesList() {
-        List<FileResponse> files = fileService.getAllFiles().map(imgFile -> {
-            String fileDownloadUri = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/files/")
-                    .path(imgFile.getId())
-                    .toUriString();
-
-            return new FileResponse(
-                    imgFile.getName(),
-                    fileDownloadUri,
-                    imgFile.getType(),
-                    imgFile.getImage().length);
-        }).collect(Collectors.toList());
-
-        return ResponseEntity.status(HttpStatus.OK).body(files);
-    }
+//    // Get a list of files from the database (for Admin Only) //todo: make this work
+//    @GetMapping(value = "/files")
+////    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<List<FileResponse>> getFilesList() {
+//        List<FileResponse> files = fileService.getAllFiles().map(imgFile -> {
+//            String fileDownloadUri = ServletUriComponentsBuilder
+//                    .fromCurrentContextPath()
+//                    .path("/files/")
+//                    .path(imgFile.getId())
+//                    .toUriString();
+//
+//            return new FileResponse(
+//                    imgFile.getName(),
+//                    fileDownloadUri,
+//                    imgFile.getType(),
+//                    imgFile.getData().length);
+//        }).collect(Collectors.toList());
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(files);
+//    }
 
     // update user profile info by token //todo: make this work
     @PutMapping("/user/update-profile")
