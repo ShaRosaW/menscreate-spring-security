@@ -1,9 +1,11 @@
 package nl.wijnberg.menscreate.controller;
 
 import nl.wijnberg.menscreate.domain.FileDB;
+import nl.wijnberg.menscreate.domain.User;
 import nl.wijnberg.menscreate.payload.response.FileResponse;
 import nl.wijnberg.menscreate.payload.response.MessageResponse;
 import nl.wijnberg.menscreate.service.FileStorageService;
+import nl.wijnberg.menscreate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 //@CrossOrigin(origins = "http://localhost:3000")
@@ -23,11 +26,17 @@ public class FileController {
 
     @Autowired
     private FileStorageService storageService;
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/upload")
-    public ResponseEntity<MessageResponse> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<MessageResponse> uploadFile(
+            @RequestParam("file") MultipartFile file, @RequestHeader Map<String, String> headers) {
         String message = "";
+        String token = headers.get("authorization");
+        User requestUser = (User) userService.findUserByToken(token).getBody();
         try {
-            storageService.store(file);
+            storageService.store(file, requestUser);
 
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));

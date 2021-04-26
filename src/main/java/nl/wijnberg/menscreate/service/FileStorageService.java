@@ -22,16 +22,16 @@ public class FileStorageService {
 //    @Autowired
 //    private UserRepository userRepository;
 //, long userId
-    public FileDB store(MultipartFile file) throws IOException{
+    public FileDB store(MultipartFile file, User user) throws IOException{
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        FileDB imgFile = new FileDB(fileName, file.getContentType(), file.getBytes());
+        FileDB FileDB = new FileDB(fileName, file.getContentType(), file.getBytes(), user);
 
 //        User user = null;
 //        if (userRepository.existsById(userId)){
 //            user = userRepository.findById(userId).orElse(null);
 //        } imgFile.setUser(user);
-        return fileDBRepository.save(imgFile);
+        return fileDBRepository.save(FileDB);
     }
 
     public FileDB getFile(String id){

@@ -1,5 +1,6 @@
 package nl.wijnberg.menscreate.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -27,6 +28,11 @@ public class FileDB {
     @Lob
     private byte[] data;
 
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 //    @JsonIgnore
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -36,10 +42,11 @@ public class FileDB {
 
     }
 
-    public FileDB(String name, String type, byte[] data) {
+    public FileDB(String name, String type, byte[] data, User user) {
         this.name = name;
         this.type = type;
         this.data = data;
+        this.user = user;
     }
 
 

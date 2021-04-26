@@ -52,6 +52,13 @@ public class User {
             orphanRemoval = true)
     private List<Booking> bookings;
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<FileDB> files;
+
 //    @OneToOne(mappedBy = "user")
 //    private FileDB fileDB;
 
