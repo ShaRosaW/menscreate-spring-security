@@ -19,36 +19,47 @@ public class FileStorageService {
     @Autowired
     private FileDBRepository fileDBRepository;
 
-//    @Autowired
-//    private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 //, long userId
     public FileDB store(MultipartFile file, User user) throws IOException{
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        FileDB FileDB = new FileDB(fileName, file.getContentType(), file.getBytes(), user);
+        FileDB fileDB = new FileDB(fileName, file.getContentType(), file.getBytes(), user);
 
-//        User user = null;
-//        if (userRepository.existsById(userId)){
-//            user = userRepository.findById(userId).orElse(null);
-//        } imgFile.setUser(user);
-        return fileDBRepository.save(FileDB);
+
+//        if (userRepository.existsById(user.getId())){
+//            userRepository.findById(user.getId()).orElse(null);
+//        }
+        fileDB.setUser(user);
+        return fileDBRepository.save(fileDB);
     }
 
-    public FileDB getFile(String id){
-//        if(!fileDBRepository.existsById(id)){
-//            throw new RecordNotFoundException();
-//        }
+    public FileDB getFileById(String id){
+        if(!fileDBRepository.existsById(id)){
+            throw new RecordNotFoundException();
+        }
         return fileDBRepository.findById(id).get();
     }
 
-//    public FileDB getFile(Long userId){
-//        if (fileDBRepository.existsByUser_Id(userId)){
-//            return fileDBRepository.findByUserId(userId);
-//        } else {
-//            throw new RecordNotFoundException();
-//        }
-//    }
+    public Stream<FileDB> getFile(long userId){
+        try {
+          return fileDBRepository.findAll().stream();
+        }
+        catch (Exception e){
+            return fileDBRepository.findByUserId(userId).stream();
+        }
+    }
+//    return fileDBRepository.findByUserId(userId).stream();
+    //        Query q = em.createNamedQuery("Author.findByFirstName");
+//        q.setParameter(1, "Thorben");
+//        List a = q.getResultList();
 
+//      if (fileDBRepository.existsByUser_Id(userId)){
+//        return fileDBRepository.findByUserId(userId);
+//    } else {
+//        throw new RecordNotFoundException();
+//    }
     public Stream<FileDB> getAllFiles() {
         return fileDBRepository.findAll().stream();
     }
@@ -60,4 +71,10 @@ public class FileStorageService {
 //    public void uploadFile(MultipartFile file) throws IOException {
 //        file.transferTo(new File(uploadDirectory + file.getOriginalFilename()));
 //    }
+
+//    User user = null;
+//    if (userRepository.existsById(user)){
+//        user = (User) userRepository.findById(user).orElse(null);
+//    }
+//        fileDB.setUser(user);
 }

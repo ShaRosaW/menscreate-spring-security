@@ -4,11 +4,9 @@ import nl.wijnberg.menscreate.domain.FileDB;
 import nl.wijnberg.menscreate.domain.User;
 import nl.wijnberg.menscreate.payload.request.UpdateUserRequest;
 import nl.wijnberg.menscreate.payload.response.FileResponse;
-import nl.wijnberg.menscreate.payload.response.MessageResponse;
 import nl.wijnberg.menscreate.service.FileStorageService;
 import nl.wijnberg.menscreate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,10 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -32,7 +32,8 @@ public class UserController {
     // to change if needed.
 
     private UserService userService;
-    private FileStorageService fileService;
+    @Autowired
+    private FileStorageService storageService;
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -53,9 +54,46 @@ public class UserController {
     @GetMapping("/user")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> findUserByToken(@RequestHeader Map<String, String> headers) {
-        return userService.findUserByToken(headers.get("authorization"));
+    User findUserByToken(@RequestHeader Map<String, String> headers) {
+       User user = userService.findUserByToken(headers.get("authorization"));
+        List<FileResponse> files = storageService.getFile(user.getId())
+                .filter(fileDB -> fileDB.getUser().getId() == user.getId())
+                .map(dbFile -> {
+            String fileDownloadUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/api/files/")
+                    .path(dbFile.getId())
+                    .toUriString();
+
+            return new FileResponse(
+                    dbFile.getName(),
+                    fileDownloadUri,
+                    dbFile.getType(),
+                    dbFile.getData().length);
+        }).collect(Collectors.toList());
+        return user;
     }
+
+    //        List<FileResponse> myResponse = new ArrayList<List<FileResponse> | User>();
+//        byte[] data = fileDB.getData();
+    //        FileDB fileDB = storageService.getFile(user.getId());
+    // return userService.getUserById(user.getId());
+
+//    public ResponseEntity<User>  findUserByToken(@RequestHeader Map<String, String> headers) {
+//        User user = userService.findUserByToken(headers.get("authorization"));
+//        FileDB fileDB = storageService.getFile(user.getId());
+//        return new ResponseEntity<>(user, HttpStatus.OK);
+//    }
+
+//public User findUserByToken(@RequestHeader Map<String, String> headers) {
+//        User user = userService.findUserByToken(headers.get("authorization"));
+//        FileDB fileDB = storageService.getFile(user.getId());
+//        return userService.getUserById(user.getId());
+//    }
+//    public User findUserByToken(@RequestHeader Map<String, String> headers) {
+//        User user = userService.findUserByToken(headers.get("authorization"));
+//        FileDB fileDB = storageService.getFile(user.getId());
+//        return user;
 
     //todo: works
     // Get user by ID

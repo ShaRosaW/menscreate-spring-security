@@ -2,6 +2,7 @@ package nl.wijnberg.menscreate.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import nl.wijnberg.menscreate.payload.response.FileResponse;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -59,6 +60,10 @@ public class User {
             orphanRemoval = true)
     private List<FileDB> files;
 
+
+//    private List<FileResponse> userFiles;
+
+
 //    @OneToOne(mappedBy = "user")
 //    private FileDB fileDB;
 
@@ -71,6 +76,9 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
+
+
 
 
 //    public User(String username, String email, String password, String firstName, String lastName, String phoneNumber, Set<Booking> bookings, File file) {
@@ -168,6 +176,10 @@ public class User {
     public void setUserProfileInfo(UserProfileInfo userProfileInfo) {
         this.userProfileInfo = userProfileInfo;
     }
+
+//    public void setUserFiles(List<FileResponse> files) {
+//    }
+
 
 //    public FileDB getFileDB() {
 //        return fileDB;

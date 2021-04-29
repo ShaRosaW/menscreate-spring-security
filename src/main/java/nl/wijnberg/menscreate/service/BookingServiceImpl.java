@@ -68,7 +68,9 @@ public class BookingServiceImpl implements BookingService {
 
     //todo: works
     private List<Booking> findUserBookings(String token) {
-        User userBooking = (User) userService.findUserByToken(token).getBody();
+//        User userBooking = userService.findUserByToken(token);
+//        User userBooking = (User) userService.findUserByToken(token).getBody();
+        User userBooking = (User) userService.findUserByToken(token);
         List<Booking> bookings = new ArrayList<>();
         bookings.addAll(userBooking.getBookings());
         return (bookings);
@@ -108,7 +110,9 @@ public class BookingServiceImpl implements BookingService {
 
         if (bookingRepository.existsById(bookingId)) {
             Booking booking = bookingRepository.findByBookingId(bookingId);
-            User ownerBooking = (User) userService.findUserByToken(token).getBody();
+//            User ownerBooking = userService.findUserByToken(token);
+//             User ownerBooking = (User) userService.findUserByToken(token).getBody();
+            User ownerBooking = (User) userService.findUserByToken(token);
             if(booking.getUser().getId()
                     == ownerBooking.getId()){
                 return getBookingById(bookingId);
@@ -126,7 +130,9 @@ public class BookingServiceImpl implements BookingService {
     // create new booking
     @Override
     public long createBooking(String token, Booking booking) {
-        User requestUser = (User) userService.findUserByToken(token).getBody();
+//        User requestUser = userService.findUserByToken(token);
+//        User requestUser = (User) userService.findUserByToken(token).getBody();
+        User requestUser = (User) userService.findUserByToken(token);
 //        long id = requestUser.getId();
         booking.setUser(requestUser);
         Booking newBooking = bookingRepository.save(booking);
@@ -161,7 +167,9 @@ public class BookingServiceImpl implements BookingService {
             // todo: investigate the user info Json array,
             //  it has to do with getting entire User object, that keeps looping.
             if (bookingRepository.existsById(bookingId)) {
-                    User userBookingUpdate = (User) userService.findUserByToken(authorization).getBody();
+//                    User userBookingUpdate = userService.findUserByToken(authorization);
+//                User userBookingUpdate = (User) userService.findUserByToken(authorization).getBody();
+                User userBookingUpdate = (User) userService.findUserByToken(authorization);
                     Booking existBooking = bookingRepository.findByBookingId(bookingId);
 
                     if(existBooking.getUser().getId() == userBookingUpdate.getId()) {
@@ -187,7 +195,9 @@ public class BookingServiceImpl implements BookingService {
     public ResponseEntity<?> deleteBooking(String token, long bookingId) {
         if (bookingRepository.existsById(bookingId)){
         Booking cancelBooking = bookingRepository.findByBookingId(bookingId);
-            User userBooking = (User) userService.findUserByToken(token).getBody();
+//            User userBooking = userService.findUserByToken(token);
+//            User userBooking = (User) userService.findUserByToken(token).getBody();
+            User userBooking = (User) userService.findUserByToken(token);
 
             Boolean isAdmin = userBooking.getRoles().stream().anyMatch(role -> role.getName() == ERole.ROLE_ADMIN);
 

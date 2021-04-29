@@ -18,7 +18,9 @@ public interface UserService {
 
     // Get - Read
     ResponseEntity<?> getAllUsers();
-    ResponseEntity<?> findUserByToken(String token);
+//    User findUserByToken(String token);
+        User findUserByToken(String token);
+    //    ResponseEntity<?> findUserByToken(String token);
     Optional<User> getUserByUsername(String username);
     User getUserById(long id);
 

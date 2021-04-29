@@ -8,6 +8,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "files")
+//@NamedQuery(name = "FileDB.findByUserId", query = "from FileDB where userId = :userId")
+@NamedNativeQuery(name = "FileDB.findByUserId", query = "SELECT * FROM files WHERE user_id = ?", resultClass = FileDB.class)
 public class FileDB {
 
     @Id
@@ -98,9 +100,9 @@ public class FileDB {
         this.name = file;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
+    public User getUser() {
+        return user;
+    }
 //
 //    public void setUser(User user) {
 //        this.user = user;
@@ -112,5 +114,8 @@ public class FileDB {
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public void setUser(User user) {
     }
 }

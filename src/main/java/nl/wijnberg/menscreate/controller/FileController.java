@@ -9,6 +9,7 @@ import nl.wijnberg.menscreate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +35,9 @@ public class FileController {
             @RequestParam("file") MultipartFile file, @RequestHeader Map<String, String> headers) {
         String message = "";
         String token = headers.get("authorization");
-        User requestUser = (User) userService.findUserByToken(token).getBody();
+//        User requestUser = userService.findUserByToken(token);
+//        User requestUser = (User) userService.findUserByToken(token).getBody();
+        User requestUser = (User) userService.findUserByToken(token);
         try {
             storageService.store(file, requestUser);
 
@@ -66,11 +69,17 @@ public class FileController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<byte[]> getFile(@PathVariable String id) {
-        FileDB fileDB = storageService.getFile(id);
+    public ResponseEntity<byte[]> getFileById(@PathVariable("id") String id
+//            , @RequestHeader Map<String, String> headers
+    ) {
+//        String token = headers.get("authorization");
+//        User requestUser = (User) userService.findUserByToken(token).getBody();
+
+        FileDB fileDB = storageService.getFileById(id);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
+//                .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(fileDB.getData());
     }
 }

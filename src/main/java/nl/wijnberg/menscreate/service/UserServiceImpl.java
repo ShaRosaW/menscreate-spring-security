@@ -3,7 +3,6 @@ package nl.wijnberg.menscreate.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import nl.wijnberg.menscreate.domain.ProfileBuilder;
-import nl.wijnberg.menscreate.domain.Role;
 import nl.wijnberg.menscreate.domain.User;
 import nl.wijnberg.menscreate.domain.UserProfileInfo;
 import nl.wijnberg.menscreate.exceptions.DatabaseErrorException;
@@ -14,6 +13,7 @@ import nl.wijnberg.menscreate.repository.UserProfileInfoRepository;
 import nl.wijnberg.menscreate.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -73,13 +72,17 @@ public class UserServiceImpl implements UserService {
     //todo: works
     // find user by token
     @Override
-    public ResponseEntity<?> findUserByToken(String token) {
+//   public ResponseEntity<?> findUserByToken(String token)
+    public User findUserByToken(String token) {
         String username = getUsernameFromToken(token);
 
         if(userExists(username)) {
-            return ResponseEntity.ok(findUserByUsername(username));
+            return findUserByUsername(username);
+//            return ResponseEntity.ok(findUserByUsername(username));
+        } else {
+            throw new RecordNotFoundException();
         }
-        return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
+//        return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
     }
 
     //todo: works
