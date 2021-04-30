@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import nl.wijnberg.menscreate.payload.response.FileResponse;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -54,10 +56,12 @@ public class User {
     private List<Booking> bookings;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY,
+    @OneToMany(
+            fetch = FetchType.LAZY,
             mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+//    @LazyCollection(LazyCollectionOption.FALSE)
     private List<FileDB> files;
 
 
@@ -177,7 +181,15 @@ public class User {
         this.userProfileInfo = userProfileInfo;
     }
 
-//    public void setUserFiles(List<FileResponse> files) {
+    public List<FileDB> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<FileDB> files) {
+        this.files = files;
+    }
+
+    //    public void setUserFiles(List<FileResponse> files) {
 //    }
 
 

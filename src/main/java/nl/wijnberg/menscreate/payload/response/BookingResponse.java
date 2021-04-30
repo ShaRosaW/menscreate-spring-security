@@ -17,16 +17,6 @@ public class BookingResponse {
     private String boxName;
     private String bookingDate;
 
-//    public BookingResponse(List<BookingResponse> bookingResponses) {
-//    }
-
-//    public BookingResponse(User user, Long bookingId, String boxName, String bookingDate
-//    ) {
-//        this.userId = user.getId();
-//        this.setBookingId(bookingId); // todo: investigate later
-//        this.boxName = boxName;
-//        this.bookingDate = bookingDate;
-//    }
 
     public BookingResponse(long userId, long bookingId, String boxName, String bookingDate
     ) {
@@ -70,6 +60,16 @@ public class BookingResponse {
 
 }
 
+//    public BookingResponse(List<BookingResponse> bookingResponses) {
+//    }
+
+//    public BookingResponse(User user, Long bookingId, String boxName, String bookingDate
+//    ) {
+//        this.userId = user.getId();
+//        this.setBookingId(bookingId); // todo: investigate later
+//        this.boxName = boxName;
+//        this.bookingDate = bookingDate;
+//    }
 
 //    public BookingResponse(User userId,
 //                           String boxName,

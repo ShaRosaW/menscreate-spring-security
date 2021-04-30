@@ -1,9 +1,9 @@
 package nl.wijnberg.menscreate.controller;
 
-import nl.wijnberg.menscreate.domain.FileDB;
 import nl.wijnberg.menscreate.domain.User;
 import nl.wijnberg.menscreate.payload.request.UpdateUserRequest;
 import nl.wijnberg.menscreate.payload.response.FileResponse;
+import nl.wijnberg.menscreate.payload.response.UserFileResponse;
 import nl.wijnberg.menscreate.service.FileStorageService;
 import nl.wijnberg.menscreate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -54,9 +52,10 @@ public class UserController {
     @GetMapping("/user")
 //    @PreAuthorize("hasRole('USER')")
         @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    User findUserByToken(@RequestHeader Map<String, String> headers) {
+    UserFileResponse findUserByToken(@RequestHeader Map<String, String> headers) {
        User user = userService.findUserByToken(headers.get("authorization"));
-        List<FileResponse> files = storageService.getFile(user.getId())
+
+                List<FileResponse> fileDbs = storageService.getFile(user.getId())
                 .filter(fileDB -> fileDB.getUser().getId() == user.getId())
                 .map(dbFile -> {
             String fileDownloadUri = ServletUriComponentsBuilder
@@ -71,8 +70,34 @@ public class UserController {
                     dbFile.getType(),
                     dbFile.getData().length);
         }).collect(Collectors.toList());
-        return user;
+        UserFileResponse response = new UserFileResponse(
+                user, fileDbs);
+        try {
+            return response;
+        } catch (Exception e){
+            return response;
+        }
     }
+
+    //        List<FileResponse> fileDbs = storageService.getFile(user.getId())
+//                .filter(fileDB -> fileDB.getUser().getId() == user.getId())
+//                .map(dbFile -> {
+//            String fileDownloadUri = ServletUriComponentsBuilder
+//                    .fromCurrentContextPath()
+//                    .path("/api/files/")
+//                    .path(dbFile.getId())
+//                    .toUriString();
+//
+//            return new FileResponse(
+//                    dbFile.getName(),
+//                    fileDownloadUri,
+//                    dbFile.getType(),
+//                    dbFile.getData().length);
+//        }).collect(Collectors.toList());
+
+//    List<FileDB> files =storageService.getFile(user.getId()).collect(Collectors.toList());
+//       user.setFiles(files);
+
 
     //        List<FileResponse> myResponse = new ArrayList<List<FileResponse> | User>();
 //        byte[] data = fileDB.getData();
