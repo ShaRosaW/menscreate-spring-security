@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     private UserProfileInfoRepository profileInfoRepository;
     private UserService userService;
 //    private UpdateUserRequest updateUserRequest;
-    public static String uploadDirectory = System.getProperty("user.dir") + "/fileUploads/";
+//    public static String uploadDirectory = System.getProperty("user.dir") + "/fileUploads/";
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -51,47 +51,38 @@ public class UserServiceImpl implements UserService {
         this.encoder = encoder;
     }
 
-    //todo: works
     // get all users list (for admin)
     @Override
     public ResponseEntity<?> getAllUsers() {
         List<User> users = userRepository.findAll();
-                if(users.isEmpty()) {
+        if (users.isEmpty()) {
             return ResponseEntity.badRequest().body(new MessageResponse("No Users found!"));
         }
         return ResponseEntity.ok(users);
     }
 
-    //todo:works
     // get user by username
     @Override
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    //todo: works
     // find user by token
     @Override
-//   public ResponseEntity<?> findUserByToken(String token)
     public User findUserByToken(String token) {
         String username = getUsernameFromToken(token);
-
-        if(userExists(username)) {
+        if (userExists(username)) {
             return findUserByUsername(username);
-//            return ResponseEntity.ok(findUserByUsername(username));
         } else {
             throw new RecordNotFoundException();
         }
-//        return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
     }
 
-    //todo: works
     // find user by username
     private User findUserByUsername(String username) {
         return userRepository.findByUsername(username).get();
     }
 
-    //todo: works
     // get username from token
     private String getUsernameFromToken(String token) {
         String tokenWithoutBearer = removePrefix(token);
@@ -111,50 +102,44 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsByUsername(username);
     }
 
-    //todo: works
     // get user by id
     @Override
     public User getUserById(long id) {
         if (userRepository.existsById(id)) {
             User user = userRepository.findById(id).orElse(null);
             return user;
-        }
-        else {
+        } else {
             throw new RecordNotFoundException();
         }
     }
 
-//    public Set<Role> getAuthorities()
-
-    @Override
-    public void uploadFileToDir(MultipartFile file) throws IOException {
-        file.transferTo(new File(uploadDirectory + file.getOriginalFilename() ));
+    private boolean updateRequestIsValid(UpdateUserRequest updateUserRequest) {
+        if (updateUserRequest.getPassword().equals(updateUserRequest.getRepeatedPassword())) {
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public ResponseEntity<MessageResponse> uploadFileToDB(long id, MultipartFile file) {
-        return null;
-    }
-
+    //todo: update and delete to test later on or remove all.
     // update user profile
     @Override
     public ResponseEntity<?> updateUserProfile(String token, @Valid UpdateUserRequest profileUpdate) {
-        if(token == null || token.isEmpty()) {
+        if (token == null || token.isEmpty()) {
             return ResponseEntity.badRequest().body(new MessageResponse("Invalid token"));
         }
         String username = getUsernameFromToken(token);
 
-        if(userExists(username) && updateRequestIsValid(profileUpdate)) {
+        if (userExists(username) && updateRequestIsValid(profileUpdate)) {
             User updatedUser = findUserByUsername(username);
 
-            if(!profileUpdate.getPassword().isEmpty() && !profileUpdate.getRepeatedPassword().isEmpty()) {
+            if (!profileUpdate.getPassword().isEmpty() && !profileUpdate.getRepeatedPassword().isEmpty()) {
                 updatedUser.setPassword(encoder.encode(profileUpdate.getPassword()));
             }
-            if(!userRepository.existsByEmail(profileUpdate.getEmail()) && profileUpdate.getEmail() != null && !profileUpdate.getEmail().isEmpty()) {
+            if (!userRepository.existsByEmail(profileUpdate.getEmail()) && profileUpdate.getEmail() != null && !profileUpdate.getEmail().isEmpty()) {
                 updatedUser.setEmail(profileUpdate.getEmail());
             }
-            if(profileUpdate.getPhoneNumber() != null && !profileUpdate.getPhoneNumber().isEmpty()){
-            updatedUser.setPhoneNumber(profileUpdate.getPhoneNumber());
+            if (profileUpdate.getPhoneNumber() != null && !profileUpdate.getPhoneNumber().isEmpty()) {
+                updatedUser.setPhoneNumber(profileUpdate.getPhoneNumber());
             }
             return ResponseEntity.ok().body(userRepository.save(updatedUser));
         }
@@ -163,13 +148,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private boolean updateRequestIsValid(UpdateUserRequest updateUserRequest) {
-        if(updateUserRequest.getPassword().equals(updateUserRequest.getRepeatedPassword())) {
-            return true;
-        }
-        return false;
-    }
-
+    //todo: update and delete to test later on or remove all.
     public long saveUserProfile(UpdateUserRequest updateUserRequest) {
         User user = new ProfileBuilder(updateUserRequest).buildUser();
         UserProfileInfo userProfileInfo = new ProfileBuilder(updateUserRequest).buildProfileInfo();
@@ -186,6 +165,7 @@ public class UserServiceImpl implements UserService {
 //        return newUser.getId();
 //    }
 
+    //todo: update and delete to test later on or remove all.
     //update user
     @Override
     public ResponseEntity<?> updateUser(long id, UpdateUserRequest userUpdate) {
@@ -200,32 +180,26 @@ public class UserServiceImpl implements UserService {
                 existingUser.setPhoneNumber(userUpdate.getPhoneNumber());
 //                existingUser.setFile(userUpdate.getFileId());
                 return ResponseEntity.ok().body(userRepository.save(existingUser));
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new DatabaseErrorException();
             }
-        }
-        else {
+        } else {
             throw new RecordNotFoundException();
         }
     }
 
-//    @Override
-//    public ResponseEntity<?> deleteUser(String token, String username) {
-//        return null;
-//    }
     // todo: find out why user cannot be deleted..
     @Override
     public ResponseEntity<?> deleteUser(String token) {
         String username = getUsernameFromToken(token);
         Optional<User> userProfile = userRepository.findByUsername(username);
-        if(userProfile.isPresent() == userExists(username)){
+        if (userProfile.isPresent() == userExists(username)) {
             userRepository.deleteById(username);
             return ResponseEntity.ok().body(new MessageResponse("User has been deleted"));
         }
         return ResponseEntity.badRequest().body(new MessageResponse("User can not be deleted"));
     }
-
+}
 
     //    @Override
     //    public ResponseEntity<?> deleteUser(String token, String username) {
@@ -241,7 +215,6 @@ public class UserServiceImpl implements UserService {
     //        == profileInfoRepository.findByUserUsername(userProfile.getUsername())) {
     //userRepository.deleteByUsername(userProfile.getUsername());
 //userProfile.getUsername() == userRepository.deleteByUsername(username))
-
 
     //    @Override
 //    public ResponseEntity<?> updateUserById(String token, UpdateUserRequest userUpdate) {
@@ -290,10 +263,6 @@ public class UserServiceImpl implements UserService {
 //        return ResponseEntity.badRequest().body(new MessageResponse("User can not be deleted"));
 //    }
 //userProfile.getUsername() == userRepository.deleteByUsername(username))
-
-
-}
-
 
 //    @Override
 //    public long saveUser(UpdateUserRequest updateUserRequest) {
