@@ -9,7 +9,6 @@ import nl.wijnberg.menscreate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/files")
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -30,17 +28,15 @@ public class FileController {
     @Autowired
     private UserService userService;
 
+    //todo: upload profile picture by user token
     @PostMapping("/upload")
     public ResponseEntity<MessageResponse> uploadFile(
             @RequestParam("file") MultipartFile file, @RequestHeader Map<String, String> headers) {
         String message = "";
         String token = headers.get("authorization");
-//        User requestUser = userService.findUserByToken(token);
-//        User requestUser = (User) userService.findUserByToken(token).getBody();
-        User requestUser = (User) userService.findUserByToken(token);
+        User requestUser = userService.findUserByToken(token);
         try {
             storageService.store(file, requestUser);
-
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
         } catch (Exception e) {
@@ -49,6 +45,7 @@ public class FileController {
         }
     }
 
+    // todo: get list of all files
     @GetMapping("")
     public ResponseEntity<List<FileResponse>> getListFiles() {
         List<FileResponse> files = storageService.getAllFiles().map(dbFile -> {
@@ -68,35 +65,12 @@ public class FileController {
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<byte[]> getFileById(@PathVariable("id") String id
-//            , @RequestHeader Map<String, String> headers
-    ) {
-//        String token = headers.get("authorization");
-//        User requestUser = (User) userService.findUserByToken(token).getBody();
-
-        FileDB fileDB = storageService.getFileById(id);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
-//                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(fileDB.getData());
-    }
-}
-
-
-
-//    @Autowired
-//    FileUploadService fileUploadService;
-//
-////    @GetMapping(value = "/")
-////    public String fileUpload() {
-////        return "redirect:/file-upload"; // TODO: check the get and post!
-////    }
-//
-//    @PostMapping("/file-upload") // TODO: in React declare same page redirect
-//        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    public void uploadFile(@RequestParam("file") MultipartFile file)
-//            throws IllegalStateException, IOException {
-//        fileUploadService.uploadFile(file);
+//    //todo: maybe not needed, with postman, everything still works. to check in frontend
+//    @GetMapping("/{id}")
+//    public ResponseEntity<byte[]> getFileById(@PathVariable("id") String id) {
+//        FileDB fileDB = storageService.getFileById(id);
+//        return ResponseEntity.ok()
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
+//                .body(fileDB.getData());
 //    }
+}

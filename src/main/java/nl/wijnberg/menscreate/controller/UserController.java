@@ -11,10 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,7 +25,7 @@ public class UserController {
 
     //todo: For all controllers! to test all endpoints made it easier to have both roles
     // don't forget to check with front end and this apps requirements
-    // to change if needed.
+    // to change if needed. (hasRole User or Admin)
 
     private UserService userService;
     @Autowired
@@ -38,24 +36,20 @@ public class UserController {
         this.userService = userService;
     }
 
-    //todo: works
     // Get a list of all users (Admin only)
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('ADMIN')")
-//        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    //todo: works
-    // Get a user by it's token
+    // Get a user by it's token with profile picture attached to token for frontend
     @GetMapping("/user")
-//    @PreAuthorize("hasRole('USER')")
-        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     UserFileResponse findUserByToken(@RequestHeader Map<String, String> headers) {
-       User user = userService.findUserByToken(headers.get("authorization"));
+        User user = userService.findUserByToken(headers.get("authorization"));
 
-                List<FileResponse> fileDbs = storageService.getFile(user.getId())
+        List<FileResponse> fileDbs = storageService.getFile(user.getId())
                 .filter(fileDB -> fileDB.getUser().getId() == user.getId())
                 .map(dbFile -> {
             String fileDownloadUri = ServletUriComponentsBuilder
@@ -69,7 +63,8 @@ public class UserController {
                     fileDownloadUri,
                     dbFile.getType(),
                     dbFile.getData().length);
-        }).collect(Collectors.toList());
+            }).collect(Collectors.toList());
+
         UserFileResponse response = new UserFileResponse(
                 user, fileDbs);
         try {
@@ -78,49 +73,9 @@ public class UserController {
             return response;
         }
     }
-
-    //        List<FileResponse> fileDbs = storageService.getFile(user.getId())
-//                .filter(fileDB -> fileDB.getUser().getId() == user.getId())
-//                .map(dbFile -> {
-//            String fileDownloadUri = ServletUriComponentsBuilder
-//                    .fromCurrentContextPath()
-//                    .path("/api/files/")
-//                    .path(dbFile.getId())
-//                    .toUriString();
-//
-//            return new FileResponse(
-//                    dbFile.getName(),
-//                    fileDownloadUri,
-//                    dbFile.getType(),
-//                    dbFile.getData().length);
-//        }).collect(Collectors.toList());
-
 //    List<FileDB> files =storageService.getFile(user.getId()).collect(Collectors.toList());
 //       user.setFiles(files);
 
-
-    //        List<FileResponse> myResponse = new ArrayList<List<FileResponse> | User>();
-//        byte[] data = fileDB.getData();
-    //        FileDB fileDB = storageService.getFile(user.getId());
-    // return userService.getUserById(user.getId());
-
-//    public ResponseEntity<User>  findUserByToken(@RequestHeader Map<String, String> headers) {
-//        User user = userService.findUserByToken(headers.get("authorization"));
-//        FileDB fileDB = storageService.getFile(user.getId());
-//        return new ResponseEntity<>(user, HttpStatus.OK);
-//    }
-
-//public User findUserByToken(@RequestHeader Map<String, String> headers) {
-//        User user = userService.findUserByToken(headers.get("authorization"));
-//        FileDB fileDB = storageService.getFile(user.getId());
-//        return userService.getUserById(user.getId());
-//    }
-//    public User findUserByToken(@RequestHeader Map<String, String> headers) {
-//        User user = userService.findUserByToken(headers.get("authorization"));
-//        FileDB fileDB = storageService.getFile(user.getId());
-//        return user;
-
-    //todo: works
     // Get user by ID
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -129,7 +84,6 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    //todo: works
     // Get user by username
     @GetMapping(value = "/user/{username}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -138,65 +92,11 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    // todo: test if value /update/pathvariable works or with user/update/pv or w/o /
-    //  update, same goes for delete, etc. and same goes for bookingcontroller.
 
-    // Upload a file to directory //todo: make this work
-    @PostMapping(value = "/{id}/uploads")
-//    @PreAuthorize("hasRole('USER')")
-        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public void uploadFileToDir(@PathVariable("id") int id, @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
-        userService.uploadFileToDir(file);
-    }
+    // todo: saveUserProfile is with updateUserRequest, updateUser same, or @Requestbody to domain User?
 
-//    // Upload a file to the database by user ID //todo: make this work
-//    @PostMapping(value = "/upload/{id}")
-////    @PreAuthorize("hasRole('USER')")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    public ResponseEntity<MessageResponse> uploadFileToDB(@PathVariable ("id") long userId, @RequestParam("file") MultipartFile file){
-//        try {
-//            fileService.store(file, userId);
-//            String message = "Picture was uploaded successfully: " + file.getOriginalFilename();
-//            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
-//        } catch (Exception e) {
-//            String message = "Could not upload this picture" + file.getOriginalFilename() + "!";
-//            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
-//        }
-//    }
-//
-//    // Get a file by user ID //todo: make this work
-//    @GetMapping("/download/{id}")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    public ResponseEntity<byte[]> getFile(@PathVariable ("id") String id) {
-//        FileDB imgFile = fileService.getFileById(id);
-//        return ResponseEntity.ok()
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imgFile.getName() + "\"")
-//                .body(imgFile.getData());
-//    }
-
-//    // Get a list of files from the database (for Admin Only) //todo: make this work
-//    @GetMapping(value = "/files")
-////    @PreAuthorize("hasRole('USER')")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-//    public ResponseEntity<List<FileResponse>> getFilesList() {
-//        List<FileResponse> files = fileService.getAllFiles().map(imgFile -> {
-//            String fileDownloadUri = ServletUriComponentsBuilder
-//                    .fromCurrentContextPath()
-//                    .path("/files/")
-//                    .path(imgFile.getId())
-//                    .toUriString();
-//
-//            return new FileResponse(
-//                    imgFile.getName(),
-//                    fileDownloadUri,
-//                    imgFile.getType(),
-//                    imgFile.getData().length);
-//        }).collect(Collectors.toList());
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(files);
-//    }
-
-    // update user profile info by token //todo: make this work
+    //todo: make this work or leave out
+    // update user profile info by token
     @PutMapping("/user/update-profile")
     @PreAuthorize("hasRole('USER')or hasRole('ADMIN')")
     public ResponseEntity<?> updateUserProfile(@RequestHeader Map<String, String> headers,
@@ -204,9 +104,8 @@ public class UserController {
         return userService.updateUserProfile(headers.get("authorization"), profileUpdate);
     }
 
-    // Update new user profile information by ID //todo: make this work
-//    @PutMapping(value = "/{id}")
-//    @PreAuthorize("hasRole('USER')")
+    //todo: make this work
+    // Update new user profile information by ID
     @PostMapping(value = "/user/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> saveUserProfile(@PathVariable("id") int id, @RequestBody UpdateUserRequest updateUserRequest){
@@ -214,19 +113,29 @@ public class UserController {
         return new ResponseEntity<>(newId, HttpStatus.CREATED);
     }
 
-    // todo: saveUserProfile is with updateUserRequest, updateUser same, or connect Requestbody to domain User?
-
-    // Update user information by ID //todo: make this work
+    //todo: make this work
+    // Update user information by ID
     @PutMapping(value = "/user/{id}")
-//    @PreAuthorize("hasRole('USER')")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> updateUser(@PathVariable("id") int id, @RequestBody UpdateUserRequest userUpdate) {
         userService.updateUser(id, userUpdate);
         return new ResponseEntity<>(userUpdate, HttpStatus.OK);
     }
 
+    //todo: make this work or leave out
+    // delete user profile info by token
+    @DeleteMapping("/user/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") int id,
+                                        @RequestHeader Map<String, String> headers){
+        return userService.deleteUser(headers.get("authorization"));
+    }
 
-//    // Delete user entirely by ID //todo: make this work
+}
+
+
+//todo: make this work //Delete user entirely by ID
+
 //    @DeleteMapping(value = "/user/{id}")
 ////    @PreAuthorize("hasRole('USER')")
 //        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -235,15 +144,14 @@ public class UserController {
 //        return new ResponseEntity<>(" User with ID " + id + " has been deleted", HttpStatus.NO_CONTENT);
 //    }
 
-    @DeleteMapping("/user/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> deleteUser(@PathVariable("id") int id,
-                                        @RequestHeader Map<String, String> headers){
-        return userService.deleteUser(headers.get("authorization"));
-    }
-
-
-}
+//
+//    // Upload a file to directory
+//    @PostMapping(value = "/{id}/uploads")
+////    @PreAuthorize("hasRole('USER')")
+//        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public void uploadFileToDir(@PathVariable("id") int id, @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
+//        userService.uploadFileToDir(file);
+//    }
 
 //    @PostMapping("/update")
 //    @PreAuthorize("hasRole('USER')")

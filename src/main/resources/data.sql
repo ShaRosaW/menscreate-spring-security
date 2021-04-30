@@ -19,50 +19,8 @@ VALUES
 
 INSERT INTO booking(booking_date, box_name, user_id)
 VALUES
-(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 'work space', 1),
-(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 'meeting area', 1),
-(TO_DATE('29/03/2021', 'DD/MM/YYYY'), 'work space', 3);
+(TO_DATE('29/05/2021', 'DD/MM/YYYY'), 'work space', 1),
+(TO_DATE('29/05/2021', 'DD/MM/YYYY'), 'meeting area', 1),
+(TO_DATE('29/05/2021', 'DD/MM/YYYY'), 'work space', 3);
 
 alter sequence native restart with 4;
-
--- INSERT INTO booking_type(name)
--- VALUES
--- ('SPACE'),
--- ('BOX');
-
--- INSERT INTO day_part(name)
--- VALUES
--- ('MORNING'),
--- ('AFTERNOON'),
--- ('WHOLE_DAY');
-
-
--- INSERT INTO app_user(id, user_id)
--- VALUES
--- (1,1), (2,2), (3,3);
-
-
--- INSERT INTO app_user(file)
--- VALUES
--- ( )
-
--- INSERT INTO booking(booking_date, day_part, bookingtype_id, user_id)
--- VALUES
--- (TO_DATE('29/03/2021', 'DD/MM/YYYY'), 1, 2, 1),
--- (TO_DATE('29/03/2021', 'DD/MM/YYYY'), 1, 1, 1),
--- (TO_DATE('29/03/2021', 'DD/MM/YYYY'), 2, 2, 3);
--- INSERT INTO bookings(booking_id, user_id)
--- VALUES
--- (1,1), (2,1), (3,3);
-
--- INSERT INTO user(user_id)
---
--- INSERT INTO booking(booking_date, day_part, booking_type)
---
---
--- INSERT INTO box(ingredients, allergy_info, amount_people, extra_info, boxtype_id, bookingtype)
---
---
--- INSERT INTO booking_date(booking_date, day_part, bookingtype_id)
--- VALUES
--- (TO_DATE('29-03-2021', 'DD/MM/YYYY'))

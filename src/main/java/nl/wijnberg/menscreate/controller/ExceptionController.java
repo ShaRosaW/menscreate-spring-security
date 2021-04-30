@@ -2,7 +2,6 @@ package nl.wijnberg.menscreate.controller;
 
 import nl.wijnberg.menscreate.exceptions.BadRequestException;
 import nl.wijnberg.menscreate.exceptions.DatabaseErrorException;
-//import nl.wijnberg.menscreate.exceptions.FileStorageException;
 import nl.wijnberg.menscreate.exceptions.RecordNotFoundException;
 import nl.wijnberg.menscreate.payload.response.MessageResponse;
 import org.springframework.http.HttpStatus;
@@ -27,19 +26,12 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().build();
     }
 
-//    @ExceptionHandler(value = UsernameNotFoundException.class)
-//    public ResponseEntity<Object> exception(UsernameNotFoundException exception) {
-//        return ResponseEntity.badRequest().build();
-//    }
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<MessageResponse> handleMaxSizeException(MaxUploadSizeExceededException exception){
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse("File is too large!"));
     }
 
-//    @ExceptionHandler(value = FileStorageException.class)
-//    public ResponseEntity<Object> exception(FileStorageException exception) {
-//        return ResponseEntity.badRequest().build();
-//    }
+
     @ExceptionHandler(value = DatabaseErrorException.class)
     public ResponseEntity<Object> exception(DatabaseErrorException exception) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
