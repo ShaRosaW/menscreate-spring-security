@@ -1,12 +1,11 @@
 package nl.wijnberg.menscreate.repository;
 
-
 import nl.wijnberg.menscreate.domain.User;
-import nl.wijnberg.menscreate.domain.UserProfileInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
@@ -17,12 +16,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     Boolean existsByEmail(String email);
     boolean existsById(long id);
 
-    void deleteByUsername(String username);
-    void deleteById(long id);
-
-//    boolean existsById(User user);
-//
-//    Optional<Object> findById(User user);
 }
-//    boolean existsById(String username);
-//    User save();
+
+//    void deleteByUsername(String username);
+//    void deleteById(long id);

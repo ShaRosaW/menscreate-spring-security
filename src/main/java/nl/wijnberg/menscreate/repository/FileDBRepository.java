@@ -9,7 +9,8 @@ import java.util.List;
 
 @Repository
 public interface FileDBRepository extends JpaRepository<FileDB, String> {
-//    FileDB findByUserId (long userId);
-//    boolean existsByUser_Id (long userId);
     List<FileDB> findByUserId (long userId);
 }
+
+//    FileDB findByUserId (long userId);
+//    boolean existsByUser_Id (long userId);

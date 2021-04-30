@@ -131,6 +131,3 @@ public class UpdateUserRequest {
         this.image = image;
     }
 }
-
-// todo: in user profile make it possible to add more info
-//      such as phonenumber, age, gender, profile image

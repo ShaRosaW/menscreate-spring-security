@@ -18,12 +18,12 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = RecordNotFoundException.class)
     public ResponseEntity<Object> exception(RecordNotFoundException exception) {
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Cannot find specified record."));
     }
 
     @ExceptionHandler(value = BadRequestException.class)
     public ResponseEntity<Object> exception(BadRequestException exception) {
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Request is not valid."));
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
@@ -34,7 +34,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = DatabaseErrorException.class)
     public ResponseEntity<Object> exception(DatabaseErrorException exception) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new MessageResponse("A problem occurs in the database"));
     }
 
 }
