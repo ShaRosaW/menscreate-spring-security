@@ -26,9 +26,9 @@ public interface BookingService {
 
 }
 
-//    Booking getBookingById(long bookingId);
-//    Optional<Booking> getBooking(long id);
-//    ResponseEntity<?> availabilityCheck(String token, AvailabilityRequest );
-//    ResponseEntity<MessageResponse> createBooking(String token, BookingRequest bookingRequest);
+//todo: implement later and see if works or remove (check date availabilty by token)
+
+//  ResponseEntity<?> availabilityCheck(String token, AvailabilityRequest );
+
 
 

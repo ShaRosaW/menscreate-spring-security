@@ -13,16 +13,12 @@ import nl.wijnberg.menscreate.repository.UserProfileInfoRepository;
 import nl.wijnberg.menscreate.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.xml.bind.DatatypeConverter;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +35,6 @@ public class UserServiceImpl implements UserService {
     private UserProfileInfoRepository profileInfoRepository;
     private UserService userService;
 //    private UpdateUserRequest updateUserRequest;
-//    public static String uploadDirectory = System.getProperty("user.dir") + "/fileUploads/";
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {

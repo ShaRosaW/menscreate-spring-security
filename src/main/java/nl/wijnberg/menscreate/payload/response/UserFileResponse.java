@@ -4,6 +4,9 @@ import nl.wijnberg.menscreate.domain.User;
 
 import java.util.List;
 
+//todo: later check if createBookingResponse list method works for user and files same way
+// and implement in userController in findUserByToken or with builderpattern..
+
 public class UserFileResponse {
     private User user;
     private List<FileResponse> userFiles;

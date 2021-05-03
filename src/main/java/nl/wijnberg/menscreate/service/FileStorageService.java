@@ -19,9 +19,6 @@ public class FileStorageService {
     @Autowired
     private FileDBRepository fileDBRepository;
 
-//    @Autowired
-//    private UserRepository userRepository;
-
     // Store The Multipart file with user to repository to database
     public FileDB store(MultipartFile file, User user) throws IOException{
 
@@ -32,6 +29,7 @@ public class FileStorageService {
         return fileDBRepository.save(fileDB);
     }
 
+    //todo: implement later and see if works or remove
 //    public FileDB getFileById(String id){
 //        if(!fileDBRepository.existsById(id)){
 //            throw new RecordNotFoundException();

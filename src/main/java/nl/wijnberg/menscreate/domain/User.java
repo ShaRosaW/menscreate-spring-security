@@ -2,10 +2,7 @@ package nl.wijnberg.menscreate.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import nl.wijnberg.menscreate.payload.response.FileResponse;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -34,7 +31,7 @@ public class User {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
     private UserProfileInfo userProfileInfo;
 
-    //for bookings in profile with image file as well
+    // for bookings in profile
     @JsonIgnore
     private String firstName;
     @JsonIgnore
@@ -64,12 +61,10 @@ public class User {
 //    @LazyCollection(LazyCollectionOption.FALSE)
     private List<FileDB> files;
 
-
-//    private List<FileResponse> userFiles;
-
-
 //    @OneToOne(mappedBy = "user")
 //    private FileDB fileDB;
+
+//    private List<FileResponse> userFiles;
 
     public User() {
 
@@ -80,10 +75,6 @@ public class User {
         this.email = email;
         this.password = password;
     }
-
-
-
-
 
 //    public User(String username, String email, String password, String firstName, String lastName, String phoneNumber, Set<Booking> bookings, File file) {
 //        this.username = username;
@@ -172,7 +163,6 @@ public class User {
         this.bookings.add(booking);
     }
 
-
     public UserProfileInfo getUserProfileInfo() {
         return userProfileInfo;
     }
@@ -189,26 +179,4 @@ public class User {
         this.files = files;
     }
 
-    //    public void setUserFiles(List<FileResponse> files) {
-//    }
-
-
-//    public FileDB getFileDB() {
-//        return fileDB;
-//    }
-//
-//    public void setFileDB(FileDB fileDB) {
-//        this.fileDB = fileDB;
-//    }
 }
-//
-//    public File getFile() {
-//        return file;
-//    }
-//
-//    public void setFile(File file) {
-//        this.file = file;
-//    }
-//
-//    public void setFile(Long fileId) {
-//    }

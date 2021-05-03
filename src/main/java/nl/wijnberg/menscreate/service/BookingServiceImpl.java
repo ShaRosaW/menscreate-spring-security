@@ -72,13 +72,13 @@ public class BookingServiceImpl implements BookingService {
         return (bookings);
     }
 
-    // find all user bookings by username //todo: make this work or remove?
-    private List<Booking> findUserBookingsByUsername(String username) {
-        User userBooking = userService.getUserByUsername(username).get();
-        List<Booking> bookings = new ArrayList<>();
-        bookings.addAll(userBooking.getBookings());
-        return (bookings);
-    }
+//    // find all user bookings by username //todo: make this work or remove?
+//    private List<Booking> findUserBookingsByUsername(String username) {
+//        User userBooking = userService.getUserByUsername(username).get();
+//        List<Booking> bookings = new ArrayList<>();
+//        bookings.addAll(userBooking.getBookings());
+//        return (bookings);
+//    }
 
     // get booking by booking id
     @Override

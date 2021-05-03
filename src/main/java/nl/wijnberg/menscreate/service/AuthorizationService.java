@@ -65,11 +65,11 @@ public class AuthorizationService {
 
     /**
      *
-     * Deze methode verwerkt de gebruiker die wil registreren. De username en e-mail worden gecheckt. Eventuele rollen
-     * worden toegevoegd en de gebruiker wordt opgeslagen in de database.
+     * Anyone is able to register as a new user. Username and e-mail are being checked if they don't exist yet.
+     * When success user is being saved in the database.
      *
-     * @param signUpRequest de payload signup-request met gebruikersnaam en wachtwoord.
-     * @return een HTTP response met daarin een succesbericht.
+     * @param signUpRequest payload signup-request with username and password.
+     * @return a HTTP response with success message.
      */
     public ResponseEntity<MessageResponse> registerUser(@Valid SignupRequest signUpRequest) {
         if (Boolean.TRUE.equals(userRepository.existsByUsername(signUpRequest.getUsername()))) {
@@ -102,12 +102,6 @@ public class AuthorizationService {
                     Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                             .orElseThrow(() -> new RuntimeException(ROLE_NOT_FOUND_ERROR));
                     roles.add(adminRole);
-
-//                        break;
-//                    case "mod":
-//                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-//                                .orElseThrow(() -> new RuntimeException(ROLE_NOT_FOUND_ERROR));
-//                        roles.add(modRole);
                 } else {
                     Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                             .orElseThrow(() -> new RuntimeException(ROLE_NOT_FOUND_ERROR));
@@ -123,16 +117,14 @@ public class AuthorizationService {
     }
 
     /**
-     * Deze methode controleert de ontvangen username en wachtwoord. Het gebruikt hiervoor de
-     * AuthenticationManager. I.a.w. Spring security doet die allemaal voor ons.
+     * Username and password are being checked here by the AuthenticationManager of Spring security.
      *
-     * Wanneer de gebruikersnaam/wachtwoord combinatie niet klopt, wordt er een Runtime exception gegooid:
-     * 401 Unauthorized. Deze wordt gegooid door
+     * When combination of username/password isn't correct a Runtime exception (401 Unauthorized) is being thrown by:
      * {@link .service.security.jwt.AuthEntryPointJwt}
      *
      *
-     * @param loginRequest De payload met username en password.
-     * @return een HTTP-response met daarin de JWT-token.
+     * @param loginRequest payload with username and password.
+     * @return a HTTP-response with the users JWT-token.
      */
     public ResponseEntity<JwtResponse> authenticateUser(@Valid LoginRequest loginRequest) {
 

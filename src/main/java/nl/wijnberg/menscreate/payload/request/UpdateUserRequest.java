@@ -5,6 +5,8 @@ import javax.validation.constraints.Size;
 
 public class UpdateUserRequest {
 
+    //todo: to test later if it works with userProfileBuilder. and if to be connected with FileDB/UserFileResponse
+
     // User Profile Update and option to add user information, from client side.
 
     @Size(min = 6, max = 40)
@@ -30,15 +32,19 @@ public class UpdateUserRequest {
 
     private String phoneNumber;
 
-    // image file to be uploaded in user profile client side.
-    private Long fileId;
-    private String name;
-    private byte[] image;
+//    // image file to be uploaded in user profile client side.
+//    private Long fileId;
+//    private String name;
+//    private byte[] image;
 
 
     public UpdateUserRequest(
             @Size(min = 6, max = 40) String username,
-                             @Size(max = 50) @Email String email, @Size(min = 6, max = 40) String password, @Size(min = 6, max = 40) String repeatedPassword, @Size(max = 40) String firstName, @Size(max = 40) String lastName, String phoneNumber, Long fileId, String name, byte[] image) {
+                             @Size(max = 50) @Email String email,
+            @Size(min = 6, max = 40) String password, @Size(min = 6, max = 40) String repeatedPassword,
+            @Size(max = 40) String firstName, @Size(max = 40) String lastName, String phoneNumber
+//            , Long fileId, String name, byte[] image
+    ) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -46,9 +52,9 @@ public class UpdateUserRequest {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-        this.fileId = fileId;
-        this.name = name;
-        this.image = image;
+//        this.fileId = fileId;
+//        this.name = name;
+//        this.image = image;
     }
 
     public String getEmail() {
@@ -107,27 +113,27 @@ public class UpdateUserRequest {
         this.username = username;
     }
 
-    public Long getFileId() {
-        return fileId;
-    }
-
-    public void setFileId(Long fileId) {
-        this.fileId = fileId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
+//    public Long getFileId() {
+//        return fileId;
+//    }
+//
+//    public void setFileId(Long fileId) {
+//        this.fileId = fileId;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public byte[] getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(byte[] image) {
+//        this.image = image;
+//    }
 }

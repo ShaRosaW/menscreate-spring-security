@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class AvailabilityRequest {
+    //todo: see if later this can be implemented.
 //    @NotNull
 //    private LocalDate bookingDate;
 //    private String boxName;

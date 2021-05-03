@@ -1,14 +1,12 @@
 package nl.wijnberg.menscreate.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "files")
-//@NamedQuery(name = "FileDB.findByUserId", query = "from FileDB where userId = :userId")
 @NamedNativeQuery(name = "FileDB.findByUserId", query = "SELECT * FROM files WHERE user_id = ?", resultClass = FileDB.class)
 public class FileDB {
 
@@ -16,16 +14,11 @@ public class FileDB {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-
-//    @Column
     private String name;
-
-//    @Column
     private String type;
 
     //Binary Large OBject for large binary dataobject storage, like image
 //    @JsonIgnore
-
 //    @Column(name = "data", columnDefinition="BLOB")
     @Lob
     private byte[] data;
@@ -50,31 +43,6 @@ public class FileDB {
         this.data = data;
         this.user = user;
     }
-
-
-
-    //
-//    public File(String fileId, String name, byte[] image) {
-//        this.fileId = fileId;
-//        this.name = name;
-//        this.image = image;
-//    }
-//
-//    public File() {
-//
-//    }
-//
-//    public File(String fileName, String contentType, byte[] bytes) {
-//    }
-//
-//    public Long getFileId() {
-//        return fileId;
-//    }
-//
-//    public void setFileId(Long fileId) {
-//        this.fileId = fileId;
-//    }
-
 
     public String getId() {
         return id;
@@ -103,10 +71,11 @@ public class FileDB {
     public User getUser() {
         return user;
     }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+
+    public void setUser(User user) {
+    }
+
+//    public void setUser(User user) { this.user = user; }
 
     public byte[] getData() {
         return data;
@@ -114,8 +83,5 @@ public class FileDB {
 
     public void setData(byte[] data) {
         this.data = data;
-    }
-
-    public void setUser(User user) {
     }
 }

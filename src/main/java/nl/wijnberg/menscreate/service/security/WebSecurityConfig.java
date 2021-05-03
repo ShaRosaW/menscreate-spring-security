@@ -18,8 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 /**
- * Hier gebruiken we de EnableGlobalMethodSecurity(prePostIsEnabled = true) om de @PreAuthorize annotaties te gebruiken
- * op andere plekken in de applicatie.
+ * In order to use post and pre annotations such as @PreAuthorize
+ * to suggest in the controller layer if a certain role is authorized to access the rest endpoint,
+ * we use EnableGlobalMethodSecurity(prePostEnabled = true) and set it to true in this case.
  */
 @Configuration
 @EnableWebSecurity
