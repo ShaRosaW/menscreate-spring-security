@@ -642,7 +642,7 @@ Returns Json with a list of all files.
 ### POST /api/files/upload
 
 ----
-Returns form data with a list of all files.
+Returns message file upload success or error.
 
 * **URL**
 
