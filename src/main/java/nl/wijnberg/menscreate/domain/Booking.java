@@ -30,7 +30,7 @@ public class Booking {
     public Booking() {
     }
 
-    //todo: these constructors are not used, leave in or remove?
+    //todo: these constructors are not used, so I commented them out, leave in or remove?
 //    public Booking(LocalDate bookingDate,
 //                   String boxName) {
 //        this.bookingDate = bookingDate;

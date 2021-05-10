@@ -31,7 +31,7 @@ public interface UserService {
     // Delete
     ResponseEntity<?> deleteUser(String token);
     //    void deleteUser(long id);
-    //    public abstract ResponseEntity<?> deleteUser(String token, String username);
+    // public abstract ResponseEntity<?> deleteUser(String token, String username);
 }
 
 

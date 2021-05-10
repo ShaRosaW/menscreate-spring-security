@@ -28,7 +28,7 @@ public class FileController {
     @Autowired
     private UserService userService;
 
-    //todo: upload profile picture by user token
+    //upload profile picture by user token
     @PostMapping("/upload")
     public ResponseEntity<MessageResponse> uploadFile(
             @RequestParam("file") MultipartFile file, @RequestHeader Map<String, String> headers) {
@@ -45,7 +45,7 @@ public class FileController {
         }
     }
 
-    // todo: get list of all files
+    // get list of all files
     @GetMapping("")
     public ResponseEntity<List<FileResponse>> getListFiles() {
         List<FileResponse> files = storageService.getAllFiles().map(dbFile -> {
