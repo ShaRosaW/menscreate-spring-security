@@ -3,6 +3,7 @@ package nl.wijnberg.menscreate.controller;
 import nl.wijnberg.menscreate.domain.Booking;
 import nl.wijnberg.menscreate.payload.request.BookingRequest;
 import nl.wijnberg.menscreate.payload.response.BookingResponse;
+import nl.wijnberg.menscreate.payload.response.MessageResponse;
 import nl.wijnberg.menscreate.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,7 +61,9 @@ public class BookingController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> createBooking(@RequestHeader Map<String, String> headers, @RequestBody Booking booking) {
         long newBookingId = bookingService.createBooking(headers.get("authorization"), booking);
-        return new ResponseEntity<>(newBookingId, HttpStatus.CREATED);
+//        return new ResponseEntity<>(newBookingId, HttpStatus.CREATED);
+//        String message = "Booking with bookingId:" + newBookingId +  " was created successfully!";
+        return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("Booking with bookingId: " + newBookingId +  " was created successfully!"));
     }
 
     // Update or make a change to a booking

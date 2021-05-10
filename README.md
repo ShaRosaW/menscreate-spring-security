@@ -456,13 +456,15 @@ Returns with new bookingId.
 * **Success Response:**
 
     * **Code:** 201 CREATED<br />
-      **Content:** `{ {"bookingId":4} }`
+      **Content:** `{
+      "message": "Booking with bookingId: 4 was created successfully!"
+      }`
 
 * **Error Response:**
 
     * **Code:** 401 UNAUTHORIZED <br />
-      **Content:** `{ Unauthorized error : "You are unauthorized to make this request." }`
-      "Unauthorized error: {}"
+      **Content:** `{ "Unauthorized error : "Unauthorized" }`
+<!--- **Content:** `{ "Unauthorized error : "You are unauthorized to make this request." }` -->
 
 ----
 ### PUT /api/bookings/{bookingId}
