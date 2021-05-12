@@ -1,5 +1,35 @@
 # menscreate-spring-security
 
+MENS-CREATE portrays a creative workspace or box booking system for authenticated user.
+
+This back end app is written in Java, Spring Boot Security as a part of the
+final assessment for Bootcamp Full Stack Software Developer.
+
+This app consists of authentication and authorization for user login and registration.
+A File upload for Blob data type to show picture in userprofile and a booking system to reserve a box or space.
+## Features
+### Users
+* authentication and authorization for login and registration (CR)
+* file upload for Blob data type and download (CR)
+* booking system to reserve a box or space (with all CRUD)
+* admin functionality to get list of all bookings and option to delete
+* admin functionality to get list of all users
+
+## Requisites
+
+* Jetbrains IntelliJ IDEA -> 2021.1 Ultimate Edition(Community also fine)
+* Java OpenJDK -> Version 14 (Java 8 / Java 1.8 also fine)
+* Maven Dependency LifeCycle Build (Apache Maven -> 3.6.3)
+* PostgreSQL Relational Database -> 12.6
+* PgAdmin -> 4
+* Postman -> 806 (optionial, when not using the corresponding frontend)
+
+## Installation guide
+
+## Installation project
+
+
+
 ## Rest-Endpoints
 
  ---
