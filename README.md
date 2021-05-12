@@ -193,7 +193,7 @@ Returns json data with a list of all bookings.
 
     * **Code:** 403 FORBIDDEN <br />
       **Content:** `{ error : "You are unauthorized to make this request." }`
-      "Unauthorized error: {}"
+      
 * **Sample Json:**
 
 ```Json
@@ -277,7 +277,7 @@ Returns json data with user bookings by token.
 
     * **Code:** 401 UNAUTHORIZED <br />
       **Content:** `{ Unauthorized error : "You are unauthorized to make this request." }`
-      "Unauthorized error: {}"
+    
 * **Sample Json:**
 
 ```Json
@@ -353,7 +353,7 @@ Returns json data with booking by booking id.
 
     * **Code:** 401 UNAUTHORIZED <br />
       **Content:** `{ Unauthorized error : "You are unauthorized to make this request." }`
-      "Unauthorized error: {}"
+      
 * **Sample Json:**
 
 ```Json
@@ -414,7 +414,7 @@ Returns json data with user booking by booking id.
 
     * **Code:** 401 UNAUTHORIZED <br />
       **Content:** `{ Unauthorized error : "You are unauthorized to make this request." }`
-      "Unauthorized error: {}"
+      
 * **Sample Json:**
 
 ```Json
@@ -595,7 +595,7 @@ Returns Json with a list of all files.
   `GET`
 * **Headers**
 
-  Content-Type: Form-Data<br/>
+  Content-Type: multipart/form-data<br/>
   Authorization: Bearer token
 
 * **Success Response:**
@@ -655,7 +655,7 @@ Returns message file upload success or error.
   `POST`
 * **Headers**
 
-  Content-Type: Form-Data<br/>
+  Content-Type: multipart/form-data<br/>
   Authorization: Bearer token
 
 * **Success Response:**
@@ -679,6 +679,53 @@ Returns message file upload success or error.
 {
   "message": "Uploaded the file successfully: baker-1194428__340.webp"
 }
+```
+----
+### GET /api/files/{id}
+
+----
+Returns file by id.
+
+* **URL**
+
+  /api/files/:id
+  
+*  **URL Params**
+
+   **Required:**
+
+   `id=[String]`
+
+* **Method:**
+
+  `GET`
+  
+* **Headers**
+  
+  Content-Type: multipart/form-data<br/>
+  Authorization: Bearer token
+
+* **Success Response:**
+
+    * **Code:** 200 OK<br />
+      **Content:** `{ HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\""}`
+
+* **Error Response:**
+
+    * **Code:** 404 NOT FOUND <br />
+      **Content:** `{ error : "Cannot find specified record" }`
+
+* **Sample Json:**
+
+```Json
+[
+  {
+    "name": "baker-1194428__340.webp",
+    "url": "http://localhost:8080/api/files/f39dd44e-0d59-48df-9a4b-c0c3ecf0981f",
+    "type": "image/webp",
+    "size": 30912
+  }
+]
 ```
 ----
 ---
@@ -708,9 +755,35 @@ Returns json data with a list of all users.
 * **Success Response:**
 
     * **Code:** 200 OK<br />
-      **Content:** `{ 
-      
-      }`
+      **Content:** `{ {
+      "id": 1,
+      "username": "sharonr",
+      "email": "sharon@gmail.com",
+      "password": "$2a$10$44azppeekabMTwZZ1vtq4OWr/SboMJh4KxUOepB8EFkEJH6gbfeQq",
+      "roles": [{"id": 1,"name": "ROLE_USER"}],
+      "bookings": [{"bookingId": 1,"bookingDate": "2021-05-29","boxName": "work space"}, 
+      {"bookingId": 2,"bookingDate": "2021-05-29","boxName": "meeting area"}, 
+      {"bookingId": 5,"bookingDate": "2021-05-20","boxName": "work space"}]},
+      {"id": 2,
+      "username": "user",
+      "email": "user@mail.nl",
+      "password": "$2a$10$44azppeekabMTwZZ1vtq4OWr/SboMJh4KxUOepB8EFkEJH6gbfeQq",
+      "roles": [{"id": 1,"name": "ROLE_USER"}],
+      "bookings": []
+      }, 
+      {"id": 3,
+      "username": "admin",
+      "email": "admin@mail.nl",
+      "password": "$2a$10$44azppeekabMTwZZ1vtq4OWr/SboMJh4KxUOepB8EFkEJH6gbfeQq",
+      "roles": [{"id": 2,"name": "ROLE_ADMIN"}],
+      "bookings": [{"bookingId": 3,"bookingDate": "2021-05-29","boxName": "work space"}]},
+      {"id": 4,
+      "username": "sjaak",
+      "email": "sjaak@user.nl",
+      "password": "$2a$10$Z9tuTpPX7axAoDLdsnJKt.u5ur8IHLiffyUPiBOqH.0ipo6SabRSO",
+      "roles": [{"id": 1,"name": "ROLE_USER"}],
+      "bookings": []
+      } }`
 
 * **Error Response:**
 
@@ -720,8 +793,8 @@ Returns json data with a list of all users.
   OR
 
     * **Code:** 401 UNAUTHORIZED <br />
-      **Content:** `{ error : "You are unauthorized to make this request." }`
-      "Unauthorized error: {}"
+      **Content:** `{ Unauthorized error : "You are unauthorized to make this request." }`
+      
 * **Sample Json:**
 
 ```Json
@@ -880,7 +953,7 @@ Returns json data with user by token.
 
     * **Code:** 401 UNAUTHORIZED <br />
       **Content:** `{ Unauthorized error : "You are unauthorized to make this request." }`
-      "Unauthorized error: {}"
+      
 * **Sample Json:**
 
 ```Json
@@ -993,7 +1066,7 @@ Returns json data with user by id.
 
     * **Code:** 401 UNAUTHORIZED <br />
       **Content:** `{ Unauthorized error : "You are unauthorized to make this request." }`
-      "Unauthorized error: {}"
+      
 * **Sample Json:**
 
 ```Json
@@ -1085,7 +1158,7 @@ Returns json data with user by username.
 
     * **Code:** 401 UNAUTHORIZED <br />
       **Content:** `{ Unauthorized error : "You are unauthorized to make this request." }`
-      "Unauthorized error: {}"
+
 * **Sample Json:**
 
 ```Json

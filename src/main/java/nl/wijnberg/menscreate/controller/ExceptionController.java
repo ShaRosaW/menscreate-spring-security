@@ -14,7 +14,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @RestController
 @ControllerAdvice
-public class ExceptionController extends ResponseEntityExceptionHandler {
+public class ExceptionController extends RuntimeException {
+//        ResponseEntityExceptionHandler {
+
 
     @ExceptionHandler(value = RecordNotFoundException.class)
     public ResponseEntity<Object> exception(RecordNotFoundException exception) {

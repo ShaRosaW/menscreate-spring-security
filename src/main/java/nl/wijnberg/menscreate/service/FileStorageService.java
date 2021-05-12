@@ -30,12 +30,12 @@ public class FileStorageService {
     }
 
     //todo: implement later and see if works or remove
-//    public FileDB getFileById(String id){
-//        if(!fileDBRepository.existsById(id)){
-//            throw new RecordNotFoundException();
-//        }
-//        return fileDBRepository.findById(id).get();
-//    }
+    public FileDB getFileById(String id){
+        if(!fileDBRepository.existsById(id)){
+            throw new RecordNotFoundException();
+        }
+        return fileDBRepository.findById(id).get();
+    }
 
     // Stream the Files in database to get a file by userId
     public Stream<FileDB> getFile(long userId){

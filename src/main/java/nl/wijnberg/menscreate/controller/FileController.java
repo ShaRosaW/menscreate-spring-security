@@ -49,7 +49,7 @@ public class FileController {
 
     // get list of all files
     @GetMapping("")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<List<FileResponse>> getListFiles() {
         List<FileResponse> files = storageService.getAllFiles().map(dbFile -> {
             String fileDownloadUri = ServletUriComponentsBuilder
@@ -69,11 +69,11 @@ public class FileController {
     }
 
 //    //todo: maybe not needed, with postman, everything still works. to check in frontend
-//    @GetMapping("/{id}")
-//    public ResponseEntity<byte[]> getFileById(@PathVariable("id") String id) {
-//        FileDB fileDB = storageService.getFileById(id);
-//        return ResponseEntity.ok()
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
-//                .body(fileDB.getData());
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<byte[]> getFileById(@PathVariable("id") String id) {
+        FileDB fileDB = storageService.getFileById(id);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
+                .body(fileDB.getData());
+    }
 }
