@@ -6,29 +6,65 @@ This back end app is written in Java, Spring Boot Security as a part of the
 final assessment for Bootcamp Full Stack Software Developer.
 
 This app consists of authentication and authorization for user login and registration.
-A File upload for Blob data type to show picture in userprofile and a booking system to reserve a box or space.
+A file upload for Blob data type to show picture in userprofile and a booking system to reserve a box or space.
 ## Features
-### Users
+### For Users
 * authentication and authorization for login and registration (CR)
 * file upload for Blob data type and download (CR)
 * booking system to reserve a box or space (with all CRUD)
 * admin functionality to get list of all bookings and option to delete
 * admin functionality to get list of all users
 
-## Requisites
+## Requirements for building and running the application you need:
 
-* Jetbrains IntelliJ IDEA -> 2021.1 Ultimate Edition(Community also fine)
-* Java OpenJDK -> Version 14 (Java 8 / Java 1.8 also fine)
-* Maven Dependency LifeCycle Build (Apache Maven -> 3.6.3)
-* PostgreSQL Relational Database -> 12.6
-* PgAdmin -> 4
-* Postman -> 806 (optionial, when not using the corresponding frontend)
+- [Java Development Kit 14.0.2](https://adoptopenjdk.net)
+- [Maven 3.6.3](https://maven.apache.org)
+- [IntelliJ IDEA 2021.1](https://www.jetbrains.com/idea)
+- [PostgreSQL 13.2](https://www.postgresql.org)
+- [PgAdmin 4.5.2](https://www.pgadmin.org)
+- [Postman 8.4](https://www.postman.com) (optionial, when not using the corresponding frontend)
 
 ## Installation guide
+#### After installing all the tools on your Operating System, we can get started to run the Spring Boot application on your local machine:
 
-## Installation project
+* **Start up your IDEA**
+    * Open the project
+        * clone the repository
+        * File -> New -> Project from Version Control
+        * paste the cloned Repository URL 
+        * if git is not installed, choose download and install and proceed
+    * Set up Software Development Kit
+        * File -> Project Structure
+        * Project Settings -> Project
+          -> Project SDK: choose the SDK you just downloaded (version 14). 
+          Make sure it corresponds with the version you download.
+          -> Project language level: choose SDK default and click OK
+          
+* **Set up Database**
+    * Start up Postgres and log in on PGAdmin with you master password.
+    * Open left tab **>Servers**
+        * Right mouse click on Login/Group Roles and choose **Create**
+            * under tab general you fill in the name: **spring-boot-security**
+            * under tab definition you fill in the password: **postgres** and save
+        * Right mouse click on Databases and choose **Create**
+            * for the name of the database you fill in: **spring-boot-security**
+            * as owner of this database you fill in the one you just created: **spring-boot-security** and save
 
-
+This way you can run the application from this cloned repository, just as it is set up in the application properties. 
+You can choose to change it and create a different database and login name and password as above discribed and change it in the app properties as well to connect them.
+```properties
+spring.datasource.url= jdbc:postgresql://localhost:5432/spring-boot-security
+spring.datasource.username= spring-boot-security
+spring.datasource.password= postgres
+```
+* **Run the application**
+    * In your IDEA you open the tab: project.
+        * menscreate -> src -> main -> java -> MensCreateApplication.java class
+        * to run go to the green arrow next to public class: MensCreateApplication on line 7
+        * right mouse click and choose run to compile and build the application
+        * on your menu bar above you will see a hammer (build tool), MensCreateApplication and the green arrow. 
+          this means first time build is complete. and for next times to run the application you can use that green arrow above (and red square to stop).
+        * to check if your database is initialized and with the correct information corresponding with app.propperties the console will show you : **Spring Data repositories initialized** after your build. 
 
 ## Rest-Endpoints
 
