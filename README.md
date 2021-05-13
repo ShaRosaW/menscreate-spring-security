@@ -1,14 +1,13 @@
 # menscreate-spring-security
-
-MENS-CREATE portrays a creative workspace or box booking system for authenticated user.
-
-This back end app is written in Java, Spring Boot Security as a part of the
-final assessment for Bootcamp Full Stack Software Developer.
-
-This app consists of authentication and authorization for user login and registration.
+>MENS-CREATE portrays a creative workspace or box booking system for authenticated user.
+>
+>This back end app is written in Java, Spring Boot Security with JPA, Hibernate as a part of the
+final assessment for the Bootcamp Full Stack Software Developer.
+>
+>This app consists of authentication and authorization for user login and registration.
 A file upload for Blob data type to show picture in userprofile and a booking system to reserve a box or space.
-## Features
-### For Users
+
+## Features for users
 * authentication and authorization for login and registration (CR)
 * file upload for Blob data type and download (CR)
 * booking system to reserve a box or space (with all CRUD)
@@ -33,12 +32,13 @@ A file upload for Blob data type to show picture in userprofile and a booking sy
         * File -> New -> Project from Version Control
         * paste the cloned Repository URL 
         * if git is not installed, choose download and install and proceed
+        
     * Set up Software Development Kit
         * File -> Project Structure
         * Project Settings -> Project
-          -> Project SDK: choose the SDK you just downloaded (version 14). 
+          * -> Project SDK: choose the SDK you just downloaded (version 14). 
           Make sure it corresponds with the version you download.
-          -> Project language level: choose SDK default and click OK
+          * -> Project language level: choose SDK default and click OK
           
 * **Set up Database**
     * Start up Postgres and log in on PGAdmin with you master password.
@@ -46,33 +46,56 @@ A file upload for Blob data type to show picture in userprofile and a booking sy
         * Right mouse click on Login/Group Roles and choose **Create**
             * under tab general you fill in the name: **spring-boot-security**
             * under tab definition you fill in the password: **postgres** and save
+            * under tab privileges toggle can login? to yes.
         * Right mouse click on Databases and choose **Create**
             * for the name of the database you fill in: **spring-boot-security**
             * as owner of this database you fill in the one you just created: **spring-boot-security** and save
-
-This way you can run the application from this cloned repository, just as it is set up in the application properties. 
-You can choose to change it and create a different database and login name and password as above discribed and change it in the app properties as well to connect them.
+            
+This way you can run the application from this cloned repository, just as it is set up in 
+[application.properties](src/main/resources/application.properties).
+You can choose to change it and create a different database and login name and password as above described and change it in the app properties as well to connect them.
 ```properties
 spring.datasource.url= jdbc:postgresql://localhost:5432/spring-boot-security
 spring.datasource.username= spring-boot-security
 spring.datasource.password= postgres
 ```
 * **Run the application**
-    * In your IDEA you open the tab: project.
-        * menscreate -> src -> main -> java -> MensCreateApplication.java class
+    * Run with the IDEA:
+        * In your IDEA you open the tab: project.
+        * menscreate -> src -> main -> java -> 
+          [MensCreateApplication](src/main/java/nl/wijnberg/menscreate/MensCreateApplication.java)
         * to run go to the green arrow next to public class: MensCreateApplication on line 7
         * right mouse click and choose run to compile and build the application
         * on your menu bar above you will see a hammer (build tool), MensCreateApplication and the green arrow. 
           this means first time build is complete. and for next times to run the application you can use that green arrow above (and red square to stop).
         * to check if your database is initialized and with the correct information corresponding with app.propperties the console will show you : **Spring Data repositories initialized** after your build. 
+    * Run with maven in command line:
+```shell
+$ mvn spring-boot:run
+```
+
+## User-Dummies:
+To test all endpoints in postman or with the connected front end: 
+
+These users are hardcoded in [data.sql](src/main/resources/data.sql) file in resourses, along with user bookings.
+
+| id | username | email | password | role | 
+|----|----------|-------|----------|------|
+|1|sharonr|sharongmail.com|password|ROLE_USER|
+|2|user|user@mail.nl|password|ROLE_USER|
+|3|admin|admin@mail.nl|password|ROLE_ADMIN|
+
+If you want to test with your own user details, register as a new user. 
+After you are logged in, your JWT bearer token is limited for 24 hours to perform all http methods.
+In [Jwt Utils Class](src/main/java/nl/wijnberg/menscreate/service/security/jwt/JwtUtils.java) the Jwt token is build with user details and sets the expiration time and signs it with the secret key. 
+
 
 ## Rest-Endpoints
 
  ---
  ---
 ## *AuthController*
-
-### POST /api/auth/register
+#### POST /api/auth/register
 
 ----
 Returns User registered successfully! *or gives an error response...*
@@ -1254,59 +1277,3 @@ Returns json data with user by username.
 }
 ```
 ----
-TEMPLATE 
-
-**Show User**
-----
-Returns json data about a single user.
-
-* **URL**
-
-  /users/:id
-
-* **Method:**
-
-  `GET`
-
-*  **URL Params**
-
-   **Required:**
-
-   `id=[integer]`
-
-* **Headers**
-
-  Content-Type: Application-Json
-  Authorization: Bearer token
-  
-* **Request Body**
-
-  None
-
-* **Success Response:**
-
-    * **Code:** 200 <br />
-      **Content:** `{ id : 12, name : "Michael Bloom" }`
-
-* **Error Response:**
-
-    * **Code:** 404 NOT FOUND <br />
-      **Content:** `{ error : "User doesn't exist" }`
-
-  OR
-
-    * **Code:** 401 UNAUTHORIZED <br />
-      **Content:** `{ error : "You are unauthorized to make this request." }`
-
-* **Sample Call:**
-
-  ```javascript
-    $.ajax({
-      url: "/users/1",
-      dataType: "json",
-      type : "GET",
-      success : function(r) {
-        console.log(r);
-      }
-    });
-  ```
