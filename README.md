@@ -7,6 +7,14 @@ final assessment for the Bootcamp Full Stack Software Developer.
 >This app consists of authentication and authorization for user login and registration.
 A file upload for Blob data type to show picture in userprofile and a booking system to reserve a box or space.
 
+## What is in this read me:
+
+- Features for users
+- Requirements you need for building and running the application
+- Installation guide
+- User-dummies
+- Rest-Endpoints
+
 ## Features for users
 * authentication and authorization for login and registration (CR)
 * file upload for Blob data type and download (CR)
@@ -14,14 +22,14 @@ A file upload for Blob data type to show picture in userprofile and a booking sy
 * admin functionality to get list of all bookings and option to delete
 * admin functionality to get list of all users
 
-## Requirements for building and running the application you need:
+## Requirements you need for building and running the application:
 
 - [Java Development Kit 14.0.2](https://adoptopenjdk.net)
 - [Maven 3.6.3](https://maven.apache.org)
 - [IntelliJ IDEA 2021.1](https://www.jetbrains.com/idea)
 - [PostgreSQL 13.2](https://www.postgresql.org)
 - [PgAdmin 4.5.2](https://www.pgadmin.org)
-- [Postman 8.4](https://www.postman.com) (optionial, when not using the corresponding frontend)
+- [Postman 8.4](https://www.postman.com) (optional, when not using the corresponding frontend)
 
 ## Installation guide
 #### After installing all the tools on your Operating System, we can get started to run the Spring Boot application on your local machine:
@@ -81,7 +89,7 @@ These users are hardcoded in [data.sql](src/main/resources/data.sql) file in res
 
 | id | username | email | password | role | 
 |----|----------|-------|----------|------|
-|1|sharonr|sharongmail.com|password|ROLE_USER|
+|1|sharonr|sharon@gmail.com|password|ROLE_USER|
 |2|user|user@mail.nl|password|ROLE_USER|
 |3|admin|admin@mail.nl|password|ROLE_ADMIN|
 
