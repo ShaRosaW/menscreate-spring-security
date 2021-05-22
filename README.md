@@ -254,74 +254,55 @@ Returns json data with user login details.
 }
 ```
 ----
+----
+
 ## *BookingController*
 
-### GET /api/bookings/all
-###### @PreAuthorize("hasRole('ADMIN')")
+----
+
+### POST /api/bookings/new
+###### @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 
 ----
-Returns json data with a list of all bookings.
+Creates a booking and returns with new bookingId.
 
 * **URL**
 
-  /api/bookings/all
+  /api/bookings/new
 
 * **Method:**
 
-  `GET`
+  `POST`
+
 * **Headers**
 
   Content-Type: Application-Json<br/>
   Authorization: Bearer token
-  
+
+* **Request Body**
+
+  Booking:
+  `{
+  "boxName": "work area",
+  "bookingDate": "2021-05-17"
+  }`
+
 * **Success Response:**
 
-    * **Code:** 200 OK<br />
-      **Content:** `{ [{"userId":1,"bookingId":1,"boxName":"work space","bookingDate":"2021-05-29"},
-      {"userId":1,"bookingId":2,"boxName":"meeting area","bookingDate":"2021-05-29"},
-      {"userId":3,"bookingId":3,"boxName":"work space","bookingDate":"2021-05-29"}] }`
+    * **Code:** 201 CREATED<br />
+      **Content:** `{
+      "message": "Booking with bookingId: 4 was created successfully!"
+      }`
 
 * **Error Response:**
 
-    * **Code:** 404 NOT FOUND <br />
-      **Content:** `{ error : "Cannot find specified record" }`
-      
-  OR
+    * **Code:** 401 UNAUTHORIZED <br />
+      **Content:** `{ "Unauthorized error : "Unauthorized" }`
+<!--- **Content:** `{ "Unauthorized error : "You are unauthorized to make this request." }` -->
 
-    * **Code:** 403 FORBIDDEN <br />
-      **Content:** `{ error : "You are unauthorized to make this request." }`
-      
-* **Sample Json:**
-
-```Json
-[
-    {
-        "userId": 1,
-        "bookingId": 1,
-        "boxName": "work space",
-        "bookingDate": "2021-05-29"
-    },
-    {
-        "userId": 1,
-        "bookingId": 2,
-        "boxName": "meeting area",
-        "bookingDate": "2021-05-29"
-    },
-    {
-        "userId": 3,
-        "bookingId": 3,
-        "boxName": "work space",
-        "bookingDate": "2021-05-29"
-    },
-  {
-    "userId": 1,
-    "bookingId": 5,
-    "boxName": "work space",
-    "bookingDate": "2021-05-20"
-  }
-]
-```
 ----
+----
+
 ### GET /api/bookings/user
 ###### @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 
@@ -523,45 +504,26 @@ Returns json data with user booking by booking id.
 }
 ```
 ----
-### POST /api/bookings/new
-###### @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-
 ----
-Returns with new bookingId.
 
-* **URL**
+> ### Note:
+> 
+> After creating a new booking, logged in as a user, it returns bookingId: 4. 
+> That is because in the [data.sql](src/main/resources/data.sql)
+> we insert 3 bookings for the 2 hardcoded user roles. 
+>
+> Now if you create a new booking, logged in as admin, bookingId: 5 is returned. 
+> 
+> Proceed the following request for *update (put) booking* with bookingId: 5.
+>
+> Perform the *delete request* for bookingId 4, and *get all user bookings* still logged in as admin. 
+> You will see all user bookings except for deleted bookingId 4.
+>
+> 
+> Only as admin you get a list of all user bookings. 
+> 
+> Delete a bookingId can be performed by both roles, except admin is able to delete any users bookingId.
 
-  /api/bookings/new
-
-* **Method:**
-
-  `POST`
-
-* **Headers**
-
-  Content-Type: Application-Json<br/>
-  Authorization: Bearer token
-
-* **Request Body**
-
-    Booking:
-  `{
-  "boxName": "work area",
-  "bookingDate": "2021-05-17"
-  }`
-
-* **Success Response:**
-
-    * **Code:** 201 CREATED<br />
-      **Content:** `{
-      "message": "Booking with bookingId: 4 was created successfully!"
-      }`
-
-* **Error Response:**
-
-    * **Code:** 401 UNAUTHORIZED <br />
-      **Content:** `{ "Unauthorized error : "Unauthorized" }`
-<!--- **Content:** `{ "Unauthorized error : "You are unauthorized to make this request." }` -->
 
 ----
 ### PUT /api/bookings/{bookingId}
@@ -627,6 +589,7 @@ Returns json data with updated booking.
 ```
 ----
 ----
+
 ### DELETE /api/bookings/{bookingId}
 ###### @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 
@@ -675,7 +638,76 @@ Returns message of deleted booking.
 }
 ```
 ----
----
+----
+
+### GET /api/bookings/all
+###### @PreAuthorize("hasRole('ADMIN')")
+
+----
+Returns json data with a list of all bookings.
+
+* **URL**
+
+  /api/bookings/all
+
+* **Method:**
+
+  `GET`
+* **Headers**
+
+  Content-Type: Application-Json<br/>
+  Authorization: Bearer token
+
+* **Success Response:**
+
+    * **Code:** 200 OK<br />
+      **Content:** `{ [{"userId":1,"bookingId":1,"boxName":"work space","bookingDate":"2021-05-29"},
+      {"userId":1,"bookingId":2,"boxName":"meeting area","bookingDate":"2021-05-29"},
+      {"userId":3,"bookingId":3,"boxName":"work space","bookingDate":"2021-05-29"}] }`
+
+* **Error Response:**
+
+    * **Code:** 404 NOT FOUND <br />
+      **Content:** `{ error : "Cannot find specified record" }`
+
+  OR
+
+    * **Code:** 403 FORBIDDEN <br />
+      **Content:** `{ error : "You are unauthorized to make this request." }`
+
+* **Sample Json:**
+
+```Json
+[
+    {
+        "userId": 1,
+        "bookingId": 1,
+        "boxName": "work space",
+        "bookingDate": "2021-05-29"
+    },
+    {
+        "userId": 1,
+        "bookingId": 2,
+        "boxName": "meeting area",
+        "bookingDate": "2021-05-29"
+    },
+    {
+        "userId": 3,
+        "bookingId": 3,
+        "boxName": "work space",
+        "bookingDate": "2021-05-29"
+    },
+  {
+    "userId": 1,
+    "bookingId": 5,
+    "boxName": "work space",
+    "bookingDate": "2021-05-20"
+  }
+]
+```
+----
+----
+
 ## *FileController*
 
 ### GET /api/files
@@ -1153,17 +1185,17 @@ Returns json data with user by id.
       }
       ]
       } }`
-
+      
 * **Error Response:**
 
     * **Code:** 404 NOT FOUND <br />
-      **Content:** `{ error : "There was no booking found with this id " + bookingId + "." }`
+      **Content:** `{ error : "Cannot find specified record" }`
 
   OR
 
     * **Code:** 401 UNAUTHORIZED <br />
       **Content:** `{ Unauthorized error : "You are unauthorized to make this request." }`
-      
+
 * **Sample Json:**
 
 ```Json
@@ -1249,7 +1281,7 @@ Returns json data with user by username.
 * **Error Response:**
 
     * **Code:** 404 NOT FOUND <br />
-      **Content:** `{ error : "There was no booking found with this id " + bookingId + "." }`
+      **Content:** `{ error : "Cannot find specified record" }`
 
   OR
 
