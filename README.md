@@ -97,10 +97,22 @@ If you want to test with your own user details, register as a new user.
 After you are logged in, your JWT bearer token is limited for 24 hours to perform all http methods.
 In [Jwt Utils Class](src/main/java/nl/wijnberg/menscreate/service/security/jwt/JwtUtils.java) the Jwt token is build with user details and sets the expiration time and signs it with the secret key. 
 
-
+----
+----
 ## Rest-Endpoints
 
- ---
+> ### Postman:
+>
+> Next up are the rest-endpoints below, without a frontend it is easy to use Postman for testing the endpoints.
+> In that case instead of writing all the endpoints yourself, you can simply import my postman collection.
+> 
+> When you open Postman you find Scratch Pad above the collections.
+> next to Scratch Pad you will see option new and import. Choose the last one.
+> You can either copy and paste the 
+> [postman-collection.json](src/main/resources/MenS-Create.postman_collection.json) from this folder. Or save it on 
+> your directory and import it from your files.
+
+
  ---
 ## *AuthController*
 #### POST /api/auth/register

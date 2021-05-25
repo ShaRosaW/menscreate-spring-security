@@ -68,7 +68,6 @@ public class FileController {
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
-//    //todo: maybe not needed, with postman, everything still works. to check in frontend
     @GetMapping("/{id}")
     public ResponseEntity<byte[]> getFileById(@PathVariable("id") String id) {
         FileDB fileDB = storageService.getFileById(id);

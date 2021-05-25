@@ -1,0 +1,761 @@
+{
+	"info": {
+		"_postman_id": "335490df-e490-456d-a45b-5051df368f07",
+		"name": "MenS-Create",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User Requests",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "'Bearer' <token>",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user9\",\n    \"email\" : \"user9@user.nl\",\n    \"password\" : \"user9psw\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"userone\",\n    \"password\" : \"user1psw\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users/user by token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzaGFyb25yIiwiaWF0IjoxNjE4NjY2NDYyLCJleHAiOjE2MTg3NTI4NjJ9.LpsjknANq22BFTTfPz4PgckxB2zjQw6QjpICec9e5osjEXsUuPmzXdav7xactvUe8-CiuYc_EG3a1WauOFxxVg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjExNTA2NzY4LCJleHAiOjE2MTE1OTMxNjh9.zGQRFPXxbBPipBprcZyP3zm6w-2reUDyapCh2yHOVqiR-lwczFQVjOkWqKJFEDnis7czL6QJcsy_A4ZpMmUSMQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users/{id}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzaGFyb25yIiwiaWF0IjoxNjE4NzQwNDE1LCJleHAiOjE2MTg4MjY4MTV9.N39vv1OuWH48nf3IA75wSagQ4rkB259MESHYf_cYKdo9y9CphxquNEMsC4QWu6fjAesJ3tswrPhbFKpJSn1cqQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjExNTA2NzY4LCJleHAiOjE2MTE1OTMxNjh9.zGQRFPXxbBPipBprcZyP3zm6w-2reUDyapCh2yHOVqiR-lwczFQVjOkWqKJFEDnis7czL6QJcsy_A4ZpMmUSMQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users/user/{username}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzaGFyb25yIiwiaWF0IjoxNjE4NzQwNDE1LCJleHAiOjE2MTg4MjY4MTV9.N39vv1OuWH48nf3IA75wSagQ4rkB259MESHYf_cYKdo9y9CphxquNEMsC4QWu6fjAesJ3tswrPhbFKpJSn1cqQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjExNTA2NzY4LCJleHAiOjE2MTE1OTMxNjh9.zGQRFPXxbBPipBprcZyP3zm6w-2reUDyapCh2yHOVqiR-lwczFQVjOkWqKJFEDnis7czL6QJcsy_A4ZpMmUSMQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/user/sharonr",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"user",
+								"sharonr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users/all (for admin)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzaGFyb25yIiwiaWF0IjoxNjE4NzQwNDE1LCJleHAiOjE2MTg4MjY4MTV9.N39vv1OuWH48nf3IA75wSagQ4rkB259MESHYf_cYKdo9y9CphxquNEMsC4QWu6fjAesJ3tswrPhbFKpJSn1cqQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjExNTA2NzY4LCJleHAiOjE2MTE1OTMxNjh9.zGQRFPXxbBPipBprcZyP3zm6w-2reUDyapCh2yHOVqiR-lwczFQVjOkWqKJFEDnis7czL6QJcsy_A4ZpMmUSMQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Booking Requests",
+			"item": [
+				{
+					"name": "create booking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYxNTIxMDg4NywiZXhwIjoxNjE1Mjk3Mjg3fQ.t8mQ5B5YmoFD8ppEsLo0WwIsiIaxjWIqMrKC2nyF48FKyGCNhtx5p-43jy_2h6JC4SWoi6TWs4tQaFA7zfwy3Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjExNTA2NzY4LCJleHAiOjE2MTE1OTMxNjh9.zGQRFPXxbBPipBprcZyP3zm6w-2reUDyapCh2yHOVqiR-lwczFQVjOkWqKJFEDnis7czL6QJcsy_A4ZpMmUSMQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user\",\n    \"email\": \"user@user.nl\",\n    \"bookingInfo\": \"box small\",\n    \"bookingDate\": \"2021-03-08\",\n    \"bookingMoment\": \"middag\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bookings/user (by token)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzaGFyb25yIiwiaWF0IjoxNjE4NjU3MDk5LCJleHAiOjE2MTg3NDM0OTl9.lehIwEhwAmCKXfRN9JY2cn42vun_Y2nBNy2GiZ22xEGbg02uclNrSbB9RumYAQlX8KZGDfdUi0pnfHatVBMJTQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjExNTA2NzY4LCJleHAiOjE2MTE1OTMxNjh9.zGQRFPXxbBPipBprcZyP3zm6w-2reUDyapCh2yHOVqiR-lwczFQVjOkWqKJFEDnis7czL6QJcsy_A4ZpMmUSMQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/bookings/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bookings",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bookings/{bookingId}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyZWluIiwiaWF0IjoxNjE4MjIzNjI0LCJleHAiOjE2MTgzMTAwMjR9.B25sa8jH3ifESLfbR_OTrqi0uYLbYDGGxLpGnUJj3Ykt7AIV_OrakpQ5Ipqn5GHNZJEYfKuNI-7f2uSHfqRVsA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjExNTA2NzY4LCJleHAiOjE2MTE1OTMxNjh9.zGQRFPXxbBPipBprcZyP3zm6w-2reUDyapCh2yHOVqiR-lwczFQVjOkWqKJFEDnis7czL6QJcsy_A4ZpMmUSMQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/bookings/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bookings",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bookings/user/{bookingId}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyZWluIiwiaWF0IjoxNjE4MjIzNjI0LCJleHAiOjE2MTgzMTAwMjR9.B25sa8jH3ifESLfbR_OTrqi0uYLbYDGGxLpGnUJj3Ykt7AIV_OrakpQ5Ipqn5GHNZJEYfKuNI-7f2uSHfqRVsA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjExNTA2NzY4LCJleHAiOjE2MTE1OTMxNjh9.zGQRFPXxbBPipBprcZyP3zm6w-2reUDyapCh2yHOVqiR-lwczFQVjOkWqKJFEDnis7czL6QJcsy_A4ZpMmUSMQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/bookings/user/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bookings",
+								"user",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE bookings/{bookingId}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzaGFyb25yIiwiaWF0IjoxNjE4NDc3Mjc2LCJleHAiOjE2MTg1NjM2NzZ9.TS5-rBLJtL8AsNDbRbWmR2SyuPaRdGtCQlH0E_f1EB9KHW8ky_Myn1GMVQ9XGELvzKda5fT7HlPvVX9ssX0lsw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n        \"bookingId\": 1,\n        \"bookingType\": null,\n        \"bookingInfo\": \"box small\",\n        \"bookingDate\": \"2021-03-08T00:00:00.000+00:00\",\n        \"bookingMoment\": \"avond\",\n        \"user\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/bookings/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bookings",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bookings/{bookingId}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzaGFyb25yIiwiaWF0IjoxNjE4MzEzNjYzLCJleHAiOjE2MTg0MDAwNjN9.GzDnssx4Hi87bZfNFYK88_C6b9TVh0wHavrhFQoBoD6wQ9pv4Me4gWv3k9ER5TgBAqV5Y4PH_xCQVPjeDNsmyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/bookings/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bookings",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bookings/all (for admin)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzaGFyb25yIiwiaWF0IjoxNjE4NjU3MDk5LCJleHAiOjE2MTg3NDM0OTl9.lehIwEhwAmCKXfRN9JY2cn42vun_Y2nBNy2GiZ22xEGbg02uclNrSbB9RumYAQlX8KZGDfdUi0pnfHatVBMJTQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjExNTA2NzY4LCJleHAiOjE2MTE1OTMxNjh9.zGQRFPXxbBPipBprcZyP3zm6w-2reUDyapCh2yHOVqiR-lwczFQVjOkWqKJFEDnis7czL6QJcsy_A4ZpMmUSMQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/bookings/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bookings",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "File Requests",
+			"item": [
+				{
+					"name": "files/upload (file-upload)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYxNTIxMDg4NywiZXhwIjoxNjE1Mjk3Mjg3fQ.t8mQ5B5YmoFD8ppEsLo0WwIsiIaxjWIqMrKC2nyF48FKyGCNhtx5p-43jy_2h6JC4SWoi6TWs4tQaFA7zfwy3Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/sharonrosa/Desktop/kikkers/baker-1194428__340.webp"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/4/uploads?file",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"4",
+								"uploads"
+							],
+							"query": [
+								{
+									"key": "file",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "files (list of files)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzaGFyb25yIiwiaWF0IjoxNjE5MTY3MTY1LCJleHAiOjE2MTkyNTM1NjV9.hBwaPOPFAMyCzbjsCLMAQXdefdhSHL5Ud7dSOqudk7IFG5x9-OItkdohu3sIx2Dgo9BWitKxYg0EKsAseGxFfA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjExNTA2NzY4LCJleHAiOjE2MTE1OTMxNjh9.zGQRFPXxbBPipBprcZyP3zm6w-2reUDyapCh2yHOVqiR-lwczFQVjOkWqKJFEDnis7czL6QJcsy_A4ZpMmUSMQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"user\",\n    \"password\":\"123456\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/files",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "files/{id}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzaGFyb25yIiwiaWF0IjoxNjE5MTY3MTY1LCJleHAiOjE2MTkyNTM1NjV9.hBwaPOPFAMyCzbjsCLMAQXdefdhSHL5Ud7dSOqudk7IFG5x9-OItkdohu3sIx2Dgo9BWitKxYg0EKsAseGxFfA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjExNTA2NzY4LCJleHAiOjE2MTE1OTMxNjh9.zGQRFPXxbBPipBprcZyP3zm6w-2reUDyapCh2yHOVqiR-lwczFQVjOkWqKJFEDnis7czL6QJcsy_A4ZpMmUSMQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"user\",\n    \"password\":\"123456\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/files",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"files"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
