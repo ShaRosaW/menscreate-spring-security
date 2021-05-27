@@ -11,23 +11,28 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManagerAutoConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-//replace = Replace.ANY
-//connection = EmbeddedDatabaseConnection.NONE
-import java.util.Optional;
-
+/**
+ *
+ * Tried to set up for repository test, with a mock for the database.
+ *  Commented out, it's not working yet.
+ *  Failed test is also set up, slightly different in repository test class and commented out.
+ *
+ */
 
 //@DataJpaTest
 //@SpringJUnitConfig
@@ -35,9 +40,6 @@ import java.util.Optional;
 //@ContextConfiguration(classes = {MensCreateApplication.class})
 @ExtendWith(SpringExtension.class)
 public class UserServiceImplTest {
-
-//    @Autowired
-//    private TestEntityManager entityManager;
 
     private TestEntityManager entityManager;
 
@@ -63,7 +65,6 @@ public class UserServiceImplTest {
 //        Mockito
 //                .when(userRepository.findByUsername(user.getUsername()))
 //                .thenReturn(Optional.ofNullable(user));
-
     }
 
     @Test
@@ -99,25 +100,6 @@ public class UserServiceImplTest {
         Assertions.assertNull(noUser, "This gives a 404, RecordNotFoundException");
     }
 
-//    @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.NONE)
-//    @Test
-//    public void whenFindById_thenReturnUser(){
-//
-//        //given
-//        User user = new User("shar", "shar@mail.com", "password");
-//        user.setId(4L);
-////        entityManager.equals(user);
-//        entityManager.persist(user);
-//        entityManager.flush();
-//
-//        //when
-//        Optional<User> found = userRepository.findById(user.getUsername());
-//
-//        //then
-////        assertThat(found.get().getUsername().equals(user.getUsername()));
-//        assertThat(found.get().getUsername()).isEqualTo(user);
-//    }
-
     @Test
     public void testGetUserByUsername(){
         //given
@@ -138,6 +120,26 @@ public class UserServiceImplTest {
         Assertions.assertEquals(expected, found.get().getUsername());
 
     }
+
+
+//    @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.NONE)
+//    @Test
+//    public void whenFindById_thenReturnUser(){
+//
+//        //given
+//        User user = new User("shar", "shar@mail.com", "password");
+//        user.setId(4L);
+////        entityManager.equals(user);
+//        entityManager.persist(user);
+//        entityManager.flush();
+//
+//        //when
+//        Optional<User> found = userRepository.findById(user.getUsername());
+//
+//        //then
+////        assertThat(found.get().getUsername().equals(user.getUsername()));
+//        assertThat(found.get().getUsername()).isEqualTo(user);
+//    }
 
 
 }

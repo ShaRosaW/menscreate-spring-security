@@ -1,5 +1,10 @@
-# menscreate-spring-security
->MENS-CREATE portrays a creative workspace or box booking system for authenticated user.
+# MenS Create Spring-Security
+
+>> _**MenS Create** is a Full Stack Web Application._ 
+>>
+>> _Created by Sharon Rosa Wijnberg, May 2021_ 
+> >
+>> MENS-CREATE portrays a creative workspace or box booking system for authenticated user.
 >
 >This back end app is written in Java, Spring Boot Security with JPA, Hibernate as a part of the
 final assessment for the Bootcamp Full Stack Software Developer.
@@ -7,13 +12,14 @@ final assessment for the Bootcamp Full Stack Software Developer.
 >This app consists of authentication and authorization for user login and registration.
 A file upload for Blob data type to show picture in userprofile and a booking system to reserve a box or space.
 
-## What is in this read me:
+## Table of Contents
 
-- Features for users
-- Requirements you need for building and running the application
-- Installation guide
-- User-dummies
-- Rest-Endpoints
+- [Features for users](https://github.com/ShaRosaW/menscreate-spring-security#features-for-users)
+- [Requirements you need for building and running the application](https://github.com/ShaRosaW/menscreate-spring-security#requirements-you-need-for-building-and-running-the-application)
+- [Installation guide](https://github.com/ShaRosaW/menscreate-spring-security#installation-guide)
+- [User-dummies](https://github.com/ShaRosaW/menscreate-spring-security#user-dummies)
+- [Rest-Endpoints](https://github.com/ShaRosaW/menscreate-spring-security#rest-endpoints)
+- [Testing with JUnit and Mocking](https://github.com/ShaRosaW/menscreate-spring-security#testing-with-junit-and-mocking)
 
 ## Features for users
 * authentication and authorization for login and registration (CR)
@@ -30,6 +36,7 @@ A file upload for Blob data type to show picture in userprofile and a booking sy
 - [PostgreSQL 13.2](https://www.postgresql.org)
 - [PgAdmin 4.5.2](https://www.pgadmin.org)
 - [Postman 8.4](https://www.postman.com) (optional, when not using the corresponding frontend)
+- [MenS Create Front-end Project](https://github.com/ShaRosaW/menscreate-reactjs)
 
 ## Installation guide
 #### After installing all the tools on your Operating System, we can get started to run the Spring Boot application on your local machine:
@@ -1329,3 +1336,26 @@ Returns json data with user by username.
 }
 ```
 ----
+----
+
+## Testing with JUnit and Mocking:
+
+---
+
+A few tests are implemented and covered in the test-folder. \
+The set up to run them all at once and see the total outcome and test-coverage is a few mouse clicks away. 
+
+- Go to the test folder in IntelliJ.
+
+- Open java folder and right mouse click on the next folder -->
+[nl.wijnberg.menscreate](src/test/java/nl/wijnberg/menscreate).
+
+- You will see the option to _Run 'Tests in 'nl.wijnberg.menscreate''_ next to the green arrow. \
+  - Choose the option _More Run/Debug_.
+
+- Click on the one that says _Run 'Tests in 'nl.wijnberg.menscreate'' with Coverage_. 
+
+This will run all the tests that are created in this folder and display the test-coverage as well. 
+
+:white_check_mark:
+- :white_check_mark: [Test Results](TestResults-nl_wijnberg_menscreate.xml).

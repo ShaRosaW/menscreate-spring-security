@@ -1,11 +1,10 @@
 package nl.wijnberg.menscreate.domain;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class UserTest {
@@ -21,6 +20,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Test to see if actual username is equal to given username")
     public void testGetUsernameByConstructor() {
         String expected = "shar";
         String actual = this.user.getUsername();
@@ -28,11 +28,11 @@ public class UserTest {
     }
 
     @Test
-    public void testGetById(){
+    @DisplayName("Test to see if actual user id is equal to given id")
+    public void testGetUserById(){
         Long expected = 4L;
         Long actual = this.user.getId();
         assertEquals(expected, actual);
-
     }
 
     @Test
@@ -44,22 +44,5 @@ public class UserTest {
         // assert
         assertEquals("shar", user.getUsername());
     }
-
-
-
-
-//
-//    @Test
-//    public void nameShouldNotBeNull() {
-//
-//        // arrange
-//        User userNull = new User();
-//
-//        // act
-//
-//        // assert
-//
-//    }
-
 
 }

@@ -12,6 +12,14 @@
 //import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 //
 //import java.util.Optional;
+
+/**
+ *
+ * Setup for repository test, with a mock for the database, not working yet.
+ * Here is my attempt so far. Set Disabled annotation as well to disable to failed tests.
+ *
+ */
+
 //
 //@Disabled
 //@DataJpaTest
