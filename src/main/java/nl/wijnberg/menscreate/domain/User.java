@@ -179,4 +179,7 @@ public class User {
         this.files = files;
     }
 
+    public String getUsernameByConstructorInfo(){
+        return this.getUsername();
+    }
 }

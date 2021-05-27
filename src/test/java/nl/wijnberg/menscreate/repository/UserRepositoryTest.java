@@ -23,26 +23,45 @@
 //    @Autowired
 //    UserRepository userRepository;
 //
-//
-//
 //    @Test
-//    public void whenFindById_thenReturnUser(){
+//    public void whenFindByUsername_thenReturnUser(){
 //
 //        //given
 //        User user = new User("shar", "shar@mail.com", "password");
-//        user.setId(4L);
+//        user.setUsername("shar");
 ////        entityManager.equals(user);
 //        entityManager.persist(user);
 //        entityManager.flush();
 //
 //        //when
-//        Optional<User> found = userRepository.findById(user.getId());
+//        Optional<User> found = userRepository.findByUsername(user.getUsername());
 //
 //        //then
-//        String expected = "shar shar@gmail.com password";
+//        String expected = "shar";
 //        String actual = found.get().getUsername();
 //        Assertions.assertEquals(expected, actual);
 ////        assertThat(found.get().getUsername().equals(user.getUsername()));
 ////        assertThat(found.get().getUsername()).isEqualTo(user);
 //    }
+//
+////    @Test
+////    public void whenFindById_thenReturnUser(){
+////
+////        //given
+////        User user = new User("shar", "shar@mail.com", "password");
+////        user.setId(4L);
+//////        entityManager.equals(user);
+////        entityManager.persist(user);
+////        entityManager.flush();
+////
+////        //when
+////        Optional<User> found = userRepository.findById(user.getId());
+////
+////        //then
+////        String expected = "shar shar@gmail.com password";
+////        String actual = found.get().getUsername();
+////        Assertions.assertEquals(expected, actual);
+//////        assertThat(found.get().getUsername().equals(user.getUsername()));
+//////        assertThat(found.get().getUsername()).isEqualTo(user);
+////    }
 //}
