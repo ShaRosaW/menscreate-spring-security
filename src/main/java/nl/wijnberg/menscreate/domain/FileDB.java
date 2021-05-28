@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "files")
-@NamedNativeQuery(name = "FileDB.findByUserId", query = "SELECT * FROM files WHERE user_id = ?", resultClass = FileDB.class)
+//@NamedNativeQuery(name = "FileDB.findByUserId", query = "SELECT * FROM files WHERE user_id = ?", resultClass = FileDB.class)
 public class FileDB {
 
     @Id

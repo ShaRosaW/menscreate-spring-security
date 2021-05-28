@@ -87,6 +87,10 @@ public class User {
 //        this.file = file;
 //    }
 
+//    public String getUsernameByConstructorInfo(){
+//        return this.getUsername();
+//    }
+
     public long getId() {
         return id;
     }
@@ -179,7 +183,5 @@ public class User {
         this.files = files;
     }
 
-    public String getUsernameByConstructorInfo(){
-        return this.getUsername();
-    }
+
 }

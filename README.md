@@ -302,15 +302,15 @@ Creates a booking and returns with new bookingId.
 
   Booking:
   `{
-  "boxName": "work area",
-  "bookingDate": "2021-05-17"
+  "boxName": "cake box",
+  "bookingDate": "2021-06-17"
   }`
 
 * **Success Response:**
 
     * **Code:** 201 CREATED<br />
       **Content:** `{
-      "message": "Booking with bookingId: 4 was created successfully!"
+      "message": "Booking with bookingId: 6 was created successfully!"
       }`
 
 * **Error Response:**
@@ -318,6 +318,7 @@ Creates a booking and returns with new bookingId.
     * **Code:** 401 UNAUTHORIZED <br />
       **Content:** `{ "Unauthorized error : "Unauthorized" }`
 <!--- **Content:** `{ "Unauthorized error : "You are unauthorized to make this request." }` -->
+Unauthorized error: Full authentication is required to access this resource
 
 ----
 ----
@@ -348,20 +349,20 @@ Returns json data with user bookings by token.
       {
       "userId": 1,
       "bookingId": 1,
-      "boxName": "work space",
-      "bookingDate": "2021-05-29"
-      },
-      {
-      "userId": 1,
-      "bookingId": 2,
       "boxName": "meeting area",
-      "bookingDate": "2021-05-29"
+      "bookingDate": "2021-10-29"
       },
       {
       "userId": 1,
       "bookingId": 4,
-      "boxName": "work area",
-      "bookingDate": "2021-05-17"
+      "boxName": "work space",
+      "bookingDate": "2021-07-03"
+      },
+      {
+      "userId": 1,
+      "bookingId": 6,
+      "boxName": "cake box",
+      "bookingDate": "2021-06-17"
       }
       ] }`
 
@@ -382,20 +383,20 @@ Returns json data with user bookings by token.
   {
     "userId": 1,
     "bookingId": 1,
-    "boxName": "work space",
-    "bookingDate": "2021-05-29"
-  },
-  {
-    "userId": 1,
-    "bookingId": 2,
     "boxName": "meeting area",
     "bookingDate": "2021-05-29"
   },
   {
     "userId": 1,
     "bookingId": 4,
-    "boxName": "work area",
-    "bookingDate": "2021-05-17"
+    "boxName": "work space",
+    "bookingDate": "2021-05-29"
+  },
+  {
+    "userId": 1,
+    "bookingId": 6,
+    "boxName": "cake box",
+    "bookingDate": "2021-06-17"
   }
 ]
 ```
@@ -409,7 +410,7 @@ Returns json data with booking by booking id.
 * **URL**
 
   /api/bookings/:bookingId 
-    4
+    6
 
 * **Method:**
 
@@ -433,9 +434,9 @@ Returns json data with booking by booking id.
       "headers": {},
       "body": {
       "userId": 1,
-      "bookingId": 4,
-      "boxName": "work area",
-      "bookingDate": "2021-05-17"
+      "bookingId": 6,
+      "boxName": "cake box",
+      "bookingDate": "2021-06-17"
       },
       "statusCode": "OK",
       "statusCodeValue": 200
@@ -458,9 +459,9 @@ Returns json data with booking by booking id.
   "headers": {},
   "body": {
     "userId": 1,
-    "bookingId": 4,
-    "boxName": "work area",
-    "bookingDate": "2021-05-17"
+    "bookingId": 6,
+    "boxName": "cake box",
+    "bookingDate": "2021-06-17"
   },
   "statusCode": "OK",
   "statusCodeValue": 200
@@ -476,7 +477,7 @@ Returns json data with user booking by booking id.
 * **URL**
 
   /api/bookings/user/:bookingId
-    4
+    6
 * **Method:**
 
   `GET`
@@ -497,9 +498,9 @@ Returns json data with user booking by booking id.
     * **Code:** 200 OK<br />
       **Content:** `{ {
       "userId": 1,
-      "bookingId": 4,
-      "boxName": "work area",
-      "bookingDate": "2021-05-17"
+      "bookingId": 6,
+      "boxName": "cake box",
+      "bookingDate": "2021-06-17"
       } }`
 
 * **Error Response:**
@@ -517,9 +518,9 @@ Returns json data with user booking by booking id.
 ```Json
 {
   "userId": 1,
-  "bookingId": 4,
-  "boxName": "work area",
-  "bookingDate": "2021-05-17"
+  "bookingId": 6,
+  "boxName": "cake box",
+  "bookingDate": "2021-06-17"
 }
 ```
 ----
@@ -527,15 +528,15 @@ Returns json data with user booking by booking id.
 
 > ### Note:
 > 
-> After creating a new booking, logged in as a user, it returns bookingId: 4. 
+> After creating a new booking, logged in as a user, it returns bookingId: 6. 
 > That is because in the [data.sql](src/main/resources/data.sql)
-> we insert 3 bookings for the 2 hardcoded user roles. 
+> we insert 5 bookings for the 3 hardcoded users and with 2 different user roles. 
 >
-> Now if you create a new booking, logged in as admin, bookingId: 5 is returned. 
+> Now if you create a new booking, logged in as admin, bookingId: 7 is returned. 
 > 
-> Proceed the following request for *update (put) booking* with bookingId: 5.
+> Proceed the following request for *update (put) booking* with bookingId: 7.
 >
-> Perform the *delete request* for bookingId 4, and *get all user bookings* still logged in as admin. 
+> Perform the *delete request* for bookingId 6, and *get all user bookings* still logged in as admin. 
 > You will see all user bookings except for deleted bookingId 4.
 >
 > 
@@ -574,17 +575,17 @@ Returns json data with updated booking.
 
   BookingRequest:
   `{
-  "boxName": "work space",
-  "bookingDate": "2021-05-20"
+  "boxName": "meeting area",
+  "bookingDate": "2021-08-20"
   }`
 
 * **Success Response:**
 
     * **Code:** 200 OK<br />
       **Content:** `{ {
-      "bookingId": 5,
-      "bookingDate": "2021-05-20",
-      "boxName": "work space"
+      "bookingId": 7,
+      "bookingDate": "2021-08-20",
+      "boxName": "meeting area"
       } }`
 
 * **Error Response:**
@@ -601,9 +602,9 @@ Returns json data with updated booking.
 
 ```Json
 {
-  "bookingId": 5,
-  "bookingDate": "2021-05-20",
-  "boxName": "work space"
+  "bookingId": 7,
+  "bookingDate": "2021-08-02",
+  "boxName": "meeting area"
 }
 ```
 ----
@@ -618,7 +619,7 @@ Returns message of deleted booking.
 * **URL**
 
   /api/bookings/:bookingId
-    4
+    6
 * **Method:**
 
   `DELETE`
@@ -653,7 +654,7 @@ Returns message of deleted booking.
 
 ```Json
 {
-  "message": "Booking with id number: 4 was deleted with success"
+  "message": "Booking with id number: 6 was deleted with success"
 }
 ```
 ----
@@ -680,9 +681,42 @@ Returns json data with a list of all bookings.
 * **Success Response:**
 
     * **Code:** 200 OK<br />
-      **Content:** `{ [{"userId":1,"bookingId":1,"boxName":"work space","bookingDate":"2021-05-29"},
-      {"userId":1,"bookingId":2,"boxName":"meeting area","bookingDate":"2021-05-29"},
-      {"userId":3,"bookingId":3,"boxName":"work space","bookingDate":"2021-05-29"}] }`
+      **Content:** `{ [{
+      "userId": 1,
+      "bookingId": 1,
+      "boxName": "meeting area",
+      "bookingDate": "2021-10-29"
+      },
+      {
+      "userId": 3,
+      "bookingId": 2,
+      "boxName": "meeting area",
+      "bookingDate": "2021-12-22"
+      },
+      {
+      "userId": 2,
+      "bookingId": 3,
+      "boxName": "cake box",
+      "bookingDate": "2021-11-25"
+      },
+      {
+      "userId": 1,
+      "bookingId": 4,
+      "boxName": "work space",
+      "bookingDate": "2021-07-03"
+      },
+      {
+      "userId": 3,
+      "bookingId": 5,
+      "boxName": "meeting area",
+      "bookingDate": "2021-08-08"
+      },
+      {
+      "userId": 3,
+      "bookingId": 7,
+      "bookingDate": "2021-08-02",
+      "boxName": "meeting area"
+      }] }`
 
 * **Error Response:**
 
@@ -698,29 +732,41 @@ Returns json data with a list of all bookings.
 
 ```Json
 [
-    {
-        "userId": 1,
-        "bookingId": 1,
-        "boxName": "work space",
-        "bookingDate": "2021-05-29"
-    },
-    {
-        "userId": 1,
-        "bookingId": 2,
-        "boxName": "meeting area",
-        "bookingDate": "2021-05-29"
-    },
-    {
-        "userId": 3,
-        "bookingId": 3,
-        "boxName": "work space",
-        "bookingDate": "2021-05-29"
-    },
   {
     "userId": 1,
-    "bookingId": 5,
+    "bookingId": 1,
+    "boxName": "meeting area",
+    "bookingDate": "2021-10-29"
+  },
+  {
+    "userId": 3,
+    "bookingId": 2,
+    "boxName": "meeting area",
+    "bookingDate": "2021-12-22"
+  },
+  {
+    "userId": 2,
+    "bookingId": 3,
+    "boxName": "cake box",
+    "bookingDate": "2021-11-25"
+  },
+  {
+    "userId": 1,
+    "bookingId": 4,
     "boxName": "work space",
-    "bookingDate": "2021-05-20"
+    "bookingDate": "2021-07-03"
+  },
+  {
+    "userId": 3,
+    "bookingId": 5,
+    "boxName": "meeting area",
+    "bookingDate": "2021-08-08"
+  },
+  {
+    "userId": 3,
+    "bookingId": 7,
+    "bookingDate": "2021-08-20",
+    "boxName": "meeting area"
   }
 ]
 ```
@@ -909,22 +955,23 @@ Returns json data with a list of all users.
       "email": "sharon@gmail.com",
       "password": "$2a$10$44azppeekabMTwZZ1vtq4OWr/SboMJh4KxUOepB8EFkEJH6gbfeQq",
       "roles": [{"id": 1,"name": "ROLE_USER"}],
-      "bookings": [{"bookingId": 1,"bookingDate": "2021-05-29","boxName": "work space"}, 
-      {"bookingId": 2,"bookingDate": "2021-05-29","boxName": "meeting area"}, 
-      {"bookingId": 5,"bookingDate": "2021-05-20","boxName": "work space"}]},
+      "bookings": [{"bookingId": 1,"bookingDate": "2021-10-29","boxName": "meeting area"}, 
+      {"bookingId": 4,"bookingDate": "2021-07-03","boxName": "work space"}, 
+      ]},
       {"id": 2,
       "username": "user",
       "email": "user@mail.nl",
       "password": "$2a$10$44azppeekabMTwZZ1vtq4OWr/SboMJh4KxUOepB8EFkEJH6gbfeQq",
       "roles": [{"id": 1,"name": "ROLE_USER"}],
-      "bookings": []
+      "bookings": [{"bookingId": 3,"bookingDate": "2021-11-25","boxName": "cake box"}]
       }, 
       {"id": 3,
       "username": "admin",
       "email": "admin@mail.nl",
       "password": "$2a$10$44azppeekabMTwZZ1vtq4OWr/SboMJh4KxUOepB8EFkEJH6gbfeQq",
       "roles": [{"id": 2,"name": "ROLE_ADMIN"}],
-      "bookings": [{"bookingId": 3,"bookingDate": "2021-05-29","boxName": "work space"}]},
+      "bookings": [{"bookingId": 2,"bookingDate": "2021-12-22","boxName": "meeting area"},
+      {"bookingId": 5,"bookingDate": "2021-08-08","boxName": "meeting area"}]},
       {"id": 4,
       "username": "sjaak",
       "email": "sjaak@user.nl",
@@ -952,73 +999,29 @@ Returns json data with a list of all users.
     "username": "sharonr",
     "email": "sharon@gmail.com",
     "password": "$2a$10$44azppeekabMTwZZ1vtq4OWr/SboMJh4KxUOepB8EFkEJH6gbfeQq",
-    "roles": [
-      {
-        "id": 1,
-        "name": "ROLE_USER"
-      }
-    ],
-    "bookings": [
-      {
-        "bookingId": 1,
-        "bookingDate": "2021-05-29",
-        "boxName": "work space"
-      },
-      {
-        "bookingId": 2,
-        "bookingDate": "2021-05-29",
-        "boxName": "meeting area"
-      },
-      {
-        "bookingId": 5,
-        "bookingDate": "2021-05-20",
-        "boxName": "work space"
-      }
-    ]
-  },
-  {
-    "id": 2,
+    "roles": [{"id": 1,"name": "ROLE_USER"}],
+    "bookings": [{"bookingId": 1,"bookingDate": "2021-10-29","boxName": "meeting area"},
+      {"bookingId": 4,"bookingDate": "2021-07-03","boxName": "work space"}
+    ]},
+  {"id": 2,
     "username": "user",
     "email": "user@mail.nl",
     "password": "$2a$10$44azppeekabMTwZZ1vtq4OWr/SboMJh4KxUOepB8EFkEJH6gbfeQq",
-    "roles": [
-      {
-        "id": 1,
-        "name": "ROLE_USER"
-      }
-    ],
-    "bookings": []
+    "roles": [{"id": 1,"name": "ROLE_USER"}],
+    "bookings": [{"bookingId": 3,"bookingDate": "2021-11-25","boxName": "cake box"}]
   },
-  {
-    "id": 3,
+  {"id": 3,
     "username": "admin",
     "email": "admin@mail.nl",
     "password": "$2a$10$44azppeekabMTwZZ1vtq4OWr/SboMJh4KxUOepB8EFkEJH6gbfeQq",
-    "roles": [
-      {
-        "id": 2,
-        "name": "ROLE_ADMIN"
-      }
-    ],
-    "bookings": [
-      {
-        "bookingId": 3,
-        "bookingDate": "2021-05-29",
-        "boxName": "work space"
-      }
-    ]
-  },
-  {
-    "id": 4,
+    "roles": [{"id": 2,"name": "ROLE_ADMIN"}],
+    "bookings": [{"bookingId": 2,"bookingDate": "2021-12-22","boxName": "meeting area"},
+      {"bookingId": 5,"bookingDate": "2021-08-08","boxName": "meeting area"}]},
+  {"id": 4,
     "username": "sjaak",
     "email": "sjaak@user.nl",
     "password": "$2a$10$Z9tuTpPX7axAoDLdsnJKt.u5ur8IHLiffyUPiBOqH.0ipo6SabRSO",
-    "roles": [
-      {
-        "id": 1,
-        "name": "ROLE_USER"
-      }
-    ],
+    "roles": [{"id": 1,"name": "ROLE_USER"}],
     "bookings": []
   }
 ]
@@ -1061,17 +1064,12 @@ Returns json data with user by token.
       "bookings": [
       {
       "bookingId": 1,
-      "bookingDate": "2021-05-29",
-      "boxName": "work space"
-      },
-      {
-      "bookingId": 2,
-      "bookingDate": "2021-05-29",
+      "bookingDate": "2021-10-29",
       "boxName": "meeting area"
       },
       {
-      "bookingId": 5,
-      "bookingDate": "2021-05-20",
+      {"bookingId": 4,
+      "bookingDate": "2021-07-03",
       "boxName": "work space"
       }
       ]
@@ -1120,17 +1118,12 @@ Returns json data with user by token.
     "bookings": [
       {
         "bookingId": 1,
-        "bookingDate": "2021-05-29",
-        "boxName": "work space"
-      },
-      {
-        "bookingId": 2,
-        "bookingDate": "2021-05-29",
+        "bookingDate": "2021-10-29",
         "boxName": "meeting area"
       },
       {
-        "bookingId": 5,
-        "bookingDate": "2021-05-20",
+        "bookingId": 4,
+        "bookingDate": "2021-07-03",
         "boxName": "work space"
       }
     ]
@@ -1194,13 +1187,13 @@ Returns json data with user by id.
       "bookings": [
       {
       "bookingId": 1,
-      "bookingDate": "2021-05-29",
-      "boxName": "work space"
+      "bookingDate": "2021-10-29",
+      "boxName": "meeting area"
       },
       {
       "bookingId": 2,
-      "bookingDate": "2021-05-29",
-      "boxName": "meeting area"
+      "bookingDate": "2021-07-03",
+      "boxName": "work space"
       }
       ]
       } }`
@@ -1217,7 +1210,7 @@ Returns json data with user by id.
 
 * **Sample Json:**
 
-```Json
+```Json 
 {
   "id": 1,
   "username": "sharonr",
@@ -1232,13 +1225,13 @@ Returns json data with user by id.
   "bookings": [
     {
       "bookingId": 1,
-      "bookingDate": "2021-05-29",
-      "boxName": "work space"
+      "bookingDate": "2021-10-29",
+      "boxName": "meeting area"
     },
     {
       "bookingId": 2,
-      "bookingDate": "2021-05-29",
-      "boxName": "meeting area"
+      "bookingDate": "2021-07-03",
+      "boxName": "work space"
     }
   ]
 }
@@ -1286,13 +1279,13 @@ Returns json data with user by username.
       "bookings": [
       {
       "bookingId": 1,
-      "bookingDate": "2021-05-29",
-      "boxName": "work space"
+      "bookingDate": "2021-10-29",
+      "boxName": "meeting area"
       },
       {
-      "bookingId": 2,
-      "bookingDate": "2021-05-29",
-      "boxName": "meeting area"
+      "bookingId": 4,
+      "bookingDate": "2021-07-03",
+      "boxName": "work space"
       }
       ]
       } }`
@@ -1325,12 +1318,12 @@ Returns json data with user by username.
     {
       "bookingId": 1,
       "bookingDate": "2021-05-29",
-      "boxName": "work space"
+      "boxName": "meeting area"
     },
     {
-      "bookingId": 2,
-      "bookingDate": "2021-05-29",
-      "boxName": "meeting area"
+      "bookingId": 4,
+      "bookingDate": "2021-07-03",
+      "boxName": "work space"
     }
   ]
 }

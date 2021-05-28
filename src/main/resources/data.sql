@@ -19,8 +19,10 @@ VALUES
 
 INSERT INTO booking(booking_date, box_name, user_id)
 VALUES
-(TO_DATE('29/05/2021', 'DD/MM/YYYY'), 'work space', 1),
-(TO_DATE('29/05/2021', 'DD/MM/YYYY'), 'meeting area', 1),
-(TO_DATE('29/05/2021', 'DD/MM/YYYY'), 'work space', 3);
+(TO_DATE('29/10/2021', 'DD/MM/YYYY'), 'meeting area', 1),
+(TO_DATE('22/12/2021', 'DD/MM/YYYY'), 'meeting area', 3),
+(TO_DATE('25/11/2021', 'DD/MM/YYYY'), 'cake box', 2),
+(TO_DATE('03/07/2021', 'DD/MM/YYYY'), 'work space', 1),
+(TO_DATE('08/08/2021', 'DD/MM/YYYY'), 'meeting area', 3);
 
 alter sequence native restart with 4;
