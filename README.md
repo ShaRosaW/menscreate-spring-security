@@ -3,6 +3,8 @@
 >> _**MenS Create** is a Full Stack Web Application._ 
 >>
 >> _Created by Sharon Rosa Wijnberg, May 2021_ 
+> 
+> >> Full Stack Software Development Bootcamp Final Assignment.
 > >
 >> MENS-CREATE portrays a creative workspace or box booking system for authenticated user.
 >
@@ -11,6 +13,12 @@ final assessment for the Bootcamp Full Stack Software Developer.
 >
 >This app consists of authentication and authorization for user login and registration.
 A file upload for Blob data type to show picture in userprofile and a booking system to reserve a box or space.
+
+---
+
+![image](https://user-images.githubusercontent.com/66298438/120052943-029cfe00-c028-11eb-8648-048025deb101.png)
+
+---
 
 ## Table of Contents
 
